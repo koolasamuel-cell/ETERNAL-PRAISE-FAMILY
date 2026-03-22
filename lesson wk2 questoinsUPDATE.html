@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ETERNAL PRAISE FAMILY - LESSON 1</title>
+  <style>
+    body { font-family: Arial; background:#f4f4f4; margin:0; }
+    .container { width:600px; margin:40px auto; background:#fff; padding:30px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    h1,h2 { text-align:center; }
+    #timer { text-align:center; font-size:20px; font-weight:bold; color:#d9534f; margin-bottom:20px; }
+    .question { margin-bottom:20px; border-radius: 5px; transition: 0.3s; }
+    .options { margin-left:20px; }
+    input[type="text"], input[type="email"], input[type="tel"] { width:100%; padding:8px; margin-top:5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+    button { display:block; margin:15px auto; padding:10px 20px; font-size:16px; cursor:pointer; border:none; border-radius:5px; }
+    #startBtn { background:#007bff; color:white; width: 100%; }
+    #submitBtn { background:#28a745; color:white; }
+    #result { text-align:center; margin-top:20px; padding:15px; border-radius:5px; }
+    .wrong-list { color:red; font-weight:bold; }
+    .grade-box { font-size:24px; }
+    .info-group { margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🎶 ETERNAL PRAISE FAMILY</h1>
+  <h2>LESSON 1: MUSIC AND TERMINOLOGIES</h2>
+
+  <div id="startSection">
+    <div class="info-group">
+      <label><strong>Full Name:</strong></label>
+      <input type="text" id="studentName" placeholder="Enter your full name">
+    </div>
+    <div class="info-group">
+      <label><strong>Email Address:</strong></label>
+      <input type="email" id="studentEmail" placeholder="example@email.com">
+    </div>
+    <div class="info-group">
+      <label><strong>Phone Number:</strong></label>
+      <input type="tel" id="studentPhone" placeholder="Enter phone number">
+    </div>
+    <button id="startBtn" onclick="startQuiz()">Start Quiz</button>
+  </div>
+
+  <div id="timer" style="display:none;">Time Remaining: 10:00</div>
+
+  <form id="quiz" style="display:none;">
+    <div class="question"><p>1. What is music?</p><div class="options"><input type="radio" name="q1" value="a"> Random sound<br><input type="radio" name="q1" value="b"> Organized pleasant sound<br><input type="radio" name="q1" value="c"> Loud noise</div></div>
+    <div class="question"><p>2. A key in music is:</p><div class="options"><input type="radio" name="q2" value="a"> Starting note<br><input type="radio" name="q2" value="b"> Loudness<br><input type="radio" name="q2" value="c"> Speed</div></div>
+    <div class="question"><p>3. How many keys are in music?</p><div class="options"><input type="radio" name="q3" value="a"> 7<br><input type="radio" name="q3" value="b"> 12<br><input type="radio" name="q3" value="c"> 5</div></div>
+    <div class="question"><p>4. Solfa includes:</p><div class="options"><input type="radio" name="q4" value="a"> Do Re Mi<br><input type="radio" name="q4" value="b"> A B C<br><input type="radio" name="q4" value="c"> 1 2 3</div></div>
+    <div class="question"><p>5. An octave is:</p><div class="options"><input type="radio" name="q5" value="a"> Loud sound<br><input type="radio" name="q5" value="b"> Distance between same notes<br><input type="radio" name="q5" value="c"> Fast rhythm</div></div>
+    <div class="question"><p>6. Diction refers to:</p><div class="options"><input type="radio" name="q6" value="a"> Clarity of words<br><input type="radio" name="q6" value="b"> Loudness<br><input type="radio" name="q6" value="c"> Pitch</div></div>
+    <div class="question"><p>7. Tone is:</p><div class="options"><input type="radio" name="q7" value="a"> Quality of voice<br><input type="radio" name="q7" value="b"> Volume<br><input type="radio" name="q7" value="c"> Speed</div></div>
+    <div class="question"><p>8. Pitch is:</p><div class="options"><input type="radio" name="q8" value="a"> Loud or soft<br><input type="radio" name="q8" value="b"> High or low sound<br><input type="radio" name="q8" value="c"> Hand signal</div></div>
+    <div class="question"><p>9. Dynamics refers to:</p><div class="options"><input type="radio" name="q9" value="a"> Loudness or softness<br><input type="radio" name="q9" value="b"> Pitch<br><input type="radio" name="q9" value="c"> Key</div></div>
+    <div class="question"><p>10. Gesture is:</p><div class="options"><input type="radio" name="q10" value="a"> Singing style<br><input type="radio" name="q10" value="b"> Hand signals<br><input type="radio" name="q10" value="c"> Breathing</div></div>
+
+    <h3>Fill in the blanks</h3>
+    <div class="question"><p>11. Music is the __________ combination of sound.</p><input type="text" id="q11"></div>
+    <div class="question"><p>12. Pitch is how __________ or low a sound is.</p><input type="text" id="q12"></div>
+    <div class="question"><p>13. Dynamics refers to how __________ or soft a sound is.</p><input type="text" id="q13"></div>
+    <div class="question"><p>14. An octave is the __________ between two same notes.</p><input type="text" id="q14"></div>
+    <div class="question"><p>15. Diction means clarity of __________.</p><input type="text" id="q15"></div>
+
+    <button type="button" id="submitBtn" onclick="checkAnswers()">Submit Quiz</button>
+  </form>
+
+  <div id="result"></div>
+</div>
+
+<script>
+let timeLimit = 600;
+let countdown;
+
+function startQuiz() {
+  let name = document.getElementById("studentName").value.trim();
+  let email = document.getElementById("studentEmail").value.trim();
+  let phone = document.getElementById("studentPhone").value.trim();
+
+  if(name === "" || email === "" || phone === "") {
+    alert("Please fill in all details (Name, Email, and Phone) before starting.");
+    return;
+  }
+
+  document.getElementById("startSection").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+  document.getElementById("timer").style.display = "block";
+
+  countdown = setInterval(() => {
+    let minutes = Math.floor(timeLimit / 60);
+    let seconds = timeLimit % 60;
+    seconds = seconds < 10 ? '0'+seconds : seconds;
+    document.getElementById("timer").innerHTML = `Time Remaining: ${minutes}:${seconds}`;
+
+    if(timeLimit <= 0){
+      clearInterval(countdown);
+      checkAnswers();
+    }
+    timeLimit--;
+  }, 1000);
+}
+
+// Function to send data to your Google Sheet
+function sendToGoogleSheet(data) {
+  const url = "https://script.google.com/macros/s/AKfycbyVvl-cmbFzaAiynh0BEPO0LsVIWqXO0ZLHw65xfwbcvTMGRbAdWkyrX2CT4nF3IRO0/exec";
+  fetch(url, {
+    method: "POST",
+    mode: "no-cors",
+    cache: "no-cache",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+}
+
+function checkAnswers() {
+  clearInterval(countdown);
+  document.querySelectorAll("input").forEach(el => el.disabled = true);
+  document.getElementById("submitBtn").disabled = true;
+
+  let score = 0;
+  let wrong = [];
+  const ans = {
+    q1:"b", q2:"a", q3:"b", q4:"a", q5:"b", q6:"a", q7:"a", q8:"b", q9:"a", q10:"b",
+    q11:"organized", q12:"high", q13:"loud", q14:"distance", q15:"words"
+  };
+
+  function markWrong(n){
+    let q = document.querySelectorAll(".question")[n-1];
+    q.style.background="#ffe6e6";
+    q.style.border="2px solid red";
+    q.style.padding="10px";
+  }
+
+  for(let i=1; i<=10; i++){
+    let v = document.querySelector(`input[name=q${i}]:checked`)?.value;
+    if(v === ans[`q${i}`]) score++; else { wrong.push(i); markWrong(i); }
+  }
+
+  for(let i=11; i<=15; i++){
+    let v = document.getElementById(`q${i}`).value.toLowerCase().trim();
+    if(v === ans[`q${i}`]) score++; else { wrong.push(i); markWrong(i); }
+  }
+
+  let percent = (score/15)*100;
+  let grade, color;
+
+  if(percent>=90){grade="A"; color="#28a745";}
+  else if(percent>=75){grade="B"; color="#17a2b8";}
+  else if(percent>=60){grade="C"; color="#ffc107";}
+  else if(percent>=50){grade="D"; color="#fd7e14";}
+  else{grade="F"; color="#bd2130";}
+
+  let studentName = document.getElementById("studentName").value;
+  let studentEmail = document.getElementById("studentEmail").value;
+  let studentPhone = document.getElementById("studentPhone").value;
+
+  // Prepare data for Google Sheet
+  const quizData = {
+    name: studentName,
+    email: studentEmail,
+    phone: studentPhone,
+    score: score,
+    grade: grade
+  };
+
+  // SEND DATA TO GOOGLE SHEET
+  sendToGoogleSheet(quizData);
+
+  document.getElementById("result").innerHTML = `
+    <div class="grade-box" style="color:${color}">Grade: ${grade} (${score}/15)</div>
+    <p><strong>Name:</strong> ${studentName}</p>
+    <p class="wrong-list">Wrong Questions: ${wrong.length ? wrong.join(", ") : "None!"}</p>
+    <button onclick="location.reload()">Retry</button>
+  `;
+
+  window.scrollTo(0, document.body.scrollHeight);
+}
+</script>
+</body>
+</html>
