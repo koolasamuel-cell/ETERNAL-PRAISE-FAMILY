@@ -1,262 +1,248 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>1 Timothy Chapter 1 - Bible Quiz</title>
-  <style>
-    body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:20px; }
-    .container { max-width:700px; margin:0 auto; background:#fff; padding:30px; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.15); }
-    h1, h2 { text-align:center; color:#2c3e50; }
-    .question { margin:25px 0; padding:15px; border:1px solid #ddd; border-radius:8px; background:#fafafa; }
-    .question p { margin:0 0 12px 0; font-weight:bold; }
-    .options label { display:block; margin:8px 0; cursor:pointer; }
-    input[type="radio"] { margin-right:8px; }
-    button { display:block; margin:30px auto; padding:12px 30px; font-size:18px; cursor:pointer; border:none; border-radius:6px; color:white; }
-    #startBtn { background:#3498db; }
-    #submitBtn { background:#27ae60; }
-    #result { text-align:center; margin-top:30px; padding:20px; border-radius:8px; font-size:1.2em; }
-    .correct { background:#d4edda; color:#155724; }
-    .wrong { background:#f8d7da; color:#721c24; }
-    .grade-box { font-size:2em; font-weight:bold; margin:20px 0; }
-  </style>
+<meta charset="UTF-8">
+<title>Bible Quiz - 1 Timothy 1</title>
+
+<style>
+body {
+  font-family: Arial;
+  background:#f4f4f4;
+  padding:20px;
+}
+
+.container {
+  max-width:800px;
+  margin:auto;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h1,h2 { text-align:center; }
+
+.question {
+  margin:15px 0;
+  padding:10px;
+  background:#fafafa;
+  border-radius:6px;
+}
+
+.correct { color:green; font-weight:bold; }
+.wrong { color:red; }
+
+button {
+  padding:10px 20px;
+  margin:10px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+#timer {
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+  color:#e74c3c;
+}
+</style>
+
 </head>
 <body>
+
 <div class="container">
-  <h1>1 Timothy Chapter 1</h1>
-  <h2>Bible Study Quiz (60 Questions)</h2>
 
-  <button id="startBtn" onclick="startQuiz()">Start Quiz</button>
+<h1>Bible Quiz</h1>
+<h2>1 Timothy Chapter 1</h2>
 
-  <form id="quiz" style="display:none;">
-    <!-- Questions 1–60 -->
+<div id="start">
+  <button onclick="startLevel()">Start Quiz</button>
+</div>
 
-    <div class="question">
-      <p>1. Paul identifies himself as what?</p>
-      <div class="options">
-        <label><input type="radio" name="q1" value="a"> A servant of Moses</label>
-        <label><input type="radio" name="q1" value="b"> A prophet</label>
-        <label><input type="radio" name="q1" value="c"> An apostle of Jesus Christ</label>
-        <label><input type="radio" name="q1" value="d"> A teacher of the law</label>
-      </div>
-    </div>
+<div id="quiz" style="display:none;">
+  <div id="timer"></div>
+  <div id="questions"></div>
+  <button onclick="submitQuiz()">Submit</button>
+</div>
 
-    <div class="question">
-      <p>2. Paul became an apostle by whose command?</p>
-      <div class="options">
-        <label><input type="radio" name="q2" value="a"> The church elders</label>
-        <label><input type="radio" name="q2" value="b"> Timothy</label>
-        <label><input type="radio" name="q2" value="c"> The disciples</label>
-        <label><input type="radio" name="q2" value="d"> God our Savior and Christ Jesus</label>
-      </div>
-    </div>
+<div id="result"></div>
 
-    <div class="question">
-      <p>3. Paul describes Christ Jesus as our what?</p>
-      <div class="options">
-        <label><input type="radio" name="q3" value="a"> Our King</label>
-        <label><input type="radio" name="q3" value="b"> Our Judge</label>
-        <label><input type="radio" name="q3" value="c"> Our hope</label>
-        <label><input type="radio" name="q3" value="d"> Our teacher</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>4. The letter was written to whom?</p>
-      <div class="options">
-        <label><input type="radio" name="q4" value="a"> Titus</label>
-        <label><input type="radio" name="q4" value="b"> Luke</label>
-        <label><input type="radio" name="q4" value="c"> John</label>
-        <label><input type="radio" name="q4" value="d"> Timothy</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>5. How did Paul describe Timothy?</p>
-      <div class="options">
-        <label><input type="radio" name="q5" value="a"> His brother</label>
-        <label><input type="radio" name="q5" value="b"> His student</label>
-        <label><input type="radio" name="q5" value="c"> His true son in the faith</label>
-        <label><input type="radio" name="q5" value="d"> His servant</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>6. What greeting did Paul give Timothy?</p>
-      <div class="options">
-        <label><input type="radio" name="q6" value="a"> Peace only</label>
-        <label><input type="radio" name="q6" value="b"> Love and joy</label>
-        <label><input type="radio" name="q6" value="c"> Blessings and favor</label>
-        <label><input type="radio" name="q6" value="d"> Grace, mercy, and peace</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>7. Timothy was urged to stay in which place?</p>
-      <div class="options">
-        <label><input type="radio" name="q7" value="a"> Corinth</label>
-        <label><input type="radio" name="q7" value="b"> Rome</label>
-        <label><input type="radio" name="q7" value="c"> Ephesus</label>
-        <label><input type="radio" name="q7" value="d"> Galatia</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>8. Why was Timothy to remain in Ephesus?</p>
-      <div class="options">
-        <label><input type="radio" name="q8" value="a"> To build churches</label>
-        <label><input type="radio" name="q8" value="b"> To collect offerings</label>
-        <label><input type="radio" name="q8" value="c"> To travel</label>
-        <label><input type="radio" name="q8" value="d"> To command certain people not to teach false doctrines</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>9. What were some people devoting themselves to?</p>
-      <div class="options">
-        <label><input type="radio" name="q9" value="a"> Worship songs</label>
-        <label><input type="radio" name="q9" value="b"> Prayer</label>
-        <label><input type="radio" name="q9" value="c"> Myths and endless genealogies</label>
-        <label><input type="radio" name="q9" value="d"> Evangelism</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>10. Myths and endless genealogies promote what rather than godly edifying?</p>
-      <div class="options">
-        <label><input type="radio" name="q10" value="a"> Faith</label>
-        <label><input type="radio" name="q10" value="b"> Salvation</label>
-        <label><input type="radio" name="q10" value="c"> Love</label>
-        <label><input type="radio" name="q10" value="d"> Speculation</label>
-      </div>
-    </div>
-
-    <!-- Continuing with questions 11–60 in the same format -->
-
-    <div class="question">
-      <p>11. The goal of this instruction is what?</p>
-      <div class="options">
-        <label><input type="radio" name="q11" value="a"> Knowledge</label>
-        <label><input type="radio" name="q11" value="b"> Power</label>
-        <label><input type="radio" name="q11" value="c"> Love</label>
-        <label><input type="radio" name="q11" value="d"> Authority</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>12. Love comes from a pure heart, a good conscience, and what kind of faith?</p>
-      <div class="options">
-        <label><input type="radio" name="q12" value="a"> Strong faith</label>
-        <label><input type="radio" name="q12" value="b"> Historical faith</label>
-        <label><input type="radio" name="q12" value="c"> Sincere faith</label>
-        <label><input type="radio" name="q12" value="d"> Temporary faith</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>13. Some have turned aside to what?</p>
-      <div class="options">
-        <label><input type="radio" name="q13" value="a"> Worship</label>
-        <label><input type="radio" name="q13" value="b"> Teaching</label>
-        <label><input type="radio" name="q13" value="c"> Meaningless talk</label>
-        <label><input type="radio" name="q13" value="d"> Prayer</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>14. They desire to be teachers of what?</p>
-      <div class="options">
-        <label><input type="radio" name="q14" value="a"> Prophets</label>
-        <label><input type="radio" name="q14" value="b"> Apostles</label>
-        <label><input type="radio" name="q14" value="c"> Evangelists</label>
-        <label><input type="radio" name="q14" value="d"> The law</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>15. They do not understand what they are talking about or what they so confidently affirm. True or False?</p>
-      <div class="options">
-        <label><input type="radio" name="q15" value="a"> True</label>
-        <label><input type="radio" name="q15" value="b"> False</label>
-        <label><input type="radio" name="q15" value="c"> Only partly true</label>
-        <label><input type="radio" name="q15" value="d"> Not mentioned</label>
-      </div>
-    </div>
-
-    <!-- ... Add questions 16–60 in exactly the same structure ... -->
-    <!-- For brevity here, I show only the pattern. In real use, paste all 60 questions following this format -->
-
-    <div class="question">
-      <p>60. According to the whole chapter, what is the ultimate goal of Timothy’s instruction?</p>
-      <div class="options">
-        <label><input type="radio" name="q60" value="a"> To increase church membership</label>
-        <label><input type="radio" name="q60" value="b"> To promote love from a pure heart and sincere faith</label>
-        <label><input type="radio" name="q60" value="c"> To collect more tithes</label>
-        <label><input type="radio" name="q60" value="d"> To debate with philosophers</label>
-      </div>
-    </div>
-
-    <button type="button" id="submitBtn" onclick="checkAnswers()">Submit Quiz</button>
-  </form>
-
-  <div id="result"></div>
 </div>
 
 <script>
-const answers = {
-  q1: "c", q2: "d", q3: "c", q4: "d", q5: "c", q6: "d", q7: "c", q8: "d", q9: "c", q10: "d",
-  q11: "c", q12: "c", q13: "c", q14: "d", q15: "a",
-  // Continue with correct answers for q16–q60 based on your lists
-  // Example:
-  q16: "d", q17: "c", q18: "d", q19: "d", q20: "c", q21: "d", q22: "c", q23: "d", q24: "d", q25: "d",
-  q26: "d", q27: "d", q28: "d", q29: "d", q30: "c", q31: "d", q32: "d", q33: "c", q34: "d", q35: "c",
-  q36: "d", q37: "d", q38: "c", q39: "c", q40: "c", q41: "c", q42: "d", q43: "c", q44: "d", q45: "d",
-  q46: "d", q47: "c", q48: "d", q49: "d", q50: "c", q51: "d", q52: "c",
-  // ... complete up to ...
-  q60: "b"
-};
 
-function startQuiz() {
-  document.getElementById("startBtn").style.display = "none";
-  document.getElementById("quiz").style.display = "block";
+let level = 0;
+let timeLeft;
+let timerInterval;
+
+const levels = [
+
+/* LEVEL 1 (20 QUESTIONS) */
+[
+{q:"Paul is an apostle by whose command?", o:["Men","Church","God & Christ","Timothy"], a:2},
+{q:"Timothy is described as Paul's?", o:["Friend","Son in faith","Brother","Servant"], a:1},
+{q:"Paul greets with?", o:["Love","Peace","Grace mercy peace","Joy"], a:2},
+{q:"Timothy stayed in?", o:["Rome","Ephesus","Corinth","Galatia"], a:1},
+{q:"Purpose of staying?", o:["Travel","Teach truth","Stop false doctrine","Collect money"], a:2},
+{q:"False teachers focus on?", o:["Prayer","Myths","Evangelism","Worship"], a:1},
+{q:"These lead to?", o:["Faith","Speculation","Growth","Love"], a:1},
+{q:"Goal of teaching?", o:["Power","Love","Authority","Wisdom"], a:1},
+{q:"Love comes from?", o:["Heart only","Faith only","Pure heart + conscience + faith","Prayer"], a:2},
+{q:"Some turned to?", o:["Prayer","Talk","Meaningless talk","Truth"], a:2},
+{q:"They want to teach?", o:["Gospel","Law","Faith","Prayer"], a:1},
+{q:"They lack?", o:["Faith","Understanding","Power","Authority"], a:1},
+{q:"Law is good if?", o:["Used harshly","Used well","Used publicly","Used loudly"], a:1},
+{q:"Law is not for?", o:["Sinners","Lawless","Righteous","Rebels"], a:2},
+{q:"Law is for?", o:["Holy","Righteous","Lawless","Faithful"], a:2},
+{q:"Law includes?", o:["Teachers","Murderers","Leaders","Pastors"], a:1},
+{q:"Also for?", o:["Liars","Faithful","Holy","Angels"], a:0},
+{q:"Contrary to?", o:["Culture","Doctrine","Law","People"], a:1},
+{q:"Gospel is?", o:["Simple","Glorious","Earthly","Human"], a:1},
+{q:"Gospel belongs to?", o:["Paul","Church","God","People"], a:2}
+],
+
+/* LEVEL 2 */
+[
+{q:"Paul thanks?", o:["Church","Jesus","Timothy","Friends"], a:1},
+{q:"Why?", o:["Money","Strength","Wisdom","Fame"], a:1},
+{q:"Christ saw Paul as?", o:["Weak","Faithful","Lost","Poor"], a:1},
+{q:"Paul was appointed to?", o:["Teach","Serve","Rule","Lead"], a:1},
+{q:"Paul was once?", o:["Holy","Blasphemer","Teacher","King"], a:1},
+{q:"Also?", o:["Gentle","Violent","Kind","Soft"], a:1},
+{q:"Mercy given because?", o:["Prayer","Ignorance","Faith","Works"], a:1},
+{q:"Grace was?", o:["Small","Abundant","Weak","Hidden"], a:1},
+{q:"With faith and?", o:["Hope","Love","Power","Joy"], a:1},
+{q:"Christ came to?", o:["Judge","Save sinners","Teach","Rule"], a:1},
+{q:"Paul says he is?", o:["Best","Least","Worst","Great"], a:2},
+{q:"Mercy shows?", o:["Power","Patience","Law","Judgment"], a:1},
+{q:"Example to?", o:["Believers","Leaders","People","All"], a:0},
+{q:"God is?", o:["Mortal","Immortal","Weak","Visible"], a:1},
+{q:"God is also?", o:["Many","Only God","Spirit","King"], a:1},
+{q:"To God be?", o:["Money","Honor","Wisdom","Strength"], a:1},
+{q:"Forever?", o:["Yes","No","Maybe","Later"], a:0},
+{q:"Timothy receives?", o:["Gift","Command","Book","Blessing"], a:1},
+{q:"Command based on?", o:["Law","Prophecy","Faith","Church"], a:1},
+{q:"Purpose?", o:["Teach","Fight good fight","Travel","Write"], a:1}
+],
+
+/* LEVEL 3 */
+[
+{q:"Hold onto?", o:["Power","Faith","Wisdom","Law"], a:1},
+{q:"Also keep?", o:["Money","Conscience","Strength","Fear"], a:1},
+{q:"Some rejected?", o:["Faith","Truth","Law","Grace"], a:0},
+{q:"Result?", o:["Growth","Shipwreck","Power","Success"], a:1},
+{q:"Example?", o:["Peter","John","Hymenaeus","Paul"], a:2},
+{q:"Also?", o:["Luke","Alexander","James","Mark"], a:1},
+{q:"Given to?", o:["Church","Satan","Leaders","People"], a:1},
+{q:"Purpose?", o:["Punish","Teach","Remove","Ignore"], a:1},
+{q:"Teach not to?", o:["Lie","Blaspheme","Steal","Fight"], a:1},
+{q:"Teaching goal?", o:["Love","Power","Money","Growth"], a:0},
+{q:"Heart must be?", o:["Strong","Pure","Bold","Wise"], a:1},
+{q:"Faith must be?", o:["Big","Sincere","Fast","Strong"], a:1},
+{q:"False teaching brings?", o:["Truth","Confusion","Faith","Hope"], a:1},
+{q:"Law reveals?", o:["Truth","Sin","Love","Peace"], a:1},
+{q:"Christ saves?", o:["Holy","Sinners","Strong","Leaders"], a:1},
+{q:"Paul shows?", o:["Power","Mercy","Law","Faith"], a:1},
+{q:"God is King?", o:["Temporary","Eternal","Weak","Human"], a:1},
+{q:"God is?", o:["Visible","Invisible","Weak","Many"], a:1},
+{q:"Honor lasts?", o:["Time","Forever","Short","Little"], a:1},
+{q:"Timothy must?", o:["Quit","Stay faithful","Hide","Travel"], a:1}
+],
+
+/* LEVEL 4 */
+[
+{q:"False teaching opposes?", o:["Truth","Doctrine","Faith","Love"], a:1},
+{q:"Doctrine must be?", o:["Strong","Sound","Big","Wide"], a:1},
+{q:"Law targets?", o:["Righteous","Lawbreakers","Faithful","Leaders"], a:1},
+{q:"Grace is?", o:["Earned","Free","Weak","Hidden"], a:1},
+{q:"Paul’s past shows?", o:["Failure","Mercy","Law","Power"], a:1},
+{q:"Faith produces?", o:["Love","Money","Power","Fear"], a:0},
+{q:"Wrong teachers seek?", o:["Truth","Authority","God","Love"], a:1},
+{q:"Real teaching gives?", o:["Speculation","Love","Fear","Confusion"], a:1},
+{q:"Conscience must be?", o:["Ignored","Good","Weak","Hidden"], a:1},
+{q:"Faith without conscience?", o:["Strong","Shipwreck","Good","Right"], a:1},
+{q:"Christ’s mission?", o:["Judge","Save","Rule","Destroy"], a:1},
+{q:"Paul’s life?", o:["Example","Warning","Failure","Test"], a:0},
+{q:"God deserves?", o:["Money","Honor","Power","Wisdom"], a:0},
+{q:"God is only?", o:["Spirit","God","King","Light"], a:1},
+{q:"Timothy must fight?", o:["War","Battle","Good fight","Enemies"], a:2},
+{q:"Hold onto faith?", o:["Yes","No","Maybe","Later"], a:0},
+{q:"Rejecting truth leads to?", o:["Power","Failure","Shipwreck","Joy"], a:2},
+{q:"Correction is for?", o:["Punishment","Learning","Fear","Removal"], a:1},
+{q:"Teaching builds?", o:["Fear","Love","Power","Money"], a:1},
+{q:"Final call?", o:["Quit","Stay faithful","Hide","Stop"], a:1}
+]
+
+];
+
+function startLevel(){
+  document.getElementById("start").style.display="none";
+  loadLevel();
 }
 
-function checkAnswers() {
-  let score = 0;
-  let wrong = [];
+function loadLevel(){
+  document.getElementById("quiz").style.display="block";
+  document.getElementById("result").innerHTML="";
+  let qHTML="";
+  levels[level].forEach((q,i)=>{
+    qHTML+=`<div class="question"><p>${i+1}. ${q.q}</p>`;
+    q.o.forEach((opt,j)=>{
+      qHTML+=`<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label><br>`;
+    });
+    qHTML+="</div>";
+  });
+  document.getElementById("questions").innerHTML=qHTML;
+  startTimer();
+}
 
-  for (let i = 1; i <= 60; i++) {
-    const selected = document.querySelector(`input[name="q${i}"]:checked`);
-    const correct = answers[`q${i}`];
+function startTimer(){
+  timeLeft=600;
+  timerInterval=setInterval(()=>{
+    let m=Math.floor(timeLeft/60);
+    let s=timeLeft%60;
+    document.getElementById("timer").innerText=`Time: ${m}:${s<10?"0":""}${s}`;
+    timeLeft--;
+    if(timeLeft<0){ clearInterval(timerInterval); submitQuiz(); }
+  },1000);
+}
 
-    if (selected && selected.value === correct) {
+function submitQuiz(){
+  clearInterval(timerInterval);
+  let score=0;
+  let wrong=[];
+  levels[level].forEach((q,i)=>{
+    let sel=document.querySelector(`input[name="q${i}"]:checked`);
+    if(sel && parseInt(sel.value)===q.a){
       score++;
-      document.querySelectorAll(`input[name="q${i}"]`).forEach(el => {
-        if (el.value === correct) el.parentElement.style.color = "#155724";
-      });
     } else {
-      wrong.push(i);
-      if (selected) {
-        selected.parentElement.style.color = "#721c24";
-      }
-      // Highlight correct one
-      document.querySelector(`input[name="q${i}"][value="${correct}"]`).parentElement.style.color = "#155724";
-      document.querySelector(`input[name="q${i}"][value="${correct}"]`).parentElement.style.fontWeight = "bold";
+      wrong.push(i+1);
     }
+  });
+
+  let resultHTML=`<h2>Score: ${score}/20</h2>`;
+
+  if(score>=15){
+    resultHTML+=`<button onclick="nextLevel()">Next Level</button>`;
+  } else {
+    resultHTML+=`<button onclick="loadLevel()">Retry</button>`;
   }
 
-  const percent = Math.round((score / 60) * 100);
-  let grade = percent >= 90 ? "A" :
-               percent >= 80 ? "B" :
-               percent >= 70 ? "C" :
-               percent >= 60 ? "D" : "F";
+  resultHTML+=`<p>Wrong Questions: ${wrong.join(", ")}</p>`;
 
-  document.getElementById("result").innerHTML = `
-    <div class="grade-box">${grade} (${score}/60 - ${percent}%)</div>
-    <p><strong>Correct answers:</strong> ${score}</p>
-    <p><strong>Wrong questions:</strong> ${wrong.length ? wrong.join(", ") : "None! Perfect score!"}</p>
-    <button onclick="location.reload()">Retry Quiz</button>
-  `;
+  document.getElementById("result").innerHTML=resultHTML;
 }
+
+function nextLevel(){
+  level++;
+  if(level>=levels.length){
+    document.getElementById("result").innerHTML="<h2>🎉 You Completed All Levels!</h2>";
+    return;
+  }
+  loadLevel();
+}
+
 </script>
+
 </body>
 </html>
