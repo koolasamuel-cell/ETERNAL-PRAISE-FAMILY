@@ -1,191 +1,1224 @@
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>BIBLE QUIZ - 1 TIMOTHY CHAPTER 1</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETERNAL PRAISE FAMILY – 1 Timothy, 2 Timothy &amp; Titus Bible Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial; background:#f4f4f4; margin:0; }
-    .container { width:700px; margin:40px auto; background:#fff; padding:30px; border-radius:10px; }
-    h1,h2 { text-align:center; }
-    .question { margin-bottom:20px; }
-    .options { margin-left:20px; }
-    button { display:block; margin:20px auto; padding:10px 20px; }
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --deep: #1a1228;
+      --deep2: #231a35;
+      --purple: #3b2560;
+      --accent: #7e4fcf;
+      --white: #f7f3ea;
+      --red: #e05c5c;
+      --green: #4caf7d;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(201,168,76,0.25);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--deep);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(126,79,207,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.12) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    .wrap { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; padding: 30px 20px 60px; }
+
+    /* ---- HEADER ---- */
+    .brand {
+      text-align: center;
+      padding: 32px 0 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 30px;
+    }
+    .brand-icon { font-size: 42px; }
+    .brand h1 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(16px, 4vw, 24px);
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin: 8px 0 4px;
+    }
+    .brand p { color: rgba(247,243,234,0.55); font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ---- SIGN IN ---- */
+    #signInSection {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px 32px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    #signInSection h2 {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold);
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 13px; color: var(--gold-light); margin-bottom: 6px; letter-spacing: 0.5px; }
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 15px;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .field input:focus { border-color: var(--gold); }
+    .field input::placeholder { color: rgba(247,243,234,0.3); }
+
+    .btn-primary {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      color: var(--white);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 16px; font-weight: 600;
+      border: none; border-radius: 8px;
+      cursor: pointer; margin-top: 10px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 20px rgba(126,79,207,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(126,79,207,0.5); }
+
+    /* ---- CHAPTER MAP ---- */
+    #chapterMap { display: none; }
+    .chap-map-title {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold);
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .chap-map-sub { text-align: center; color: rgba(247,243,234,0.5); font-size: 13px; margin-bottom: 24px; }
+
+    /* ---- BOOK SEGMENT LABELS ---- */
+    .book-label {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 28px 0 12px;
+      padding: 8px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .book-label:first-child { margin-top: 0; border-top: none; }
+
+    .chap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .chap-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .chap-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.07); transform: translateY(-2px); }
+    .chap-card.locked { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+    .chap-card.passed { border-color: var(--green); }
+    .chap-card .chap-num {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 28px; color: var(--gold);
+    }
+    .chap-card .chap-title { font-family: 'Lora', serif; font-size: 14px; margin: 6px 0 4px; }
+    .chap-card .chap-verses { font-size: 12px; color: rgba(247,243,234,0.45); }
+    .chap-card .chap-status { margin-top: 10px; font-size: 12px; font-weight: 600; }
+    .status-pass { color: var(--green); }
+    .status-locked { color: rgba(247,243,234,0.35); }
+    .status-pending { color: var(--gold); }
+
+    /* ---- QUIZ SCREEN ---- */
+    #quizSection { display: none; }
+    .quiz-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+    }
+    .quiz-title { font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: 15px; }
+    .timer-box {
+      background: var(--red);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 20px; font-weight: 700;
+      font-family: 'Lora', serif;
+      min-width: 140px; text-align: center;
+      box-shadow: 0 0 16px rgba(224,92,92,0.4);
+    }
+    .timer-box.warn { background: #b33a1e; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+    .progress-bar-wrap { background: rgba(255,255,255,0.07); border-radius: 99px; height: 6px; margin-bottom: 22px; }
+    .progress-bar { background: linear-gradient(90deg, var(--gold), var(--accent)); height: 6px; border-radius: 99px; transition: width 0.4s; }
+
+    .q-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: background 0.3s;
+    }
+    .q-block.wrong { background: rgba(224,92,92,0.12); border-color: rgba(224,92,92,0.4); }
+    .q-block.correct { background: rgba(76,175,125,0.1); border-color: rgba(76,175,125,0.35); }
+    .q-num { font-size: 11px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .q-text { font-family: 'Lora', serif; font-size: 15px; margin-bottom: 12px; }
+    .options label {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 7px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: 0.15s;
+      font-size: 14px;
+    }
+    .options label:hover { background: rgba(201,168,76,0.08); border-color: var(--gold); }
+    .options input[type=radio] { accent-color: var(--gold); }
+
+    .btn-submit {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, #3a9f6e, #2a7550);
+      color: #fff; font-size: 17px; font-weight: 600;
+      border: none; border-radius: 9px; cursor: pointer;
+      margin-top: 16px;
+      box-shadow: 0 4px 18px rgba(76,175,125,0.35);
+      transition: 0.15s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); }
+
+    /* ---- RESULT SCREEN ---- */
+    #resultSection { display: none; text-align: center; }
+    .result-badge {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 48px;
+      margin: 16px 0 8px;
+    }
+    .result-badge.pass { color: var(--green); }
+    .result-badge.fail { color: var(--red); }
+    .result-score {
+      font-family: 'Lora', serif;
+      font-size: 22px; margin-bottom: 6px;
+    }
+    .result-sub { color: rgba(247,243,234,0.55); font-size: 14px; margin-bottom: 24px; }
+    .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+    .btn-retry {
+      padding: 12px 28px;
+      background: rgba(224,92,92,0.15);
+      border: 1px solid var(--red);
+      color: var(--red);
+      border-radius: 8px; cursor: pointer;
+      font-size: 15px; font-weight: 600;
+      transition: 0.15s;
+    }
+    .btn-retry:hover { background: rgba(224,92,92,0.28); }
+    .btn-next {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      border: none; color: #fff;
+      border-radius: 8px; cursor: pointer;
+      font-size: 15px; font-weight: 600;
+      box-shadow: 0 4px 16px rgba(126,79,207,0.4);
+      transition: 0.15s;
+    }
+    .btn-next:hover { transform: translateY(-2px); }
+
+    .review-title {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold); font-size: 14px;
+      text-align: left; margin-bottom: 14px;
+      border-top: 1px solid var(--border); padding-top: 18px;
+    }
+    .review-item {
+      background: rgba(224,92,92,0.09);
+      border: 1px solid rgba(224,92,92,0.3);
+      border-radius: 8px; padding: 14px; margin-bottom: 10px;
+      text-align: left;
+    }
+    .review-item .rq { font-family: 'Lora', serif; font-size: 14px; margin-bottom: 6px; }
+    .review-item .ry { color: var(--red); font-size: 13px; margin-bottom: 2px; }
+    .review-item .rc { color: var(--green); font-size: 13px; }
+
+    .completion-banner {
+      background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(126,79,207,0.2));
+      border: 1px solid var(--gold);
+      border-radius: 14px;
+      padding: 32px; margin-top: 20px;
+    }
+    .completion-banner h2 {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold); font-size: 20px; margin-bottom: 10px;
+    }
+
+    /* ---- FOOTER ---- */
+    .site-footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .site-footer .footer-inner { max-width: 820px; margin: 0 auto; }
+    .site-footer .footer-divider {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+    }
+    .site-footer .footer-divider::before,
+    .site-footer .footer-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .site-footer .footer-emblem { font-size: 22px; }
+    .site-footer .footer-name {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold);
+      font-size: clamp(11px, 2.5vw, 14px);
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+    .site-footer .footer-copy {
+      font-family: 'Lora', serif;
+      font-size: 13px;
+      color: rgba(247,243,234,0.38);
+      letter-spacing: 0.5px;
+    }
   </style>
 </head>
 <body>
+<div class="wrap">
+  <div class="brand">
+    <div class="brand-icon">🎶</div>
+    <h1>OASIS OF LOVE - KUROFROM</h1>
+    <!-- UPDATED SUBTITLE — header text only change as instructed -->
+    <p>1 Timothy, 2 Timothy &amp; Titus · Bible Study Assessment</p>
+  </div>
 
-<div class="container">
-<h1>📖 BIBLE QUIZ</h1>
-<h2>1 Timothy Chapter 1 (MCQs Only)</h2>
+  <!-- SIGN IN — UNCHANGED -->
+  <div id="signInSection">
+  <style>
+    /* Quick styling for error feedback */
+    .field input:invalid {
+      border-bottom: 2px solid #ff4d4d;
+    }
+    .error-msg {
+      color: #ff4d4d;
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+  </style>
 
-<form id="quiz">
+  <div id="signInCard">
+    <h2>Sign In to Begin</h2>
+    
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" id="userName" placeholder="Enter your full name" 
+             maxlength="50" minlength="3" required>
+    </div>
 
-<!-- SAMPLE (FIRST 15 SHOWN — REST CONTINUES SAME PATTERN) -->
+    <div class="field">
+      <label>Email Address</label>
+      <input type="email" id="userEmail" placeholder="example@email.com" 
+             maxlength="50" required>
+    </div>
 
-<div class="question">
-<p>1. Paul identifies himself as what?</p>
-<div class="options">
-<input type="radio" name="q1" value="a"> A servant of Moses<br>
-<input type="radio" name="q1" value="b"> A prophet<br>
-<input type="radio" name="q1" value="c"> An apostle of Jesus Christ<br>
-<input type="radio" name="q1" value="d"> A teacher of the law
-</div></div>
+    <div class="field">
+      <label>Phone Number</label>
+      <input type="tel" id="userPhone" placeholder="024XXXXXXX" 
+             maxlength="12" 
+             oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+    </div>
 
-<div class="question">
-<p>2. Paul became an apostle by whose command?</p>
-<div class="options">
-<input type="radio" name="q2" value="a"> The church elders<br>
-<input type="radio" name="q2" value="b"> Timothy<br>
-<input type="radio" name="q2" value="c"> The disciples<br>
-<input type="radio" name="q2" value="d"> God our Savior and Christ Jesus
-</div></div>
+    <button class="btn-primary" onclick="validateAndSignIn()">▶ Start Bible Study</button>
+  </div>
 
-<div class="question">
-<p>3. Paul describes Christ Jesus as what?</p>
-<div class="options">
-<input type="radio" name="q3" value="a"> Our King<br>
-<input type="radio" name="q3" value="b"> Our Judge<br>
-<input type="radio" name="q3" value="c"> Our hope<br>
-<input type="radio" name="q3" value="d"> Our teacher
-</div></div>
+  <script>
+    function validateAndSignIn() {
+      const nameInput = document.getElementById('userName');
+      const emailInput = document.getElementById('userEmail');
+      const phoneInput = document.getElementById('userPhone');
 
-<div class="question">
-<p>4. The letter was written to whom?</p>
-<div class="options">
-<input type="radio" name="q4" value="a"> Titus<br>
-<input type="radio" name="q4" value="b"> Luke<br>
-<input type="radio" name="q4" value="c"> John<br>
-<input type="radio" name="q4" value="d"> Timothy
-</div></div>
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const phone = phoneInput.value.trim();
 
-<div class="question">
-<p>5. How did Paul describe Timothy?</p>
-<div class="options">
-<input type="radio" name="q5" value="a"> His brother<br>
-<input type="radio" name="q5" value="b"> His student<br>
-<input type="radio" name="q5" value="c"> His true son in the faith<br>
-<input type="radio" name="q5" value="d"> His servant
-</div></div>
+      // 1. Strict Name Check (Min 3 chars)
+      if (name.length < 3) {
+        alert("Please enter a valid name (at least 3 characters).");
+        nameInput.focus();
+        return;
+      }
 
-<div class="question">
-<p>6. What greeting did Paul give Timothy?</p>
-<div class="options">
-<input type="radio" name="q6" value="a"> Peace only<br>
-<input type="radio" name="q6" value="b"> Love and joy<br>
-<input type="radio" name="q6" value="c"> Blessings and favor<br>
-<input type="radio" name="q6" value="d"> Grace, mercy, and peace
-</div></div>
+      // 2. Strict Email Check (Regex validation)
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        emailInput.focus();
+        return;
+      }
 
-<div class="question">
-<p>7. Timothy was urged to stay in which place?</p>
-<div class="options">
-<input type="radio" name="q7" value="a"> Corinth<br>
-<input type="radio" name="q7" value="b"> Rome<br>
-<input type="radio" name="q7" value="c"> Ephesus<br>
-<input type="radio" name="q7" value="d"> Galatia
-</div></div>
+      // 3. Strict Phone Check (10-12 digits)
+      if (phone.length < 10 || phone.length > 12) {
+        alert("Phone number must be between 10 and 12 digits.");
+        phoneInput.focus();
+        return;
+      }
 
-<div class="question">
-<p>8. Why was Timothy to remain in Ephesus?</p>
-<div class="options">
-<input type="radio" name="q8" value="a"> To build churches<br>
-<input type="radio" name="q8" value="b"> To collect offerings<br>
-<input type="radio" name="q8" value="c"> To travel<br>
-<input type="radio" name="q8" value="d"> To command certain people not to teach false doctrines
-</div></div>
-
-<div class="question">
-<p>9. What were some people devoted to?</p>
-<div class="options">
-<input type="radio" name="q9" value="a"> Worship songs<br>
-<input type="radio" name="q9" value="b"> Prayer<br>
-<input type="radio" name="q9" value="c"> Myths and endless genealogies<br>
-<input type="radio" name="q9" value="d"> Evangelism
-</div></div>
-
-<div class="question">
-<p>10. These things promote what?</p>
-<div class="options">
-<input type="radio" name="q10" value="a"> Faith<br>
-<input type="radio" name="q10" value="b"> Salvation<br>
-<input type="radio" name="q10" value="c"> Love<br>
-<input type="radio" name="q10" value="d"> Speculation
-</div></div>
-
-<div class="question">
-<p>11. The goal of instruction is what?</p>
-<div class="options">
-<input type="radio" name="q11" value="a"> Knowledge<br>
-<input type="radio" name="q11" value="b"> Power<br>
-<input type="radio" name="q11" value="c"> Love<br>
-<input type="radio" name="q11" value="d"> Authority
-</div></div>
-
-<div class="question">
-<p>12. Love must come from what?</p>
-<div class="options">
-<input type="radio" name="q12" value="a"> Good works<br>
-<input type="radio" name="q12" value="b"> Church attendance<br>
-<input type="radio" name="q12" value="c"> A pure heart, good conscience, and sincere faith<br>
-<input type="radio" name="q12" value="d"> Fasting
-</div></div>
-
-<div class="question">
-<p>13. Some have turned away to what?</p>
-<div class="options">
-<input type="radio" name="q13" value="a"> Worship<br>
-<input type="radio" name="q13" value="b"> Teaching<br>
-<input type="radio" name="q13" value="c"> Meaningless talk<br>
-<input type="radio" name="q13" value="d"> Prayer
-</div></div>
-
-<div class="question">
-<p>14. They want to be what?</p>
-<div class="options">
-<input type="radio" name="q14" value="a"> Prophets<br>
-<input type="radio" name="q14" value="b"> Apostles<br>
-<input type="radio" name="q14" value="c"> Evangelists<br>
-<input type="radio" name="q14" value="d"> Teachers of the law
-</div></div>
-
-<div class="question">
-<p>15. But they do not understand what?</p>
-<div class="options">
-<input type="radio" name="q15" value="a"> Scripture<br>
-<input type="radio" name="q15" value="b"> God<br>
-<input type="radio" name="q15" value="c"> What they are talking about<br>
-<input type="radio" name="q15" value="d"> The church
-</div></div>
-
-<!-- 👉 CONTINUE SAME FORMAT UP TO QUESTION 150 -->
-
-<button type="button" onclick="checkAnswers()">Submit</button>
-</form>
-
-<div id="result"></div>
+      // If all passes, call your existing signIn function
+      console.log("Validation successful for:", name);
+      
+      // Call the main signIn function (ensure this function exists in your script)
+      if (typeof signIn === "function") {
+        signIn();
+      } else {
+        alert("Sign-in process started!");
+      }
+    }
+  </script>
 </div>
+  <!-- CHAPTER MAP — auto-renders all 13 chapters via JS -->
+  <div id="chapterMap">
+    <p class="chap-map-title">1 TIMOTHY, 2 TIMOTHY &amp; TITUS · CHAPTER ASSESSMENT</p>
+    <p class="chap-map-sub">Complete each chapter in order · Pass mark: 20/30 · 20 minutes per chapter</p>
+    <div id="chapGrid"></div>
+  </div>
+
+  <!-- QUIZ — UNCHANGED -->
+  <div id="quizSection">
+    <div class="quiz-header">
+      <div class="quiz-title" id="quizTitle"></div>
+      <div class="timer-box" id="timerBox">20:00</div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <div id="questionsContainer"></div>
+    <button class="btn-submit" onclick="submitQuiz()">Submit Answers</button>
+  </div>
+
+  <!-- RESULT — UNCHANGED -->
+  <div id="resultSection">
+    <div class="result-badge" id="resultBadge"></div>
+    <div class="result-score" id="resultScore"></div>
+    <div class="result-sub" id="resultSub"></div>
+    <div class="result-actions" id="resultActions"></div>
+    <div id="reviewContainer"></div>
+  </div>
+</div><!-- /.wrap -->
+
+<!-- FOOTER — ADDED AS INSTRUCTED -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-divider">
+      <span class="footer-emblem">✝</span>
+    </div>
+    <div class="footer-name">Designed by PASTOR SAMUEL ATTAH-NTI (KOOLA)</div>
+    <div class="footer-copy">&copy; 2026 &middot; KOOLA &middot; All Rights Reserved</div>
+  </div>
+</footer>
 
 <script>
-function checkAnswers(){
-let score=0;
+/* =========================================================
+   DATA: 13 CHAPTERS TOTAL
+   ─────────────────────────────────────────────────────────
+   SEGMENT 1 — 1 TIMOTHY  (Chapters 1–6)   ← UNCHANGED
+   SEGMENT 2 — 2 TIMOTHY  (Chapters 7–10)  ← NEW
+   SEGMENT 3 — TITUS      (Chapters 11–13) ← NEW
+   ─────────────────────────────────────────────────────────
+   Each chapter: EXACTLY 30 questions
+   Format: { q, opts:[A,B,C,D], ans:'a'|'b'|'c'|'d' }
+   Sequential verse coverage per chapter
+========================================================= */
+const chapters = [
 
-const ans={
-q1:"c", q2:"d", q3:"c", q4:"d", q5:"c",
-q6:"d", q7:"c", q8:"d", q9:"c", q10:"d",
-q11:"c", q12:"c", q13:"c", q14:"d", q15:"c"
+  /* ══════════════════════════════════════════════════════
+     SEGMENT 1 — 1 TIMOTHY  (ALL 6 CHAPTERS — UNCHANGED)
+  ══════════════════════════════════════════════════════ */
 
-/* 👉 CONTINUE ANSWERS SAME WAY UP TO LAST QUESTION */
+  {
+    num: 1,
+    title: "Greetings & Warning Against False Doctrine",
+    verses: "1 Timothy 1:1–20",
+    questions: [
+      { q:"1. How does Paul identify himself at the opening of 1 Timothy?", opts:["A teacher of the Law","A servant of Moses","An apostle of Jesus Christ","A prophet of Israel"], ans:"c" },
+      { q:"2. Paul became an apostle by whose commandment?", opts:["The church elders","Timothy","God our Savior and Christ Jesus","The disciples in Jerusalem"], ans:"c" },
+      { q:"3. Christ Jesus is described in verse 1 as the believer's what?", opts:["Shield","King","Hope","Judge"], ans:"c" },
+      { q:"4. To whom is this letter written?", opts:["Titus","Luke","John","Timothy"], ans:"d" },
+      { q:"5. How does Paul describe Timothy in verse 2?", opts:["His brother","His student","His true son in the faith","His servant"], ans:"c" },
+      { q:"6. What greeting does Paul extend to Timothy in verse 2?", opts:["Peace and prosperity","Grace, mercy, and peace","Love and wisdom","Faith and strength"], ans:"b" },
+      { q:"7. Where had Paul urged Timothy to remain when he went to Macedonia?", opts:["Jerusalem","Corinth","Rome","Ephesus"], ans:"d" },
+      { q:"8. What were the false teachers to stop doing, per verse 3?", opts:["Praying incorrectly","Teaching different doctrines","Collecting offerings","Organizing church groups"], ans:"b" },
+      { q:"9. In verse 4, Paul warns against giving heed to what?", opts:["New prophecies","Fables and endless genealogies","Political debates","Foreign customs"], ans:"b" },
+      { q:"10. These myths and genealogies promote what, according to Paul?", opts:["Faith in God","Disputes rather than godly edification","Church growth","Better Bible knowledge"], ans:"b" },
+      { q:"11. What is the goal of Paul's instruction, according to verse 5?", opts:["Knowledge of the Law","Great church numbers","Love from a pure heart, good conscience, and sincere faith","Strict obedience to tradition"], ans:"c" },
+      { q:"12. Some, having deviated from these, have turned aside to what (v.6)?", opts:["Idolatry","Idle talk","False prophecy","Political ambition"], ans:"b" },
+      { q:"13. The false teachers desire to be what, though they don't understand it (v.7)?", opts:["Apostles","Prophets","Teachers of the Law","Evangelists"], ans:"c" },
+      { q:"14. Paul states the Law is good if one uses it how (v.8)?", opts:["Frequently","Strictly","Lawfully","Broadly"], ans:"c" },
+      { q:"15. In verse 9, the Law is not made for whom?", opts:["The sick","A righteous person","Children","The poor"], ans:"b" },
+      { q:"16. What list does Paul include in verse 9 as those for whom the Law was made?", opts:["The righteous and faithful","Lawless, insubordinate, ungodly, sinners","The meek and humble","Priests and teachers"], ans:"b" },
+      { q:"17. In verse 10, Paul includes 'perjurers' in the list. Who else does he mention?", opts:["Those who pray little","Fornicators, sodomites, kidnappers, liars","People who skip gatherings","Those who doubt God"], ans:"b" },
+      { q:"18. Paul says this list is contrary to what (v.11)?", opts:["Church tradition","Sound doctrine according to the glorious gospel","The Mosaic covenant","Human reason"], ans:"b" },
+      { q:"19. With what was Paul entrusted, mentioned in verse 11?", opts:["The keys of the church","The glorious gospel of the blessed God","The letter to the Romans","The ark of the covenant"], ans:"b" },
+      { q:"20. What does Paul express in verse 12 for being considered faithful?", opts:["Pride in his achievements","Thankfulness to Christ who strengthened him","Satisfaction in the Law","Confidence in his heritage"], ans:"b" },
+      { q:"21. What ministry was Paul appointed to (v.12)?", opts:["Building temples","His service for Christ","Teaching the Gentiles only","Collecting offerings"], ans:"b" },
+      { q:"22. How did Paul describe himself before his calling (v.13)?", opts:["A righteous Pharisee","Formerly a blasphemer, persecutor, and insolent man","A devoted student of Gamaliel","A peaceful tent-maker"], ans:"b" },
+      { q:"23. Why did Paul receive mercy, according to verse 13?", opts:["Because he was chosen from birth","Because he acted ignorantly in unbelief","Because he repented on his own","Because he was sincere"], ans:"b" },
+      { q:"24. What two things did Paul say abounded toward him (v.14)?", opts:["Peace and love","Grace and love with faith","Wisdom and strength","Prophecy and knowledge"], ans:"b" },
+      { q:"25. What is the 'faithful saying' Paul cites in verse 15?", opts:["Pray without ceasing","Christ Jesus came into the world to save sinners","God is love","The Law is holy"], ans:"b" },
+      { q:"26. How does Paul describe himself among sinners in verse 15?", opts:["The least deserving","The foremost or chief","The most repentant","The most forgiven"], ans:"b" },
+      { q:"27. Why was Paul shown mercy, according to verse 16?", opts:["So he could write the epistles","So Christ could display His perfect patience in him as an example","So the church would have a leader","So the Gentiles would hear the gospel"], ans:"b" },
+      { q:"28. What follows Paul's doxology of praise in verse 17?", opts:["A list of church rules","Eternal, immortal, invisible, the only God be honor and glory forever","A warning to avoid sin","Instructions for offerings"], ans:"b" },
+      { q:"29. What charge does Paul commit to Timothy in verse 18?", opts:["To build new churches","To fight the good fight according to the prophecies about him","To collect the tithes","To travel to Macedonia"], ans:"b" },
+      { q:"30. Who had made shipwreck of their faith, named in verse 20?", opts:["Demas and Luke","Hymenaeus and Alexander","Barnabas and Mark","Apollos and Priscilla"], ans:"b" },
+    ]
+  },
+  {
+    num: 2,
+    title: "Instructions on Prayer & Worship",
+    verses: "1 Timothy 2:1–15",
+    questions: [
+      { q:"1. What does Paul urge first of all in Chapter 2, verse 1?", opts:["Fasting and repentance","Supplications, prayers, intercessions, and thanksgiving for all people","Offerings and tithes","Confession of sins daily"], ans:"b" },
+      { q:"2. For whom specifically does Paul say prayers should be made (v.2)?", opts:["Only for believers","Kings and all in authority","The poor and widows","Only for church leaders"], ans:"b" },
+      { q:"3. What is the purpose of praying for those in authority (v.2)?", opts:["So they prosper financially","That we may live peaceable and quiet lives in godliness","So they become Christians","That wars may cease"], ans:"b" },
+      { q:"4. How does God regard this kind of prayer, according to verse 3?", opts:["It is merely good practice","It is good and acceptable before God our Savior","It is optional but helpful","It pleases the angels"], ans:"b" },
+      { q:"5. What does God desire for all men, according to verse 4?", opts:["To be wealthy","To be saved and come to knowledge of the truth","To obey rulers","To follow the Law of Moses"], ans:"b" },
+      { q:"6. In verse 5, Paul declares there is one God and one what?", opts:["Church","Faith","Mediator between God and men","Holy Law"], ans:"c" },
+      { q:"7. Who is that one Mediator mentioned in verse 5?", opts:["Moses","The Holy Spirit","An angel","The man Christ Jesus"], ans:"d" },
+      { q:"8. What did Christ Jesus give as a ransom for all (v.6)?", opts:["His teachings","His kingdom","Himself","His disciples"], ans:"c" },
+      { q:"9. The testimony of verse 6 was to be borne at the proper what?", opts:["Season","Place","Church","Festival"], ans:"a" },
+      { q:"10. What role was Paul appointed to, according to verse 7?", opts:["Elder and bishop","Preacher, apostle, teacher of Gentiles in faith and truth","Deacon and servant","Prophet and evangelist"], ans:"b" },
+      { q:"11. What does Paul emphasize in verse 7 about his appointment?", opts:["That it was voted on","That he is telling the truth and not lying","That it was given reluctantly","That many opposed it"], ans:"b" },
+      { q:"12. What does Paul desire men to do in every place of worship (v.8)?", opts:["Sit quietly","Lift holy hands in prayer without wrath and doubting","Bring large offerings","Memorize Scripture"], ans:"b" },
+      { q:"13. How should women adorn themselves, according to verse 9?", opts:["In gold and pearls","In costly clothing","In modest apparel with propriety and moderation","In the latest fashion"], ans:"c" },
+      { q:"14. What should characterize a woman's adornment rather than outward jewelry (v.10)?", opts:["Singing and dancing","Good works befitting a woman who professes godliness","Loud praying","Strict fasting"], ans:"b" },
+      { q:"15. What does Paul say he does not permit a woman to do in verse 12?", opts:["Pray in public","Teach or have authority over a man","Sing in gatherings","Give tithes"], ans:"b" },
+      { q:"16. What posture does Paul say is appropriate for a woman in verse 12?", opts:["To lead the assembly","To be in silence","To preach to women only","To teach children only"], ans:"b" },
+      { q:"17. Who was formed first, according to Paul's reasoning in verse 13?", opts:["Eve","The angels","Adam","The serpent"], ans:"c" },
+      { q:"18. Who was deceived in verse 14?", opts:["Adam","Both Adam and Eve equally","Eve","The serpent"], ans:"c" },
+      { q:"19. What does Paul say in verse 14 about Adam's sin?", opts:["He was fully deceived","He was not deceived","He sinned willfully","He blamed God"], ans:"b" },
+      { q:"20. Through what will women be saved, in context of verse 15?", opts:["Teaching others","Childbearing, if they continue in faith, love, and holiness","Leading prayers","Avoiding all worldly things"], ans:"b" },
+      { q:"21. What virtues accompany the condition for salvation mentioned in verse 15?", opts:["Wisdom and prophecy","Faith, love, holiness, and self-control","Fasting and giving","Prayer and intercession"], ans:"b" },
+      { q:"22. The word 'supplications' in verse 1 includes prayers for what kind of needs?", opts:["National needs only","Personal and urgent requests","Financial needs","Health needs only"], ans:"b" },
+      { q:"23. The phrase 'in every place' in verse 8 indicates prayer should be what?", opts:["Done only in temples","Universal and not restricted to one location","Private only","Led by pastors only"], ans:"b" },
+      { q:"24. The ransom of Christ was for how many people, per verse 6?", opts:["The chosen few","All people","Only Israel","Only the righteous"], ans:"b" },
+      { q:"25. The word 'mediator' in verse 5 means Christ stands between whom?", opts:["Angels and humans","God and humanity","Old and new covenant","Law and grace"], ans:"b" },
+      { q:"26. Paul's instruction for prayer in verse 1 is described as the 'first' thing. This suggests it is what?", opts:["The least important","Optional for mature believers","A priority in the Christian life","Only for church leaders"], ans:"c" },
+      { q:"27. The phrase 'holy hands' in verse 8 symbolizes what?", opts:["Physically clean hands","A life of purity and right standing with God","Hands raised above the head only","Hands folded in specific ways"], ans:"b" },
+      { q:"28. What does 'without wrath' in verse 8 imply about the condition of prayer?", opts:["Prayers must be short","Prayer should be offered with a heart free from anger or bitterness","Prayer must be loud","Prayer must be in a language God understands"], ans:"b" },
+      { q:"29. What is the broader theological point of verse 5's declaration of one God?", opts:["Monotheism applies only to Israel","All religions lead to God","There is only one path to God through one Mediator","God does not accept group prayers"], ans:"c" },
+      { q:"30. What does verse 4 reveal about God's desire regarding salvation?", opts:["Only certain groups will be saved","God desires all people to be saved, not just a select group","Salvation is based on keeping the Law","God saves only those who ask repeatedly"], ans:"b" },
+    ]
+  },
+  {
+    num: 3,
+    title: "Qualifications for Overseers & Deacons",
+    verses: "1 Timothy 3:1–16",
+    questions: [
+      { q:"1. What is the 'faithful saying' Paul offers at the start of chapter 3, verse 1?", opts:["Pray without ceasing","If anyone desires the position of overseer, he desires a good work","God is love above all","A deacon serves with gladness"], ans:"b" },
+      { q:"2. An overseer must be what in verse 2?", opts:["Wealthy and well-connected","Blameless, husband of one wife, temperate, sober-minded","A great preacher","Older than 50 years"], ans:"b" },
+      { q:"3. The overseer must be hospitable according to verse 2. What does this mean?", opts:["Financially generous only","Welcoming to strangers and guests","A good cook","Only hospitable to church members"], ans:"b" },
+      { q:"4. Which qualification in verse 2 relates to the overseer's teaching ability?", opts:["Temperate","Sober-minded","Able to teach","Of good behavior"], ans:"c" },
+      { q:"5. What vices must an overseer avoid, per verse 3?", opts:["Singing and laughter","Not given to wine, not violent, not quarrelsome, not greedy","Excessive fasting","Spending time with sinners"], ans:"b" },
+      { q:"6. What must an overseer's household look like, according to verse 4?", opts:["Large and well-known","Well managed, children in submission","Wealthy and influential","Well-educated only"], ans:"b" },
+      { q:"7. What is Paul's reasoning for the household requirement in verse 5?", opts:["A leader's family shows his wealth","If he can't manage his household, how will he care for God's church?","Family size matters for leadership","Children must attend every service"], ans:"b" },
+      { q:"8. What disqualifies someone from being an overseer, according to verse 6?", opts:["Being too young in age","Being a novice or new convert who might become proud","Being from a Gentile background","Having too little money"], ans:"b" },
+      { q:"9. What is the danger Paul warns about in verse 6 regarding a new convert?", opts:["They might leave the faith","They might fall into the same condemnation as the devil","They might teach false doctrine quickly","They might attract too many followers"], ans:"b" },
+      { q:"10. What reputation must an overseer have with outsiders (v.7)?", opts:["Famous for miracles","A good testimony lest he fall into reproach and the devil's trap","Known for strict fasting","Respected only by believers"], ans:"b" },
+      { q:"11. What is the first quality listed for deacons in verse 8?", opts:["Able to teach","Reverent (serious/dignified)","Wealthy","Older in years"], ans:"b" },
+      { q:"12. What speech-related quality must deacons have (v.8)?", opts:["Speaking in tongues","Not double-tongued (not saying one thing and meaning another)","Preaching ability","A loud voice"], ans:"b" },
+      { q:"13. What substance-related quality is required for deacons in verse 8?", opts:["Vegetarians","Not given to much wine","Those who fast regularly","Non-merchants"], ans:"b" },
+      { q:"14. What financial quality must deacons have (v.8)?", opts:["Rich and able to give","Not greedy for money","Able to raise funds","From a wealthy family"], ans:"b" },
+      { q:"15. What must deacons hold in verse 9?", opts:["The keys of the church","The mystery of the faith with a pure conscience","The offering basket weekly","The records of the congregation"], ans:"b" },
+      { q:"16. What must deacons first do before serving, according to verse 10?", opts:["Attend a Bible school","Be tested first; then serve if blameless","Be voted into office","Receive a special anointing"], ans:"b" },
+      { q:"17. What does verse 11 say about women (or deaconesses)?", opts:["They cannot serve in any role","They must be reverent, not slanderers, temperate, faithful in all things","They should only pray at home","They may only teach children"], ans:"b" },
+      { q:"18. What is required of deacons regarding marriage in verse 12?", opts:["They must be single","Husbands of one wife","They may have multiple wives if cultural","They must not remarry if widowed"], ans:"b" },
+      { q:"19. Deacons who serve well gain what two things according to verse 13?", opts:["Wealth and honor","Good standing and great boldness in faith in Christ Jesus","A leadership promotion","The right to teach the congregation"], ans:"b" },
+      { q:"20. Why does Paul write these things to Timothy, as stated in verse 14?", opts:["Because he is bored","Hoping to come soon but writing in case he is delayed","Because he forgot the verbal instructions","To test Timothy's memory"], ans:"b" },
+      { q:"21. The church is described in verse 15 as what?", opts:["The house of prayer","The pillar and foundation of the truth","The temple of God","The meeting of the saints"], ans:"b" },
+      { q:"22. How does Paul describe the 'mystery of godliness' in verse 16?", opts:["It is difficult to explain","It is great without controversy","It is only for the wise","It is hidden from Gentiles"], ans:"b" },
+      { q:"23. What is the first element of the mystery of godliness in verse 16?", opts:["Justified in Spirit","God was manifest in the flesh","Received up in glory","Believed on in the world"], ans:"b" },
+      { q:"24. What element of verse 16 speaks of witness by angels?", opts:["Preached among the Gentiles","Believed on in the world","Seen by angels","Justified in Spirit"], ans:"c" },
+      { q:"25. What does 'justified in the Spirit' in verse 16 refer to?", opts:["Our personal justification","Christ's vindication through the Spirit especially at resurrection","The Spirit justifying our prayers","Being filled with the Spirit"], ans:"b" },
+      { q:"26. The phrase 'preached among the Gentiles' in verse 16 shows the gospel is meant for whom?", opts:["Only the Jews","All nations","Only the educated","Only those in cities"], ans:"b" },
+      { q:"27. 'Believed on in the world' in verse 16 speaks of what?", opts:["Angels believing","The worldwide response of faith to the gospel","Only early church conversions","Church attendance"], ans:"b" },
+      { q:"28. 'Received up in glory' in verse 16 refers to what event?", opts:["Christ's birth","Christ's transfiguration","The ascension of Christ","The second coming"], ans:"c" },
+      { q:"29. Why is the church called the 'pillar and foundation of truth' (v.15)?", opts:["Because it holds great wealth","Because it upholds and proclaims God's truth","Because it has the best teachers","Because it was founded by Paul"], ans:"b" },
+      { q:"30. What is the main purpose of Paul's instructions in chapter 3 overall?", opts:["To create church hierarchy for control","To establish godly character and order in church leadership","To promote certain individuals","To limit the role of women permanently"], ans:"b" },
+    ]
+  },
+  {
+    num: 4,
+    title: "Warning Against Apostasy & Timothy's Charge",
+    verses: "1 Timothy 4:1–16",
+    questions: [
+      { q:"1. What does the Spirit explicitly say will happen in latter times (v.1)?", opts:["Great revival will come","Some will depart from the faith","All nations will turn to God","The church will grow larger"], ans:"b" },
+      { q:"2. What will those who depart from the faith give heed to (v.1)?", opts:["New translations of Scripture","Deceiving spirits and doctrines of demons","False prophets and apostles","Political rulers and their laws"], ans:"b" },
+      { q:"3. These false teachings come through whom, according to verse 2?", opts:["Outsiders attacking the church","Liars whose consciences are seared with a hot iron","Young and immature believers","Rulers who persecute Christians"], ans:"b" },
+      { q:"4. What does Paul say the false teachers forbid in verse 3?", opts:["Tithing","Marrying and commanding to abstain from foods","Gathering for prayer","Reading the Old Testament"], ans:"b" },
+      { q:"5. What does Paul say about these forbidden foods in verse 3?", opts:["They are spiritually unclean","God created them to be received with thanksgiving","They belong to an old covenant","They may harm the body"], ans:"b" },
+      { q:"6. For whom are these foods created, according to verse 3?", opts:["Only for non-believers","Those who believe and know the truth","Only for the physically healthy","Only for those who pray over them"], ans:"b" },
+      { q:"7. What sanctifies food, according to verse 5?", opts:["Cooking it properly","The word of God and prayer","A special blessing from a priest","The giving of tithes"], ans:"b" },
+      { q:"8. If Timothy teaches these things, he will be a good minister of what (v.6)?", opts:["The Law","Jesus Christ","The synagogue","The apostles"], ans:"b" },
+      { q:"9. On what has Timothy been nourished, according to verse 6?", opts:["Jewish traditions","Words of faith and good doctrine","Human philosophy","The letters of Peter"], ans:"b" },
+      { q:"10. What does Paul tell Timothy to reject in verse 7?", opts:["All Gentile customs","Profane and old wives' fables","The writings of the apostles","Jewish dietary laws"], ans:"b" },
+      { q:"11. What does Paul command Timothy to exercise himself in (v.7)?", opts:["Physical strength","Godliness","Business skills","Musical ability"], ans:"b" },
+      { q:"12. What does Paul say about bodily exercise in verse 8?", opts:["It is useless for Christians","It profits a little, but godliness is profitable for all things","It should be avoided on the Sabbath","It is equal to godliness"], ans:"b" },
+      { q:"13. What does godliness have promise of, according to verse 8?", opts:["Earthly riches only","The life that now is and of that which is to come","Long life only","Spiritual gifts only"], ans:"b" },
+      { q:"14. What is the faithful saying in verse 9?", opts:["That prayer changes all things","That the prior statement about godliness is worthy of full acceptance","That fasting is required","That tithing guarantees blessing"], ans:"b" },
+      { q:"15. Paul says they labor and suffer reproach because they trust in the living God, who is the what (v.10)?", opts:["Savior of the faithful only","Savior of all men, especially those who believe","Judge of all the earth","Father of Abraham"], ans:"b" },
+      { q:"16. What does Paul command Timothy to do in verse 11?", opts:["Rest and avoid controversy","Command and teach these things","Only preach to the elders","Write them down in a scroll"], ans:"b" },
+      { q:"17. What does Paul say about Timothy's youth in verse 12?", opts:["He should wait until he is older to lead","Let no one despise his youth","Young people cannot teach","He should defer to elders always"], ans:"b" },
+      { q:"18. In what areas should Timothy be an example (v.12)?", opts:["Preaching only","In word, conduct, love, spirit, faith, and purity","In dress code only","In financial giving only"], ans:"b" },
+      { q:"19. Until Paul comes, what should Timothy give attention to (v.13)?", opts:["Building the church structure","Reading, exhortation, and doctrine","Only visiting house churches","Collecting offerings"], ans:"b" },
+      { q:"20. What gift was given to Timothy by prophecy and laying on of hands (v.14)?", opts:["The gift of healing","The gift that is in him","The gift of tongues","The gift of wisdom"], ans:"b" },
+      { q:"21. By whom were the elders' hands laid on Timothy (v.14)?", opts:["The apostles in Jerusalem","The eldership (presbytery)","Only Paul","The deacons"], ans:"b" },
+      { q:"22. What does Paul tell Timothy NOT to neglect in verse 14?", opts:["His studies","The gift that is in him","His personal prayer time","His letters to other churches"], ans:"b" },
+      { q:"23. What two things should Timothy meditate on, per verse 15?", opts:["The Law and prophets","These things (duties/instructions); give himself wholly to them","Prayer and fasting","His family and ministry"], ans:"b" },
+      { q:"24. What will Timothy's progress be in, if he follows Paul's instructions (v.15)?", opts:["Apparent to some","Apparent to all","Hidden until he matures","Only recognized by Paul"], ans:"b" },
+      { q:"25. What should Timothy take heed to in verse 16?", opts:["His preaching style","Himself and the doctrine","His daily schedule","His social relationships"], ans:"b" },
+      { q:"26. What will happen if Timothy continues in these things (v.16)?", opts:["He will become famous","He will save both himself and those who hear him","He will receive great wealth","He will be promoted"], ans:"b" },
+      { q:"27. The phrase 'seared with a hot iron' in verse 2 describes what kind of conscience?", opts:["Very sensitive","Completely desensitized and unable to feel conviction","Always feeling guilty","Newly converted"], ans:"b" },
+      { q:"28. Paul's instruction about food in verses 3–5 counters what heresy?", opts:["Gnosticism about wealth","Asceticism that rejected God's good creation","The idea that food harms prayer","Jewish dietary law violations"], ans:"b" },
+      { q:"29. The command to 'give attention to reading' in verse 13 primarily refers to reading what?", opts:["Personal devotionals","Scripture publicly in the assembly","Greek philosophy","Letters from Paul only"], ans:"b" },
+      { q:"30. Chapter 4 as a whole emphasizes that Timothy should guard both his life and his what?", opts:["Family and finances","Doctrine (teaching)","Physical appearance","Church attendance records"], ans:"b" },
+    ]
+  },
+  {
+    num: 5,
+    title: "Duties Toward Believers, Widows & Elders",
+    verses: "1 Timothy 5:1–25",
+    questions: [
+      { q:"1. How should Timothy treat an older man who sins, according to verse 1?", opts:["Rebuke sharply","Do not rebuke him sharply; appeal to him as a father","Remove him from the church","Ignore his sin"], ans:"b" },
+      { q:"2. How should Timothy treat younger men (v.1)?", opts:["As subordinates","As brothers","As students only","As temporary members"], ans:"b" },
+      { q:"3. How should older women be treated, per verse 2?", opts:["As church officials","As mothers","As elders","As teachers only"], ans:"b" },
+      { q:"4. How should younger women be treated in verse 2?", opts:["As strangers","As sisters, with all purity","As servants","As equals to men"], ans:"b" },
+      { q:"5. A widow who is 'really a widow' (v.3) refers to one who is what?", opts:["Over 60 years of age","Left alone, without family to support her","A widow who has never remarried","Someone who serves in the church"], ans:"b" },
+      { q:"6. What should believing children or grandchildren of widows do, per verse 4?", opts:["Pray for her daily","Repay their parents by caring for them","Donate to the church fund","Bring food offerings"], ans:"b" },
+      { q:"7. Caring for one's own family is described in verse 4 as acceptable to whom?", opts:["Paul","The elders","God","The church community"], ans:"c" },
+      { q:"8. A widow who lives in pleasure is what, according to verse 6?", opts:["Blessed and cared for","Dead while she lives","In need of church support","Exempt from teaching"], ans:"b" },
+      { q:"9. What does Paul say in verse 7 about giving these instructions?", opts:["That they are optional","That Timothy should command them so people may be blameless","That they are for mature members only","That they are suggestions only"], ans:"b" },
+      { q:"10. What does Paul say about someone who doesn't provide for his own relatives (v.8)?", opts:["He needs more discipleship","He has denied the faith and is worse than an unbeliever","He should be pitied","He is still a growing believer"], ans:"b" },
+      { q:"11. What minimum age does Paul set for enrolling a widow on the church list (v.9)?", opts:["50","60","65","70"], ans:"b" },
+      { q:"12. What marital history is required for an enrolled widow (v.9)?", opts:["Never married","Wife of one husband (married only once)","A widow for at least 5 years","Must not have divorced"], ans:"b" },
+      { q:"13. What good works qualify a widow for church support (v.10)?", opts:["Teaching the congregation","Raising children, hospitality, serving, helping the afflicted","Making large donations","Leading prayer groups"], ans:"b" },
+      { q:"14. Why does Paul advise against enrolling younger widows (v.11)?", opts:["They lack wisdom","When sensual desires overcome their dedication to Christ, they may want to remarry","They are too distracted by work","They are needed in the workforce"], ans:"b" },
+      { q:"15. What behavior does Paul warn younger widows might engage in (v.13)?", opts:["False teaching","Being idle, gossips, and busybodies","Excessive fasting","Abandoning the faith openly"], ans:"b" },
+      { q:"16. What does Paul actually advise younger widows to do in verse 14?", opts:["Remain single for ministry","Marry, bear children, manage the home","Join the deaconess ministry","Move to another city"], ans:"b" },
+      { q:"17. What is the concern Paul expresses in verse 14 about the adversary?", opts:["That he might steal their money","That he might have occasion to speak reproachfully","That he might harm them physically","That he might lead them into false doctrine directly"], ans:"b" },
+      { q:"18. Some younger widows had already turned aside after whom (v.15)?", opts:["False apostles","Satan","Heretical teachers","Gentile rulers"], ans:"b" },
+      { q:"19. What should a believing woman do if she has widows in her family (v.16)?", opts:["Send them to Paul","Relieve them so the church is not burdened","Ask the elders to care for them","Give them money monthly"], ans:"b" },
+      { q:"20. Elders who rule well are worthy of what, according to verse 17?", opts:["A church position upgrade","Double honor, especially those who labor in the word and doctrine","A certificate of service","The title of apostle"], ans:"b" },
+      { q:"21. What Scripture does Paul cite in verse 18 to support paying elders?", opts:["'Honor your father and mother'","'The laborer is worthy of his wages'","'Give and it shall be given'","'Do not muzzle an ox while it treads'"], ans:"b" },
+      { q:"22. What does Paul say about receiving an accusation against an elder (v.19)?", opts:["Accept it from one witness","Do not receive it except on the evidence of two or three witnesses","Investigate it privately first","Report it to all churches"], ans:"b" },
+      { q:"23. What should be done to elders who sin (v.20)?", opts:["Pray for them privately","Rebuke them in the presence of all, so others may fear","Remove them quietly","Give them a warning letter"], ans:"b" },
+      { q:"24. What does Paul charge Timothy to observe in verse 21?", opts:["Strict dietary practices","These things without prejudice, doing nothing with partiality","Complete silence about elders' errors","A set prayer schedule"], ans:"b" },
+      { q:"25. What does Paul warn Timothy against in verse 22 regarding ordination?", opts:["Ordaining too many elders","Laying hands on no one hastily","Skipping the ordination process","Ordaining only older men"], ans:"b" },
+      { q:"26. What personal health advice does Paul give Timothy in verse 23?", opts:["To eat less meat","To use a little wine for his stomach and frequent ailments","To rest from ministry for a season","To drink only clean water always"], ans:"b" },
+      { q:"27. What does Paul say about some people's sins in verse 24?", opts:["All sin is equally visible","Some are clearly evident, going before them to judgment; others follow after","Sin is always punished immediately","Hidden sins always stay hidden"], ans:"b" },
+      { q:"28. Similarly, what does Paul say about good works in verse 25?", opts:["Good works bring recognition","They cannot remain hidden forever","They are only known to God","They must be announced publicly"], ans:"b" },
+      { q:"29. The overall theme of chapter 5 is about what?", opts:["The importance of prayer","Treating all groups in the church with fairness, dignity, and proper care","The dangers of wealth","The role of preaching"], ans:"b" },
+      { q:"30. The instruction to honor widows 'who are really widows' (v.3) teaches the church to use its resources how?", opts:["Generously for everyone","Wisely, supporting those with genuine need","Only for those who contribute","Equally for all women"], ans:"b" },
+    ]
+  },
+  {
+    num: 6,
+    title: "Godliness & Contentment; Final Instructions",
+    verses: "1 Timothy 6:1–21",
+    questions: [
+      { q:"1. How should bondservants regard their masters, according to verse 1?", opts:["As equals in Christ","As worthy of all honor, so God's name is not blasphemed","As temporary employers","As brothers to be corrected"], ans:"b" },
+      { q:"2. What additional instruction applies to bondservants with believing masters (v.2)?", opts:["They may demand equal pay","They should not be disrespectful because they are brothers; serve better","They are free to disobey","They should leave for another master"], ans:"b" },
+      { q:"3. What does Paul say about those who teach otherwise (v.3)?", opts:["They are well-meaning but wrong","They are proud, knowing nothing, obsessed with disputes","They need gentle correction only","They are new believers"], ans:"b" },
+      { q:"4. What results from the obsession with disputes, according to verse 4?", opts:["Church growth","Envy, strife, reviling, evil suspicions","New doctrines","More conversions"], ans:"b" },
+      { q:"5. What do the false teachers wrongly suppose godliness is (v.5)?", opts:["A spiritual gift","A means of gain (financial profit)","A form of suffering","A reward for the righteous"], ans:"b" },
+      { q:"6. What does Paul say is actually great gain in verse 6?", opts:["Faithful church attendance","Godliness with contentment","Generous giving","Memorizing Scripture"], ans:"b" },
+      { q:"7. What did we bring into the world, and what can we take out of it (v.7)?", opts:["Nothing – nothing","Nothing – only our deeds","Our soul – nothing","Our spirit – our sins"], ans:"a" },
+      { q:"8. With what should believers be content, according to verse 8?", opts:["Whatever they can earn","Food and clothing","A home and family","Health and long life"], ans:"b" },
+      { q:"9. Those who desire to be rich fall into what, according to verse 9?", opts:["Many blessings","Temptation, a snare, and many harmful lusts","A test of their faith","Greater responsibility"], ans:"b" },
+      { q:"10. What is described as a root of all kinds of evil in verse 10?", opts:["Laziness","The love of money","Pride","Dishonesty"], ans:"b" },
+      { q:"11. What have some done by coveting money, according to verse 10?", opts:["Gained much worldly wisdom","Strayed from the faith and pierced themselves with many sorrows","Built great churches","Helped many poor people"], ans:"b" },
+      { q:"12. How does Paul address Timothy at the start of verse 11?", opts:["Young servant","Man of God","Beloved student","Dear brother"], ans:"b" },
+      { q:"13. What does Paul tell Timothy to flee from in verse 11?", opts:["False teachers only","These things (love of money and its dangers)","All Gentile contact","The city of Ephesus"], ans:"b" },
+      { q:"14. What virtues should Timothy pursue, listed in verse 11?", opts:["Wealth and influence","Righteousness, godliness, faith, love, patience, gentleness","Preaching, teaching, traveling, writing","Fasting, prayer, silence, solitude"], ans:"b" },
+      { q:"15. What does Paul call Timothy to 'fight' in verse 12?", opts:["Against false teachers by name","The good fight of faith","Against the government","Against his fears"], ans:"b" },
+      { q:"16. What does Paul say Timothy should 'lay hold on' in verse 12?", opts:["The scriptures","Eternal life","Leadership authority","Paul's apostolic mantle"], ans:"b" },
+      { q:"17. Before how many witnesses did Timothy make his good confession (v.12)?", opts:["Two","The church leaders","Many witnesses","The apostles only"], ans:"c" },
+      { q:"18. What does Paul charge Timothy in verse 13 to keep?", opts:["The church offerings","The commandment without spot, blameless","The records of baptisms","The meeting schedule"], ans:"b" },
+      { q:"19. Before whom does Paul charge Timothy in verse 13?", opts:["The elders only","God who gives life to all things and Christ Jesus","The congregation","The deacons"], ans:"b" },
+      { q:"20. Until when should Timothy keep the commandment, per verse 14?", opts:["Until Paul returns","Until the appearing of our Lord Jesus Christ","Until the church is fully established","Until he is older"], ans:"b" },
+      { q:"21. How is God described in verse 15?", opts:["A God of love alone","The blessed and only Potentate, King of kings and Lord of lords","The God of Abraham only","The Judge of the living"], ans:"b" },
+      { q:"22. What does verse 16 say about God's dwelling?", opts:["He dwells in the temple","He dwells in unapproachable light, no man having seen Him","He dwells among His people","He dwells in the hearts of believers"], ans:"b" },
+      { q:"23. What should Paul's rich instruction in verse 17 tell them NOT to do?", opts:["Give too much money","Be haughty or trust in uncertain riches","Avoid poorer members","Spend on luxuries"], ans:"b" },
+      { q:"24. In whom should the rich trust instead, per verse 17?", opts:["Their wisdom","The living God who gives richly all things to enjoy","The church leaders","Their good deeds"], ans:"b" },
+      { q:"25. What should the rich be 'rich in', according to verse 18?", opts:["Buildings and property","Good works, ready to give, willing to share","Knowledge of theology","Church positions"], ans:"b" },
+      { q:"26. By giving and sharing, the rich store up for themselves what (v.19)?", opts:["Fame in this life","A good foundation for the time to come, laying hold on eternal life","A reward in heaven only for themselves","The praise of other believers"], ans:"b" },
+      { q:"27. What does Paul tell Timothy to guard in verse 20?", opts:["His health","What was committed to his trust (the gospel and sound teaching)","The church treasury","His reputation among Gentiles"], ans:"b" },
+      { q:"28. What should Timothy avoid in verse 20?", opts:["All contact with unbelievers","Profane and idle babblings and contradictions of false knowledge","Meeting with non-Christians","All forms of debate"], ans:"b" },
+      { q:"29. What happened to some who professed this false knowledge (v.21)?", opts:["They grew in faith slowly","They strayed concerning the faith","They returned to Paul eventually","They were rejected by the Gentiles"], ans:"b" },
+      { q:"30. What is Paul's final word to Timothy in verse 21?", opts:["Write me soon","Grace be with you","Preach the word daily","Keep the faith always"], ans:"b" },
+    ]
+  },
+
+  /* ══════════════════════════════════════════════════════
+     SEGMENT 2 — 2 TIMOTHY  (CHAPTERS 7–10 — NEW)
+  ══════════════════════════════════════════════════════ */
+
+  /* ── Chapter 7 → 2 Timothy 1:1–18 ── */
+  {
+    num: 7,
+    title: "2 Timothy: Unashamed of the Gospel",
+    verses: "2 Timothy 1:1–18",
+    questions: [
+      { q:"1. How does Paul identify himself in the opening of 2 Timothy (v.1)?", opts:["A servant of God only","An apostle of Jesus Christ by the will of God","A prophet of the Most High","A teacher of the Gentiles"], ans:"b" },
+      { q:"2. Paul's apostleship is according to what promise (v.1)?", opts:["The promise of the Law","The promise of life that is in Christ Jesus","The promise of earthly blessing","The promise made to Abraham only"], ans:"b" },
+      { q:"3. To whom is 2 Timothy addressed (v.2)?", opts:["Titus, his true son","The church at Ephesus","Timothy, his beloved son","The elders of Asia"], ans:"c" },
+      { q:"4. What threefold greeting does Paul send to Timothy in verse 2?", opts:["Faith, hope, and love","Grace, mercy, and peace","Joy, peace, and blessing","Power, love, and wisdom"], ans:"b" },
+      { q:"5. From whom does this greeting come (v.2)?", opts:["Paul and the elders","God the Father and Christ Jesus our Lord","The church at Rome","Paul and Silas"], ans:"b" },
+      { q:"6. What does Paul do night and day regarding Timothy (v.3)?", opts:["He writes letters to him","He gives thanks to God, remembering Timothy in his prayers","He fasts for Timothy","He teaches others about Timothy"], ans:"b" },
+      { q:"7. Paul serves God with a clear conscience as his forefathers did. Who are these forefathers?", opts:["The Gentile philosophers","His Jewish ancestors who feared God","The disciples of Jesus","The prophets of Baal"], ans:"b" },
+      { q:"8. What does Paul greatly desire to do in verse 4?", opts:["To send Timothy money","To see Timothy, mindful of his tears","To write a longer letter","To travel to Rome quickly"], ans:"b" },
+      { q:"9. Seeing Timothy would fill Paul with what (v.4)?", opts:["Sorrow","Strength","Joy","Wisdom"], ans:"c" },
+      { q:"10. What does Paul call to remembrance in verse 5?", opts:["Timothy's early failures","The genuine faith that dwelt first in Lois and Eunice, then in Timothy","Paul's own suffering","Timothy's travels with Paul"], ans:"b" },
+      { q:"11. What does Paul call Timothy to do in verse 6 regarding his gift?", opts:["Give it to others","Stir up (fan into flame) the gift of God which is in him","Write it down","Guard it secretly"], ans:"b" },
+      { q:"12. What kind of spirit has God NOT given us, according to verse 7?", opts:["A spirit of boldness","A spirit of love","A spirit of fear","A spirit of power"], ans:"c" },
+      { q:"13. What three things is the spirit God gives made of (v.7)?", opts:["Faith, hope, and love","Wisdom, knowledge, and understanding","Power, love, and a sound mind","Joy, peace, and patience"], ans:"c" },
+      { q:"14. What does Paul urge Timothy NOT to be in verse 8?", opts:["Too bold in preaching","Ashamed of the testimony of our Lord or of Paul as His prisoner","Hasty to teach","Overconfident in his gifts"], ans:"b" },
+      { q:"15. What does Paul call Timothy to share in (v.8)?", opts:["His wealth","His travels","Suffering for the gospel according to the power of God","His ministry title"], ans:"c" },
+      { q:"16. What has God done for us according to verse 9?", opts:["Given us long life","Saved us and called us with a holy calling, not according to our works","Promised us earthly blessing","Made us rulers over others"], ans:"b" },
+      { q:"17. God's grace was given to us in Christ Jesus before what, according to verse 9?", opts:["The Law was given","Time began","The church was founded","The prophets spoke"], ans:"b" },
+      { q:"18. How was God's grace manifested, according to verse 10?", opts:["Through the Law","Through the appearing of our Savior Jesus Christ","Through the prophets","Through angels"], ans:"b" },
+      { q:"19. What two things did Christ abolish and bring to light through the gospel (v.10)?", opts:["Sin and judgment","Death and the Law","Death; and life and immortality","Darkness and ignorance"], ans:"c" },
+      { q:"20. What three offices was Paul appointed to for the gospel (v.11)?", opts:["Prophet, priest, and king","Preacher, apostle, and teacher","Deacon, elder, and bishop","Evangelist, pastor, and teacher"], ans:"b" },
+      { q:"21. Because of this appointment, what has Paul suffered (v.12)?", opts:["Loss of his family","These things — his sufferings and imprisonment","Rejection by all churches","Poverty and hunger"], ans:"b" },
+      { q:"22. Despite suffering, Paul is not ashamed because he knows what (v.12)?", opts:["That he will be freed soon","Whom he has believed and is persuaded He is able to keep what was committed","That Timothy will help him","That God will punish his enemies"], ans:"b" },
+      { q:"23. What does Paul tell Timothy to hold fast to (v.13)?", opts:["The traditions of the elders","The pattern of sound words which he heard from Paul, in faith and love","The commandments of the apostles","The letters of the churches"], ans:"b" },
+      { q:"24. What does Paul tell Timothy to guard in verse 14?", opts:["The church treasury","That good thing committed to him, by the Holy Spirit who dwells in us","Paul's personal writings","The reputation of the church"], ans:"b" },
+      { q:"25. Who turned away from Paul in Asia, named in verse 15?", opts:["Demas and Luke","Those in Asia — including Phygellus and Hermogenes","All the elders of Ephesus","The believers in Rome"], ans:"b" },
+      { q:"26. Who showed mercy to Paul and was not ashamed of his chains (v.16)?", opts:["Titus","Luke","Onesiphorus","Barnabas"], ans:"c" },
+      { q:"27. What did Onesiphorus do for Paul according to verse 17?", opts:["Brought him money","Sought him out very zealously when in Rome and found him","Wrote letters on his behalf","Organized his release"], ans:"b" },
+      { q:"28. The gift in verse 6 was imparted through what means?", opts:["Paul's prayer alone","The laying on of Paul's hands","Reading the Scriptures","Fasting and prayer by the church"], ans:"b" },
+      { q:"29. The phrase 'God who cannot be ashamed of' (v.8) reminds Timothy that boldness is rooted in what?", opts:["His own courage","The power of God, not human strength","The approval of the congregation","His natural personality"], ans:"b" },
+      { q:"30. What was Paul's overall message to Timothy in chapter 1?", opts:["To stay quiet and wait for Paul","To be bold, stir up his gift, guard the gospel, and not be ashamed","To collect money for Paul's needs","To write letters to all the churches"], ans:"b" },
+    ]
+  },
+
+  /* ── Chapter 8 → 2 Timothy 2:1–26 ── */
+  {
+    num: 8,
+    title: "2 Timothy: A Good Soldier of Christ",
+    verses: "2 Timothy 2:1–26",
+    questions: [
+      { q:"1. What does Paul tell Timothy to be strong in (v.1)?", opts:["His own determination","The grace that is in Christ Jesus","The Law of Moses","The traditions of the church"], ans:"b" },
+      { q:"2. What should Timothy do with what he heard from Paul before many witnesses (v.2)?", opts:["Write them in a book","Keep them to himself","Commit them to faithful men who will teach others also","Share them only with the elders"], ans:"c" },
+      { q:"3. To what does Paul compare Timothy's calling in verse 3?", opts:["A farmer tending crops","A good soldier of Jesus Christ","A student in a school","A shepherd of sheep"], ans:"b" },
+      { q:"4. What does a soldier NOT do, according to verse 4?", opts:["Obey orders quickly","Entangle himself in the affairs of this life","Train for battle","Honor his commander"], ans:"b" },
+      { q:"5. Why does the soldier avoid civilian entanglement (v.4)?", opts:["So he may win glory","That he may please him who enlisted him","So he may earn more money","That he may have more free time"], ans:"b" },
+      { q:"6. What is true of the athlete who competes, according to verse 5?", opts:["He wins if he trains hardest","He is not crowned unless he competes according to the rules","He is rewarded for effort alone","He succeeds through natural talent"], ans:"b" },
+      { q:"7. The hardworking farmer in verse 6 must be first to receive what?", opts:["Rest from his labor","Praise from others","A share of the crops","Permission to plant again"], ans:"c" },
+      { q:"8. What does Paul tell Timothy to consider in verse 7?", opts:["Paul's own suffering","What Paul says, for the Lord will give him understanding in all things","The needs of the church","The words of the prophets"], ans:"b" },
+      { q:"9. What does Paul tell Timothy to remember in verse 8?", opts:["The commandments of the Law","Jesus Christ, risen from the dead, of the seed of David, according to Paul's gospel","The traditions of the elders","The letters of Peter"], ans:"b" },
+      { q:"10. For this gospel Paul suffers even to what point (v.9)?", opts:["Loss of his home","Chains as a criminal","Loss of his friends","Loss of all financial support"], ans:"b" },
+      { q:"11. What does Paul say is NOT chained, contrasted with his imprisonment (v.9)?", opts:["His spirit","His pen","The word of God","His prayers"], ans:"c" },
+      { q:"12. Why does Paul endure all things, according to verse 10?", opts:["For his own reputation","For the elect, that they may obtain salvation with eternal glory in Christ Jesus","To prove his dedication","To earn a heavenly reward"], ans:"b" },
+      { q:"13. What is the first line of the faithful saying in verse 11?", opts:["If we believe, we shall also live","If we died with Him, we shall also live with Him","If we serve, we shall also reign","If we suffer, we shall also be comforted"], ans:"b" },
+      { q:"14. If we endure, we shall also do what (v.12)?", opts:["Receive great wealth","Reign with Him","Be given wisdom","Inherit the earth"], ans:"b" },
+      { q:"15. If we deny Him, He will do what (v.12)?", opts:["Forgive us if we repent later","Also deny us","Give us another chance","Send a messenger to us"], ans:"b" },
+      { q:"16. If we are faithless, what is true of God (v.13)?", opts:["He waits patiently","He remains faithful, for He cannot deny Himself","He forgives automatically","He sends another messenger"], ans:"b" },
+      { q:"17. What does Paul charge Timothy about striving over words (v.14)?", opts:["Encourage more debate for clarity","Remind them not to strive about words — it profits nothing and ruins hearers","Write new doctrines to settle disputes","Call a council of elders"], ans:"b" },
+      { q:"18. What does Paul urge Timothy to be to God in verse 15?", opts:["Content with his current knowledge","Diligent to present himself approved, a worker not ashamed, rightly dividing the word","Seeking approval from the congregation","Writing more letters"], ans:"b" },
+      { q:"19. What must Timothy rightly divide in verse 15?", opts:["The church offerings","The roles in ministry","The word of truth","The time for prayer and study"], ans:"c" },
+      { q:"20. What should Timothy shun according to verse 16?", opts:["Contact with unbelievers","Profane and idle babblings which increase ungodliness","All forms of public debate","Eating with sinners"], ans:"b" },
+      { q:"21. Whose teaching spread like cancer (gangrene), named in verse 17?", opts:["Phygellus and Hermogenes","Hymenaeus and Philetus","Demas and Alexander","Jannes and Jambres"], ans:"b" },
+      { q:"22. What did Hymenaeus and Philetus teach erroneously (v.18)?", opts:["That there is no resurrection at all","That the resurrection is already past","That only some will be resurrected","That the resurrection is only spiritual"], ans:"b" },
+      { q:"23. What does God's solid foundation stand with (v.19)?", opts:["Works of the righteous","Two seals: The Lord knows His own; everyone who names Christ must depart from iniquity","The faith of the elders","The prayers of the church"], ans:"b" },
+      { q:"24. In a great house there are vessels of gold, silver, wood, and clay — for what two purposes (v.20)?", opts:["Display only","Honor and dishonor","Teaching only","Decoration and service"], ans:"b" },
+      { q:"25. What must one do to be a vessel for honor, useful to the Master (v.21)?", opts:["Attend many church meetings","Purge himself from the latter and be set apart","Fast twice a week","Memorize all the Scriptures"], ans:"b" },
+      { q:"26. What does Paul tell Timothy to flee from, and what to pursue (v.22)?", opts:["Flee pride, pursue humility","Flee youthful lusts; pursue righteousness, faith, love, peace with those who call on the Lord","Flee money, pursue poverty","Flee fame, pursue obscurity"], ans:"b" },
+      { q:"27. What does Paul tell Timothy to avoid in verse 23?", opts:["All contact with unbelievers","Foolish and ignorant disputes, knowing they generate strife","Preaching to hostile audiences","Writing letters to opposing teachers"], ans:"b" },
+      { q:"28. How must the Lord's servant be when correcting opponents (v.24)?", opts:["Firm and aggressive","Gentle to all, able to teach, patient","Silent and withdrawn","Bold and confrontational"], ans:"b" },
+      { q:"29. What does Paul hope for those in opposition when corrected (v.25)?", opts:["That they be expelled","That God may grant them repentance to acknowledge the truth","That they be publicly rebuked","That they start their own church"], ans:"b" },
+      { q:"30. What does Paul say about those taken captive by the devil (v.26)?", opts:["They are lost forever","They may come to their senses and escape the snare of the devil, who has taken them captive to do his will","They must leave the church","They need a miracle to be freed"], ans:"b" },
+    ]
+  },
+
+  /* ── Chapter 9 → 2 Timothy 3:1–17 ── */
+  {
+    num: 9,
+    title: "2 Timothy: Perilous Times & Scripture's Power",
+    verses: "2 Timothy 3:1–17",
+    questions: [
+      { q:"1. What does Paul say will come in the last days (v.1)?", opts:["Great revival across all nations","Perilous (difficult) times","A period of peace and prosperity","The return of the Law of Moses"], ans:"b" },
+      { q:"2. Which traits describe men in the last days according to verse 2?", opts:["Lovers of God and generous","Lovers of themselves, lovers of money, boastful, proud, blasphemers","Humble and teachable","Filled with the Holy Spirit"], ans:"b" },
+      { q:"3. What further traits of last-days people appear in verse 2?", opts:["Faithful and obedient to parents","Disobedient to parents, unthankful, unholy","Peaceful and patient","Generous and hospitable"], ans:"b" },
+      { q:"4. What does verse 3 say these people will be like?", opts:["Wealthy and influential","Unloving, unforgiving, slanderers, without self-control, brutal, despisers of good","Educated and wise","Devoted to religion"], ans:"b" },
+      { q:"5. What additional traits appear in verse 4?", opts:["Lovers of God and wisdom","Traitors, headstrong, haughty, lovers of pleasure rather than lovers of God","Humble servants of all","Devoted to truth and justice"], ans:"b" },
+      { q:"6. These people have a form of godliness but deny what (v.5)?", opts:["The Scriptures","Its power","The existence of God","The resurrection"], ans:"b" },
+      { q:"7. What does Paul tell Timothy to do about such people (v.5)?", opts:["Try to correct them constantly","Turn away from such people","Pray for them daily","Report them to church leaders"], ans:"b" },
+      { q:"8. What do these people do according to verse 6?", opts:["Build strong congregations","Creep into households, leading captive gullible women loaded with sins and led by lusts","Preach the gospel boldly","Support missionary work"], ans:"b" },
+      { q:"9. These gullible women are always learning but never able to do what (v.7)?", opts:["Obey their husbands","Come to the knowledge of the truth","Attend church regularly","Memorize the Scriptures"], ans:"b" },
+      { q:"10. To whom does Paul compare these false teachers (v.8)?", opts:["The Pharisees who opposed Jesus","Jannes and Jambres who withstood Moses","The false prophets of Baal","The Sadducees who denied resurrection"], ans:"b" },
+      { q:"11. What is the condition of these false teachers' minds (v.8)?", opts:["Sharp and insightful","Corrupt (depraved) minds, disapproved concerning the faith","Filled with wisdom","Confused but sincere"], ans:"b" },
+      { q:"12. What does Paul say will happen to these false teachers (v.9)?", opts:["They will grow in influence","They will not progress further; their folly will be manifest to all","They will be exiled","They will repent eventually"], ans:"b" },
+      { q:"13. What has Timothy carefully followed, according to verse 10?", opts:["The tradition of his fathers","Paul's doctrine, manner of life, purpose, faith, longsuffering, love, and perseverance","The commandments of the elders","The example of Gentile churches"], ans:"b" },
+      { q:"14. What does Timothy know about Paul's persecutions (v.11)?", opts:["He knows they were exaggerated","He knows what Paul endured at Antioch, Iconium, and Lystra — and that the Lord delivered him","He knows Paul avoided all suffering","He knows Paul was rescued by the church"], ans:"b" },
+      { q:"15. What does Paul declare about everyone who desires to live godly in Christ Jesus (v.12)?", opts:["They will prosper greatly","They will suffer persecution","They will be loved by all","They will be promoted in the church"], ans:"b" },
+      { q:"16. What will evil men and impostors do according to verse 13?", opts:["Eventually repent","Grow worse and worse, deceiving and being deceived","Be silenced by the truth","Decrease in number over time"], ans:"b" },
+      { q:"17. What does Paul tell Timothy to continue in (v.14)?", opts:["His physical training","The things he has learned and been assured of, knowing from whom he learned them","Writing letters to all churches","Teaching only in the synagogue"], ans:"b" },
+      { q:"18. From what age has Timothy known the Holy Scriptures (v.15)?", opts:["His teenage years","Childhood (infancy)","Since his conversion","Since Paul first visited him"], ans:"b" },
+      { q:"19. What are the Holy Scriptures able to make one wise for (v.15)?", opts:["Success in this world","Salvation through faith which is in Christ Jesus","Leadership in the church","Knowledge of all prophecy"], ans:"b" },
+      { q:"20. What does Paul declare about ALL Scripture in verse 16?", opts:["It is helpful but not always relevant","It is given by inspiration of God (God-breathed)","It was written by wise men only","It is useful mainly for scholars"], ans:"b" },
+      { q:"21. What is Scripture profitable for — first two uses (v.16)?", opts:["Preaching and evangelism","Doctrine and reproof","Prayer and worship","History and science"], ans:"b" },
+      { q:"22. What are the last two uses of Scripture in verse 16?", opts:["Teaching and memorizing","Correction and instruction in righteousness","Prophecy and revelation","Healing and deliverance"], ans:"b" },
+      { q:"23. What is the ultimate purpose of Scripture as stated in verse 17?", opts:["To make the church famous","That the man of God may be complete, thoroughly equipped for every good work","To prove God's existence","To replace human wisdom entirely"], ans:"b" },
+      { q:"24. The phrase 'God-breathed' (v.16) means Scripture is what?", opts:["Written by very spiritual humans","Originating from God Himself, not merely human in source","A collection of human wisdom approved by God","Helpful but not always authoritative"], ans:"b" },
+      { q:"25. Paul's list of last-days sins begins with 'lovers of themselves.' This fundamentally replaces what?", opts:["Intellectual pride","Love for God with self-centeredness","Emotional stability","Doctrinal truth"], ans:"b" },
+      { q:"26. The reference to Jannes and Jambres (v.8) is drawn from what Old Testament event?", opts:["Korah's rebellion","Egyptian magicians opposing Moses before Pharaoh","False prophets in the time of Elijah","Priests who opposed Isaiah"], ans:"b" },
+      { q:"27. Paul's mention of Antioch, Iconium, Lystra (v.11) connects to which period of his ministry?", opts:["His imprisonment in Rome","His first missionary journey","His time in Ephesus","His journey to Jerusalem"], ans:"b" },
+      { q:"28. Timothy learned the Scriptures from childhood from whom (implied from 1:5)?", opts:["Paul directly from birth","His grandmother Lois and mother Eunice","The elders of Lystra","The rabbis in Derbe"], ans:"b" },
+      { q:"29. The phrase 'thoroughly equipped for every good work' (v.17) shows Scripture is sufficient for what?", opts:["Only spiritual matters","Complete Christian living and ministry","Academic theological study only","Church administration only"], ans:"b" },
+      { q:"30. What is the overall message of 2 Timothy chapter 3?", opts:["Avoid all contact with the world","Recognize the danger of last-days false teachers, continue in Scripture, and trust its power","Build more churches quickly","Seek more spiritual gifts"], ans:"b" },
+    ]
+  },
+
+  /* ── Chapter 10 → 2 Timothy 4:1–22 ── */
+  {
+    num: 10,
+    title: "2 Timothy: Preach the Word — Paul's Final Charge",
+    verses: "2 Timothy 4:1–22",
+    questions: [
+      { q:"1. Before whom does Paul solemnly charge Timothy (v.1)?", opts:["The church elders and deacons","God and the Lord Jesus Christ who will judge the living and the dead","The believers in Rome","The apostles of the church"], ans:"b" },
+      { q:"2. What event provides the context of Paul's charge in verse 1?", opts:["The destruction of Jerusalem","His appearing and His kingdom","The giving of the Law","The founding of the church"], ans:"b" },
+      { q:"3. What is the central command Paul gives Timothy in verse 2?", opts:["Travel to Rome immediately","Preach the word","Write down all he has heard","Gather the elders for a meeting"], ans:"b" },
+      { q:"4. When must Timothy be ready to preach (v.2)?", opts:["Only during church services","In season and out of season","Only when invited","On the appointed holy days"], ans:"b" },
+      { q:"5. What four actions should Timothy perform when preaching (v.2)?", opts:["Read, sing, pray, and give","Convince, rebuke, exhort, with all longsuffering and teaching","Fast, pray, speak, and teach","Baptize, teach, confirm, and bless"], ans:"b" },
+      { q:"6. What time is coming according to verse 3?", opts:["When all will be saved","When they will not endure sound doctrine, heaping up teachers to tickle their ears","When the church will be greatly persecuted","When the gospel will be accepted everywhere"], ans:"b" },
+      { q:"7. What will happen to people's ears in verses 3–4?", opts:["They will stop listening to any teaching","They will turn away from the truth and be turned to fables","They will be devoted only to Scripture","They will close themselves to false teachers"], ans:"b" },
+      { q:"8. What four things does Paul tell Timothy to do in verse 5?", opts:["Pray, fast, give, and visit","Be watchful, endure afflictions, do the work of an evangelist, fulfill your ministry","Read, study, teach, and travel","Meet, discuss, write, and preach"], ans:"b" },
+      { q:"9. What does Paul say about himself in verse 6?", opts:["He is planning another journey","He is already being poured out as a drink offering and the time of his departure has come","He expects to be freed soon","He is writing his final letter to all churches"], ans:"b" },
+      { q:"10. What has Paul fought, according to verse 7?", opts:["The false apostles of his day","The good fight","The rulers and authorities","The temptations of wealth"], ans:"b" },
+      { q:"11. What has Paul finished (v.7)?", opts:["His letter writing","The race","His travels to all nations","His work in Asia"], ans:"b" },
+      { q:"12. What has Paul kept (v.7)?", opts:["The offerings of the churches","The faith","The commandments of Moses","The scrolls of the prophets"], ans:"b" },
+      { q:"13. What is laid up for Paul according to verse 8?", opts:["Great riches in this life","The crown of righteousness","A special apostolic honor","Many more years of ministry"], ans:"b" },
+      { q:"14. Who will award this crown, and when (v.8)?", opts:["The elders of the church when he is freed","The Lord, the righteous Judge, on that Day","The believers in Rome","The apostles at the final council"], ans:"b" },
+      { q:"15. Who else will receive this crown besides Paul (v.8)?", opts:["All who have suffered in prison","All who have loved His appearing","All who have preached the gospel","All who have memorized Scripture"], ans:"b" },
+      { q:"16. What does Paul urge Timothy to do in verse 9?", opts:["Stay in Ephesus no matter what","Be diligent to come to him quickly","Write to all the churches","Collect offerings for Paul's needs"], ans:"b" },
+      { q:"17. Who has forsaken Paul, having loved this present world (v.10)?", opts:["Peter and James","Demas","All the believers in Rome","Phygellus and Hermogenes"], ans:"b" },
+      { q:"18. Where has Demas gone, and where have Crescens and Titus gone (v.10)?", opts:["Demas to Jerusalem, Crescens to Ephesus, Titus to Corinth","Demas to Thessalonica, Crescens to Galatia, Titus to Dalmatia","Demas to Rome, Crescens to Greece, Titus to Asia","Demas to Antioch, Crescens to Macedonia, Titus to Philippi"], ans:"b" },
+      { q:"19. Who alone is with Paul when he writes (v.11)?", opts:["Barnabas and Silas","Only Luke","Peter and John","Priscilla and Aquila"], ans:"b" },
+      { q:"20. What does Paul say about Mark in verse 11?", opts:["Mark has forsaken him","Mark is useful to Paul for ministry — bring him","Mark has gone to Corinth","Mark is too young to help"], ans:"b" },
+      { q:"21. Who did Paul send to Ephesus (v.12)?", opts:["Silas","Tychicus","Crescens","Luke"], ans:"b" },
+      { q:"22. What does Paul ask Timothy to bring (v.13)?", opts:["Money and supplies","The cloak left at Troas with Carpus, and especially the books and parchments","Other believers to support him","Letters from the church at Ephesus"], ans:"b" },
+      { q:"23. Who greatly opposed Paul's words (v.15)?", opts:["Timothy","Alexander the coppersmith","Titus","Luke"], ans:"b" },
+      { q:"24. What does Paul say the Lord will do to Alexander (v.14)?", opts:["Forgive him immediately","Repay him according to his works","Strike him with illness","Expose him before the church"], ans:"b" },
+      { q:"25. What happened at Paul's first defense (v.16)?", opts:["Many stood with him","No one stood with him — all forsook him","The judge believed his testimony","Timothy came to his aid"], ans:"b" },
+      { q:"26. Despite being forsaken, what did the Lord do for Paul (v.17)?", opts:["He sent an angel to free him","He stood with Paul and strengthened him so the message was fully proclaimed","He confused his accusers","He moved the judge to acquit him"], ans:"b" },
+      { q:"27. What did the Lord deliver Paul from (v.17)?", opts:["The hands of the emperor","The lion's mouth","The prison chains","The false accusations"], ans:"b" },
+      { q:"28. What does Paul trust the Lord will deliver him from going forward (v.18)?", opts:["Every evil work and preserve him for His heavenly kingdom","All suffering and imprisonment","Every false accusation","All sickness and poverty"], ans:"a" },
+      { q:"29. What is Paul's doxology in verse 18?", opts:["Glory be to God forever","To Him be glory forever and ever, Amen","Praise the Lord for all His works","Honor and power belong to God alone"], ans:"b" },
+      { q:"30. What is the main theme of 2 Timothy chapter 4?", opts:["Avoid controversy and rest","Preach the word faithfully at all times; be ready to endure and finish the course well","Collect offerings for the church","Seek more apostolic companions"], ans:"b" },
+    ]
+  },
+
+  /* ══════════════════════════════════════════════════════
+     SEGMENT 3 — TITUS  (CHAPTERS 11–13 — NEW)
+  ══════════════════════════════════════════════════════ */
+
+  /* ── Chapter 11 → Titus 1:1–16 ── */
+  {
+    num: 11,
+    title: "Titus: Qualifications for Elders in Crete",
+    verses: "Titus 1:1–16",
+    questions: [
+      { q:"1. How does Paul identify himself in the opening of Titus (v.1)?", opts:["An apostle by human appointment","A bondservant of God and an apostle of Jesus Christ","A prophet of the Most High","A teacher of the Gentile nations"], ans:"b" },
+      { q:"2. For what two purposes is Paul an apostle, according to verse 1?", opts:["To preach and to heal","For the faith of God's elect and knowledge of the truth leading to godliness","To appoint elders and deacons","To write epistles and plant churches"], ans:"b" },
+      { q:"3. What does Christian hope rest on according to verse 2?", opts:["The traditions of the fathers","Hope of eternal life which God, who cannot lie, promised before time began","The faithfulness of the church","The righteousness of the believer"], ans:"b" },
+      { q:"4. When was this promise of eternal life made (v.2)?", opts:["When Moses received the Law","Before time began","When Jesus was baptized","At the founding of the church"], ans:"b" },
+      { q:"5. How has God's word been made manifest according to verse 3?", opts:["Through visions and dreams","Through Paul's preaching, entrusted to him by the commandment of God our Savior","Through the prophets of old","Through signs and wonders"], ans:"b" },
+      { q:"6. To whom is the letter of Titus addressed (v.4)?", opts:["Timothy, beloved son","Titus, a true son in our common faith","The church at Crete","The elders of the church"], ans:"b" },
+      { q:"7. What greeting does Paul extend to Titus in verse 4?", opts:["Peace and prosperity","Grace, mercy, and peace","Grace and peace","Love and strength"], ans:"c" },
+      { q:"8. Why did Paul leave Titus in Crete (v.5)?", opts:["To preach to the Cretans","To set in order what was lacking and appoint elders in every city","To collect offerings for Jerusalem","To teach the new believers"], ans:"b" },
+      { q:"9. What is the first qualification for an elder listed in verse 6?", opts:["Wealthy and well-connected","Blameless, husband of one wife, having faithful children not accused of dissipation","A gifted speaker","Known throughout the region"], ans:"b" },
+      { q:"10. What character flaws must a bishop NOT have according to verse 7?", opts:["Too much knowledge","Self-willed, quick-tempered, given to wine, violent, greedy for dishonest gain","Too much compassion","Too many friends"], ans:"b" },
+      { q:"11. An overseer must be blameless as what (v.7)?", opts:["A man of wealth","A steward of God","A teacher of Israel","A friend of the community"], ans:"b" },
+      { q:"12. What positive virtues should a bishop have according to verse 8?", opts:["Political skill and eloquence","A lover of what is good, sober-minded, just, holy, self-controlled","A large congregation","Knowledge of many languages"], ans:"b" },
+      { q:"13. What must an elder hold fast to, according to verse 9?", opts:["The traditions of the Pharisees","The faithful word as taught, so he can exhort in sound doctrine and convict those who contradict","The offerings of the church","The letters of Paul only"], ans:"b" },
+      { q:"14. What does Paul say about the many unruly talkers and deceivers in verse 10?", opts:["They are harmless but annoying","There are many insubordinate, idle talkers and deceivers, especially those of the circumcision","They are mostly Gentiles","They are new believers who need patience"], ans:"b" },
+      { q:"15. What must be done to these people according to verse 11?", opts:["Welcome and teach them gently","Their mouths must be stopped because they subvert whole households for dishonest gain","Report them to the apostles","Give them a second chance"], ans:"b" },
+      { q:"16. What motivates these false teachers (v.11)?", opts:["Misguided zeal for God","Dishonest gain (filthy lucre)","Sincere but mistaken beliefs","Fear of the Romans"], ans:"b" },
+      { q:"17. What did one of Crete's own prophets say about Cretans (v.12)?", opts:["They are generous and noble","Cretans are always liars, evil beasts, lazy gluttons","They are devoted to their gods","They are diligent workers"], ans:"b" },
+      { q:"18. How does Paul assess this testimony about Cretans (v.13)?", opts:["It is an exaggeration","This testimony is true","It is false and prejudiced","It was true only in the past"], ans:"b" },
+      { q:"19. What should Titus do to the Cretans because this testimony is true (v.13)?", opts:["Avoid them and focus on other nations","Rebuke them sharply so they may be sound in the faith","Treat them gently with much patience","Write to Paul for special instructions"], ans:"b" },
+      { q:"20. What should the Cretans stop giving heed to (v.14)?", opts:["Roman politics","Jewish fables and commandments of men who turn from the truth","Greek philosophy","The opinions of sailors"], ans:"b" },
+      { q:"21. To the pure all things are pure, but to whom are all things defiled (v.15)?", opts:["The young and inexperienced","Those who are defiled and unbelieving — even their mind and conscience are defiled","Foreigners in Crete","Those who eat forbidden foods"], ans:"b" },
+      { q:"22. What do the defiled ones claim in verse 16?", opts:["That they are servants of the Law","They profess to know God","That they are teachers of righteousness","That they are better than the Gentiles"], ans:"b" },
+      { q:"23. What does their conduct reveal (v.16)?", opts:["Their claim is mostly sincere","Their works deny Him — they are abominable, disobedient, disqualified for every good work","Their claim is partially true","Their claim is recognized by the church"], ans:"b" },
+      { q:"24. The phrase 'God who cannot lie' (v.2) establishes what about God?", opts:["God is all-powerful","God is perfectly truthful and His promises are absolutely reliable","God does not make promises to humans","God's word changes based on circumstances"], ans:"b" },
+      { q:"25. The Cretan poet Paul quotes in verse 12 is traditionally identified as whom?", opts:["Homer","Epimenides of Crete","Plato","Aristotle"], ans:"b" },
+      { q:"26. The requirement for an elder to be 'not self-willed' (v.7) is important because?", opts:["Self-willed leaders accumulate money","Self-willed leaders impose their agenda rather than serving God and the people","Self-willed leaders avoid all conflict","Self-willed leaders preach too much"], ans:"b" },
+      { q:"27. 'Those of the circumcision' in verse 10 refers to whom?", opts:["Jewish believers faithful to Paul","Jewish teachers adding circumcision and Jewish law to the gospel","Gentile converts who adopted Jewish customs","Roman officials who opposed Paul"], ans:"b" },
+      { q:"28. 'Setting in order what is lacking' (v.5) reveals what about the Cretan churches?", opts:["They were thriving but needed buildings","They needed proper leadership structure established","They were fully organized but needed more members","They needed more offerings"], ans:"b" },
+      { q:"29. Why must an elder's children be 'faithful' and not 'accused of dissipation' (v.6)?", opts:["Children reflect on their parents' ability to lead a household and by extension the church","Children will become future elders","Children must be able to preach eventually","Children will inherit the church leadership"], ans:"a" },
+      { q:"30. What is the overall purpose of Paul's instructions to Titus in chapter 1?", opts:["To gather money for Jerusalem","To establish godly, qualified leadership to protect the church from false teaching","To plan a missionary journey","To write down all the church traditions"], ans:"b" },
+    ]
+  },
+
+  /* ── Chapter 12 → Titus 2:1–15 ── */
+  {
+    num: 12,
+    title: "Titus: Sound Doctrine for Every Group",
+    verses: "Titus 2:1–15",
+    questions: [
+      { q:"1. What does Paul tell Titus to speak in verse 1?", opts:["The traditions of the elders","Things which are proper for sound doctrine","Only what the congregation wants to hear","The commandments of Moses"], ans:"b" },
+      { q:"2. What four qualities should older men have according to verse 2?", opts:["Wealthy, wise, experienced, and respected","Sober, reverent, temperate, sound in faith, love, and patience","Preachers, teachers, leaders, and administrators","Quiet, gentle, patient, and generous"], ans:"b" },
+      { q:"3. What are the older women to be in behavior, according to verse 3?", opts:["Silent and withdrawn from public life","Reverent in behavior, not slanderers, not given to much wine, teachers of good things","Wealthy and influential","Active in all areas of church ministry"], ans:"b" },
+      { q:"4. What are the older women to teach the younger women (v.4)?", opts:["How to manage church finances","To love their husbands and children","How to preach the gospel","To avoid all contact with the world"], ans:"b" },
+      { q:"5. What additional qualities should young women learn (v.5)?", opts:["Languages and leadership","To be discreet, chaste, homemakers, good, obedient to their own husbands","To teach publicly and lead prayer","To give generously and fast regularly"], ans:"b" },
+      { q:"6. Why should young women live this way (v.5)?", opts:["So they gain respect in the community","That the word of God may not be blasphemed","So the church grows numerically","So they find good husbands"], ans:"b" },
+      { q:"7. What does Paul tell Titus to exhort young men to be (v.6)?", opts:["Wealthy and successful","Sober-minded","Leaders in the church immediately","Physically strong and active"], ans:"b" },
+      { q:"8. What must Titus himself be an example of in all things (v.7)?", opts:["Preaching ability","Good works, with integrity in doctrine, reverence, incorruptibility","Wealth and generosity","Physical discipline"], ans:"b" },
+      { q:"9. What should Titus's speech be like according to verse 8?", opts:["Formal and academic","Sound speech that cannot be condemned, so the opponent may be ashamed","Soft and gentle at all times","Only quoting Scripture word for word"], ans:"b" },
+      { q:"10. What does Paul say about bondservants (v.9)?", opts:["They should seek their freedom","To be obedient to their own masters, well-pleasing in all things, not answering back","They should only obey Christian masters","They are free in Christ and need not serve"], ans:"b" },
+      { q:"11. What should servants NOT do regarding their masters' possessions (v.10)?", opts:["Ask for wages above what is agreed","Pilfer (steal), but show all good fidelity","Complain about unfair treatment","Work only during agreed hours"], ans:"b" },
+      { q:"12. What is the purpose of servants living faithfully (v.10)?", opts:["So they may be promoted","That they may adorn the doctrine of God our Savior in all things","So the master may believe eventually","So the church may receive donations"], ans:"b" },
+      { q:"13. What has appeared to all men according to verse 11?", opts:["The Law of Moses","The grace of God that brings salvation","The prophetic word","The judgment of God"], ans:"b" },
+      { q:"14. What does this grace teach us to deny (v.12)?", opts:["Our cultural heritage","Ungodliness and worldly lusts","All earthly pleasures","Human reasoning"], ans:"b" },
+      { q:"15. How should we live in this present age according to verse 12?", opts:["Withdrawn from all society","Soberly, righteously, and godly","Focused only on heavenly things","In isolation from unbelievers"], ans:"b" },
+      { q:"16. What are believers looking for, described in verse 13?", opts:["A new earthly kingdom","The blessed hope and glorious appearing of our great God and Savior Jesus Christ","The restoration of Israel's kingdom","A time of peace on earth"], ans:"b" },
+      { q:"17. What did Jesus Christ do for us according to verse 14?", opts:["He gave us a new Law","He gave Himself for us to redeem us from all lawlessness and purify for Himself a special people","He appointed leaders for the church","He wrote the Scriptures for us"], ans:"b" },
+      { q:"18. What kind of people did Christ intend to create for Himself (v.14)?", opts:["A nation of priests only","His own special people, zealous for good works","A people known for their intellect","A people devoted to the old covenant"], ans:"b" },
+      { q:"19. What does Paul tell Titus to do with these things (v.15)?", opts:["Keep them private for church leadership","Speak these things, exhort, and rebuke with all authority","Write them only in letters","Teach them only to elders"], ans:"b" },
+      { q:"20. What should Titus let no one do to him (v.15)?", opts:["Question his calling as an apostle","Despise him","Challenge his teachings publicly","Replace him as leader"], ans:"b" },
+      { q:"21. The instruction that older women should not be 'slanderers' (v.3) uses a Greek word related to what name?", opts:["Hermes","Diabolos (devil/slanderer)","Apollos","Artemis"], ans:"b" },
+      { q:"22. The phrase 'adorn the doctrine of God our Savior' (v.10) means servants' faithful conduct does what?", opts:["Earns them salvation","Makes the gospel attractive and beautiful by their lifestyle","Proves God exists to philosophers","Replaces the need for verbal witness"], ans:"b" },
+      { q:"23. The 'blessed hope' in verse 13 refers to what event?", opts:["The spread of the gospel to all nations","The second coming (appearing) of Jesus Christ","The resurrection of the Old Testament saints","The completion of the New Testament"], ans:"b" },
+      { q:"24. The phrase 'our great God and Savior Jesus Christ' (v.13) affirms what theological truth?", opts:["That the Father is greater than the Son","The full deity of Jesus Christ","That salvation is divided between two persons","That Jesus was only a great teacher"], ans:"b" },
+      { q:"25. What does 'redeemed from all lawlessness' (v.14) mean for the believer?", opts:["Christians are above all earthly laws","Christ purchased us out of slavery to sin and disobedience","Believers must follow only church laws","Christians are exempt from government laws"], ans:"b" },
+      { q:"26. Why does Paul emphasize that Titus should rebuke with 'all authority' (v.15)?", opts:["So the church will fear Titus personally","So the message carries the weight of God's word, not personal opinion","So Titus gains political influence","So the false teachers will leave Crete"], ans:"b" },
+      { q:"27. The list of groups in chapter 2 shows that sound doctrine applies to whom?", opts:["Only church leaders","Every person in every stage and station of life","Only those who are educated","Only those born into Christian families"], ans:"b" },
+      { q:"28. What does 'sober-minded' (v.6) mean for young men in particular?", opts:["To avoid alcohol only","To think clearly, exercise self-control, and live with godly restraint","To speak little and listen much","To avoid all entertainment"], ans:"b" },
+      { q:"29. The grace of God in verse 11 brings salvation to whom?", opts:["Only the elect few","All men (all people)","Only the people of Israel","Only those who seek it actively"], ans:"b" },
+      { q:"30. What is the overall theme of Titus chapter 2?", opts:["The importance of church structure","Sound doctrine produces transformed, godly living in every group and station","The dangers of wealth","The role of preaching only"], ans:"b" },
+    ]
+  },
+
+  /* ── Chapter 13 → Titus 3:1–15 ── */
+  {
+    num: 13,
+    title: "Titus: Doing Good & Avoiding Division",
+    verses: "Titus 3:1–15",
+    questions: [
+      { q:"1. What does Paul remind believers to do in verse 1?", opts:["To resist all government authority","To be subject to rulers and authorities, to obey, to be ready for every good work","To preach only in the synagogue","To avoid all contact with pagans"], ans:"b" },
+      { q:"2. What character traits should believers show toward all people (v.2)?", opts:["Boldness and directness in all speech","To speak evil of no one, to be peaceable, gentle, showing all humility to all men","Strictness and firmness in all dealings","Silence and withdrawal from society"], ans:"b" },
+      { q:"3. What were believers like before they were saved, described in verse 3?", opts:["Mostly decent but spiritually ignorant","Foolish, disobedient, deceived, serving lusts and pleasures, living in malice and envy, hateful","Devoted to the traditions of their fathers","Seeking God but unable to find Him"], ans:"b" },
+      { q:"4. What appeared and changed everything (v.4)?", opts:["A new law from God","The kindness and love of God our Savior toward man appeared","A great miracle in the nations","The wisdom of the apostles"], ans:"b" },
+      { q:"5. Was this salvation based on our righteous works (v.5)?", opts:["Partly — our faith contributed","No — not by works of righteousness we have done but according to His mercy He saved us","Yes — God saw our sincerity","Partly — our baptism completed it"], ans:"b" },
+      { q:"6. Through what did God save us, according to verse 5?", opts:["The sacrifice of animals","The washing of regeneration and renewing of the Holy Spirit","The observance of the Law","The prayers of the church"], ans:"b" },
+      { q:"7. Who did God pour out richly on us, according to verse 6?", opts:["Angels for our protection","The Holy Spirit through Jesus Christ our Savior","New gifts of prophecy","Wisdom from the Scriptures"], ans:"b" },
+      { q:"8. What two things happened to believers as a result (v.7)?", opts:["They received spiritual gifts and healing","Having been justified by His grace, they became heirs according to the hope of eternal life","They were given wisdom and wealth","They were freed from suffering and persecution"], ans:"b" },
+      { q:"9. What does Paul call this statement in verse 8?", opts:["A difficult teaching","A faithful saying — these things Paul wants Titus to affirm constantly","A new revelation","A tradition from the apostles"], ans:"b" },
+      { q:"10. What should those who have believed in God be careful to maintain (v.8)?", opts:["The traditions of the church","Good works, as these things are good and profitable to men","The dietary laws","The weekly offerings"], ans:"b" },
+      { q:"11. What does Paul tell Titus to avoid in verse 9?", opts:["All contact with unbelievers","Foolish disputes, genealogies, contentions, and strivings about the Law","Preaching outside the church","Letters to other churches"], ans:"b" },
+      { q:"12. Why should Titus avoid these disputes (v.9)?", opts:["They are too complex to resolve","They are unprofitable and useless","They attract government attention","They require too much time"], ans:"b" },
+      { q:"13. What should Titus do with a divisive (factious) person (v.10)?", opts:["Welcome him and give him more time","Reject him after the first and second warning","Report him to Paul immediately","Pray for him privately without warning"], ans:"b" },
+      { q:"14. What does Paul say about such a divisive person (v.11)?", opts:["He needs more teaching","He is warped and sinning, being self-condemned","He is possessed by a demon","He is a young believer who needs patience"], ans:"b" },
+      { q:"15. What does Paul say he will do when he sends Artemas or Tychicus (v.12)?", opts:["He will send money for the church","Be diligent to come to Paul at Nicopolis where he has decided to spend the winter","Travel to Crete to inspect the churches","Write a new letter to all the churches"], ans:"b" },
+      { q:"16. What does Paul ask Titus to do regarding Zenas the lawyer and Apollos (v.13)?", opts:["Give them letters of recommendation","Send them on their way diligently, making sure they lack nothing","Ask them to stay in Crete to help","Correct Zenas's legal errors"], ans:"b" },
+      { q:"17. What should believers learn to maintain according to verse 14?", opts:["The study of the Law","Good works to meet urgent needs, so they may not be unfruitful","The traditions of the elders","Perfect church attendance"], ans:"b" },
+      { q:"18. What does Paul say about all those with him in verse 15?", opts:["They are asking for financial support","They all greet Titus","They are traveling to meet him soon","They have written letters to the church"], ans:"b" },
+      { q:"19. Who does Paul say to greet in verse 15?", opts:["All the elders of Crete","Those who love us in the faith","All the believers in every city","The Roman authorities"], ans:"b" },
+      { q:"20. What is Paul's final word in verse 15?", opts:["Preach the word always","Grace be with you all, Amen","Keep the faith until I come","Hold fast to what you have received"], ans:"b" },
+      { q:"21. The description of our pre-salvation state in verse 3 shows we were saved from what condition?", opts:["Ignorance that was mostly innocent","A condition of complete moral and spiritual depravity","A state of sincere but misguided religion","A life of moderate sin and some virtue"], ans:"b" },
+      { q:"22. The 'washing of regeneration' in verse 5 refers to what?", opts:["Water baptism alone earns salvation","The spiritual new birth by which God cleanses and renews the believer through the Spirit","A ceremonial washing required before prayer","Daily confession of sin"], ans:"b" },
+      { q:"23. The Holy Spirit was poured out 'richly' (v.6). What does 'richly' emphasize?", opts:["Only wealthy believers receive the Spirit","The abundance and generosity of God's gift of the Spirit","The Spirit is given gradually","The Spirit is given as we earn it"], ans:"b" },
+      { q:"24. Being 'heirs according to the hope of eternal life' (v.7) means believers have what status?", opts:["They are working to earn their inheritance","They are already members of God's family with a secure future inheritance","They will become heirs only at death","They are heirs only if they remain faithful to the Law"], ans:"b" },
+      { q:"25. Paul's instruction to reject a divisive person 'after the first and second warning' (v.10) shows what principle?", opts:["The church should be intolerant of all mistakes","The church gives opportunity for repentance before taking firm action","Division is always the fault of the majority","Leaders should act immediately without warning"], ans:"b" },
+      { q:"26. The instruction to maintain 'good works' (v.14) corrects what misunderstanding about grace?", opts:["That grace makes worship unnecessary","That salvation by grace means good works have no place in the Christian life","That grace is only for leaders","That good works replace prayer"], ans:"b" },
+      { q:"27. 'Foolish disputes and genealogies' (v.9) were promoted by which group mentioned in Titus 1?", opts:["The Gentile philosophers","Those of the circumcision — Jewish false teachers","The Roman soldiers stationed in Crete","Young men who were not yet sober-minded"], ans:"b" },
+      { q:"28. Paul's decision to spend winter at Nicopolis (v.12) tells us what about this letter?", opts:["It was written from prison in Rome","It was written during a period of relative freedom when Paul could make travel plans","It was written from Ephesus","It was written while Paul was fleeing persecution"], ans:"b" },
+      { q:"29. The mention of Apollos in verse 13 connects him to which other New Testament book prominently?", opts:["Romans","1 Corinthians","Galatians","Hebrews"], ans:"b" },
+      { q:"30. The theme of Titus 3 as a whole emphasizes that saved believers should be what?", opts:["Withdrawn from society and focused only on internal church matters","Active in good works, submissive to authorities, peaceable, and fruitful in every area of life","Focused exclusively on theological correctness","Waiting passively for Christ's return"], ans:"b" },
+    ]
+  }
+
+]; /* ─── END OF chapters ARRAY ─── */
+
+/* =========================================================
+   STATE  — UPDATED: Array(13) to cover all 13 chapters
+========================================================= */
+let state = {
+  user: null,
+  currentChapter: 0,
+  chapterResults: Array(13).fill(null),  // null | {score, wrong:[]}
 };
+let timerInterval = null;
+const TIMER_SECONDS = 20 * 60;  // 20 minutes — fixed
+const PASS_MARK = 20;            // Pass mark — fixed
 
-for(let i=1;i<=15;i++){
-let v=document.querySelector(`input[name=q${i}]:checked`)?.value;
-if(v===ans[`q${i}`]) score++;
+/* ========================================================= HELPERS */
+function $(id) { return document.getElementById(id); }
+function showOnly(id) {
+  ['signInSection','chapterMap','quizSection','resultSection'].forEach(s => {
+    $(s).style.display = s === id ? 'block' : 'none';
+  });
 }
 
-document.getElementById("result").innerHTML="Score: "+score;
+/* ========================================================= SIGN IN */
+function signIn() {
+  const name  = $('userName').value.trim();
+  const email = $('userEmail').value.trim();
+  const phone = $('userPhone').value.trim();
+  if (!name || !email || !phone) { alert('Please fill in all fields.'); return; }
+  state.user = { name, email, phone };
+  showChapterMap();
+}
+
+/* ======================================================= CHAPTER MAP */
+function showChapterMap() {
+  showOnly('chapterMap');
+  renderChapterMap();
+}
+
+function renderChapterMap() {
+  const grid = $('chapGrid');
+  grid.innerHTML = '';
+
+  // Book segment boundaries for labels
+  // Chapters index 0–5  = 1 Timothy  (ch.num 1–6)
+  // Chapters index 6–9  = 2 Timothy  (ch.num 7–10)
+  // Chapters index 10–12 = Titus      (ch.num 11–13)
+  const bookLabels = {
+    0:  '📖 1 TIMOTHY',
+    6:  '📖 2 TIMOTHY',
+    10: '📖 TITUS'
+  };
+
+  chapters.forEach((ch, i) => {
+    // Insert book section label before first chapter of each book
+    if (bookLabels[i]) {
+      const label = document.createElement('div');
+      label.className = 'book-label';
+      label.textContent = bookLabels[i];
+      label.style.gridColumn = '1 / -1';  // span full width
+      grid.appendChild(label);
+
+      // Open a new sub-grid for this book's cards
+    }
+
+    const result = state.chapterResults[i];
+    const prevPassed = i === 0 || (state.chapterResults[i-1] && state.chapterResults[i-1].score >= PASS_MARK);
+    const locked = !prevPassed;
+    let statusHtml = '';
+    if (result) {
+      const p = result.score >= PASS_MARK;
+      statusHtml = `<div class="chap-status ${p ? 'status-pass':'status-locked'}">${p ? '✔ PASSED ('+result.score+'/30)' : '✘ FAILED ('+result.score+'/30)'}</div>`;
+    } else if (locked) {
+      statusHtml = `<div class="chap-status status-locked">🔒 Locked</div>`;
+    } else {
+      statusHtml = `<div class="chap-status status-pending">▶ Start</div>`;
+    }
+    const card = document.createElement('div');
+    card.className = 'chap-card' + (locked ? ' locked' : '') + (result && result.score >= PASS_MARK ? ' passed' : '');
+    card.innerHTML = `
+      <div class="chap-num">${ch.num}</div>
+      <div class="chap-title">${ch.title}</div>
+      <div class="chap-verses">${ch.verses}</div>
+      ${statusHtml}
+    `;
+    if (!locked) card.onclick = () => startChapter(i);
+    grid.appendChild(card);
+  });
+}
+
+/* ========================================================= START CHAPTER */
+function startChapter(idx) {
+  state.currentChapter = idx;
+  const ch = chapters[idx];
+  $('quizTitle').textContent = `Chapter ${ch.num}: ${ch.title}`;
+  renderQuestions(ch);
+  startTimer();
+  showOnly('quizSection');
+  window.scrollTo(0,0);
+}
+
+function renderQuestions(ch) {
+  const container = $('questionsContainer');
+  container.innerHTML = '';
+  ch.questions.forEach((q, i) => {
+    const block = document.createElement('div');
+    block.className = 'q-block';
+    block.id = `q-block-${i}`;
+    const optHtml = q.opts.map((opt, oi) => {
+      const val = ['a','b','c','d'][oi];
+      return `<label><input type="radio" name="q${i}" value="${val}"> ${opt}</label>`;
+    }).join('');
+    block.innerHTML = `
+      <div class="q-num">Question ${i+1} of 30</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">${optHtml}</div>
+    `;
+    container.appendChild(block);
+  });
+  updateProgress(0);
+  // progress on answer
+  container.addEventListener('change', updateProgressFromAnswers);
+}
+
+function updateProgressFromAnswers() {
+  const ch = chapters[state.currentChapter];
+  let answered = 0;
+  ch.questions.forEach((_, i) => {
+    if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+  });
+  updateProgress(answered / 30 * 100);
+}
+
+function updateProgress(pct) {
+  $('progressBar').style.width = pct + '%';
+}
+
+/* ========================================================= TIMER */
+function startTimer() {
+  clearInterval(timerInterval);
+  $('timerBox').classList.remove('warn');
+  let remaining = TIMER_SECONDS;
+  updateTimerDisplay(remaining);
+  timerInterval = setInterval(() => {
+    remaining--;
+    updateTimerDisplay(remaining);
+    if (remaining <= 120) $('timerBox').classList.add('warn');
+    if (remaining <= 0) { clearInterval(timerInterval); submitQuiz(); }
+  }, 1000);
+}
+
+function updateTimerDisplay(sec) {
+  const m = Math.floor(sec / 60), s = sec % 60;
+  $('timerBox').textContent = `${m}:${s<10?'0'+s:s}`;
+}
+
+/* ========================================================= SUBMIT */
+function submitQuiz() {
+  clearInterval(timerInterval);
+  const ch = chapters[state.currentChapter];
+  let score = 0;
+  const wrong = [];
+  ch.questions.forEach((q, i) => {
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    const userAns = sel ? sel.value : null;
+    if (userAns === q.ans) {
+      score++;
+    } else {
+      wrong.push({ num: i+1, question: q.q, yourAns: userAns, correct: q.ans, opts: q.opts });
+    }
+  });
+  state.chapterResults[state.currentChapter] = { score, wrong };
+  showResult(score, wrong);
+}
+
+/* ========================================================= RESULT */
+function showResult(score, wrong) {
+  showOnly('resultSection');
+  window.scrollTo(0,0);
+  const passed = score >= PASS_MARK;
+  const ch = chapters[state.currentChapter];
+  const isLast = state.currentChapter === 12;  // last of 13 chapters (index 12)
+
+  $('resultBadge').textContent = passed ? '🏆 PASS' : '✘ FAIL';
+  $('resultBadge').className = 'result-badge ' + (passed ? 'pass' : 'fail');
+  $('resultScore').textContent = `Score: ${score} / 30`;
+  $('resultSub').textContent = `Chapter ${ch.num}: ${ch.title} · Pass mark: ${PASS_MARK}/30`;
+
+  // Actions
+  const actions = $('resultActions');
+  actions.innerHTML = '';
+  const retryBtn = document.createElement('button');
+  retryBtn.className = 'btn-retry';
+  retryBtn.textContent = '↺ Retry Chapter';
+  retryBtn.onclick = () => startChapter(state.currentChapter);
+  actions.appendChild(retryBtn);
+
+  if (passed) {
+    if (isLast) {
+      // All 13 chapters done
+      const homeBtn = document.createElement('button');
+      homeBtn.className = 'btn-next';
+      homeBtn.textContent = '🏠 View Summary';
+      homeBtn.onclick = showChapterMap;
+      actions.appendChild(homeBtn);
+    } else {
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'btn-next';
+      nextBtn.textContent = `Next: Chapter ${ch.num + 1} →`;
+      nextBtn.onclick = () => startChapter(state.currentChapter + 1);
+      actions.appendChild(nextBtn);
+
+      const mapBtn = document.createElement('button');
+      mapBtn.className = 'btn-next';
+      mapBtn.style.background = 'rgba(201,168,76,0.2)';
+      mapBtn.style.border = '1px solid var(--gold)';
+      mapBtn.style.color = 'var(--gold)';
+      mapBtn.style.boxShadow = 'none';
+      mapBtn.textContent = '📖 Chapter Map';
+      mapBtn.onclick = showChapterMap;
+      actions.appendChild(mapBtn);
+    }
+  }
+
+  // Completion banner if all 13 passed
+  const allPassed = state.chapterResults.every(r => r && r.score >= PASS_MARK);
+
+  // Wrong answers review
+  const reviewContainer = $('reviewContainer');
+  reviewContainer.innerHTML = '';
+
+  if (allPassed) {
+    reviewContainer.innerHTML = `
+      <div class="completion-banner">
+        <h2>🎉 All 13 Chapters Complete!</h2>
+        <p>Congratulations, ${state.user.name}! You have completed the full 1 Timothy, 2 Timothy &amp; Titus Bible Study Assessment. Well done, faithful servant!</p>
+      </div>`;
+    return;
+  }
+
+  if (wrong.length > 0) {
+    const title = document.createElement('div');
+    title.className = 'review-title';
+    title.textContent = `📋 Review: ${wrong.length} Wrong Answer${wrong.length > 1 ? 's' : ''}`;
+    reviewContainer.appendChild(title);
+
+    wrong.forEach(w => {
+      const item = document.createElement('div');
+      item.className = 'review-item';
+      const optLabels = ['A','B','C','D'];
+      const yourLabel = w.yourAns ? optLabels[['a','b','c','d'].indexOf(w.yourAns)] + '. ' + w.opts[['a','b','c','d'].indexOf(w.yourAns)] : 'No answer selected';
+      const correctLabel = optLabels[['a','b','c','d'].indexOf(w.correct)] + '. ' + w.opts[['a','b','c','d'].indexOf(w.correct)];
+      item.innerHTML = `
+        <div class="rq">Q${w.num}: ${w.question}</div>
+        <div class="ry">✘ Your answer: ${yourLabel}</div>
+        <div class="rc">✔ Correct: ${correctLabel}</div>
+      `;
+      reviewContainer.appendChild(item);
+    });
+  }
 }
 </script>
-
 </body>
 </html>
-```
