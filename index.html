@@ -967,18 +967,46 @@ const chapters = [
 let state = {
   user: null,
   currentChapter: 0,
-  chapterResults: Array(13).fill(null),  // null | {score, wrong:[]}
+  chapterResults: Array(13).fill(null),
+  currentQuestions: [] // 🔥 REQUIRED FOR SHUFFLE
 };
 let timerInterval = null;
 const TIMER_SECONDS = 20 * 60;  // 20 minutes — fixed
 const PASS_MARK = 20;            // Pass mark — fixed
 
-/* ========================================================= HELPERS */
-function $(id) { return document.getElementById(id); }
+/* =========================================================
+   HELPERS (UTILITY FUNCTIONS)
+========================================================= */
+
+// Get element by ID
+function $(id) { 
+  return document.getElementById(id); 
+}
+
+// Show only one section at a time
 function showOnly(id) {
   ['signInSection','chapterMap','quizSection','resultSection'].forEach(s => {
     $(s).style.display = s === id ? 'block' : 'none';
   });
+}
+
+
+/* =========================================================
+   RANDOMIZATION ENGINE (SHUFFLE LOGIC)
+========================================================= */
+
+// Shuffle array (used to randomize questions each attempt)
+function shuffleArray(array) {
+  let arr = [...array]; // create a copy (important)
+  
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    
+    // swap elements
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+
+  return arr;
 }
 
 /* ========================================================= SIGN IN */
@@ -1058,32 +1086,42 @@ function startChapter(idx) {
   showOnly('quizSection');
   window.scrollTo(0,0);
 }
-
 function renderQuestions(ch) {
   const container = $('questionsContainer');
   container.innerHTML = '';
-  ch.questions.forEach((q, i) => {
+
+  // 🔥 SHUFFLE QUESTIONS
+  const shuffled = shuffleArray(ch.questions);
+
+  // Save shuffled questions (VERY IMPORTANT for scoring)
+  state.currentQuestions = shuffled;
+
+  shuffled.forEach((q, i) => {
     const block = document.createElement('div');
     block.className = 'q-block';
     block.id = `q-block-${i}`;
+
     const optHtml = q.opts.map((opt, oi) => {
       const val = ['a','b','c','d'][oi];
       return `<label><input type="radio" name="q${i}" value="${val}"> ${opt}</label>`;
     }).join('');
+
     block.innerHTML = `
       <div class="q-num">Question ${i+1} of 30</div>
       <div class="q-text">${q.q}</div>
       <div class="options">${optHtml}</div>
     `;
+
     container.appendChild(block);
   });
+
   updateProgress(0);
+
   // progress on answer
   container.addEventListener('change', updateProgressFromAnswers);
 }
-
 function updateProgressFromAnswers() {
-  const ch = chapters[state.currentChapter];
+const ch = { questions: state.currentQuestions };
   let answered = 0;
   ch.questions.forEach((_, i) => {
     if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
@@ -1120,6 +1158,7 @@ function submitQuiz() {
   const ch = chapters[state.currentChapter];
   let score = 0;
   const wrong = [];
+
   ch.questions.forEach((q, i) => {
     const sel = document.querySelector(`input[name="q${i}"]:checked`);
     const userAns = sel ? sel.value : null;
@@ -1129,7 +1168,24 @@ function submitQuiz() {
       wrong.push({ num: i+1, question: q.q, yourAns: userAns, correct: q.ans, opts: q.opts });
     }
   });
+
   state.chapterResults[state.currentChapter] = { score, wrong };
+
+  // ===== ADD THIS PART (THIS IS WHAT YOU WERE MISSING) =====
+  const quizData = {
+    name: state.user.name,
+    email: state.user.email,
+    phone: state.user.phone,
+    chapter: ch.num,
+    chapterTitle: ch.title,
+    score: score,
+    total: 30,
+    status: score >= PASS_MARK ? "PASS" : "FAIL"
+  };
+
+  sendToGoogleSheet(quizData);
+  // ===== END =====
+
   showResult(score, wrong);
 }
 
@@ -1218,6 +1274,21 @@ function showResult(score, wrong) {
       reviewContainer.appendChild(item);
     });
   }
+}
+// ===== SEND TO GOOGLE SHEET FUNCTION =====
+function sendToGoogleSheet(data) {
+  const url = "https://script.google.com/macros/s/AKfycbyVvl-cmbFzaAiynh0BEPO0LsVIWqXO0ZLHw65xfwbcvTMGRbAdWkyrX2CT4nF3IRO0/exec";
+  
+  fetch(url, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  console.log("Data sent:", data); // optional (for testing)
 }
 </script>
 </body>
