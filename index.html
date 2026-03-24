@@ -139,7 +139,6 @@
       overflow: hidden;
     }
     .chap-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.07); transform: translateY(-2px); }
-    .chap-card.locked { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
     .chap-card.passed { border-color: var(--green); }
     .chap-card .chap-num {
       font-family: 'Cinzel Decorative', serif;
@@ -149,7 +148,6 @@
     .chap-card .chap-verses { font-size: 12px; color: rgba(247,243,234,0.45); }
     .chap-card .chap-status { margin-top: 10px; font-size: 12px; font-weight: 600; }
     .status-pass { color: var(--green); }
-    .status-locked { color: rgba(247,243,234,0.35); }
     .status-pending { color: var(--gold); }
 
     /* ---- QUIZ SCREEN ---- */
@@ -310,14 +308,12 @@
   <div class="brand">
     <div class="brand-icon">🎶</div>
     <h1>OASIS OF LOVE - KUROFROM</h1>
-    <!-- UPDATED SUBTITLE — header text only change as instructed -->
     <p>1 Timothy, 2 Timothy &amp; Titus · Bible Study Assessment</p>
   </div>
 
-  <!-- SIGN IN — UNCHANGED -->
+  <!-- SIGN IN -->
   <div id="signInSection">
   <style>
-    /* Quick styling for error feedback */
     .field input:invalid {
       border-bottom: 2px solid #ff4d4d;
     }
@@ -364,14 +360,12 @@
       const email = emailInput.value.trim();
       const phone = phoneInput.value.trim();
 
-      // 1. Strict Name Check (Min 3 chars)
       if (name.length < 3) {
         alert("Please enter a valid name (at least 3 characters).");
         nameInput.focus();
         return;
       }
 
-      // 2. Strict Email Check (Regex validation)
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email)) {
         alert("Please enter a valid email address.");
@@ -379,17 +373,14 @@
         return;
       }
 
-      // 3. Strict Phone Check (10-12 digits)
       if (phone.length < 10 || phone.length > 12) {
         alert("Phone number must be between 10 and 12 digits.");
         phoneInput.focus();
         return;
       }
 
-      // If all passes, call your existing signIn function
       console.log("Validation successful for:", name);
       
-      // Call the main signIn function (ensure this function exists in your script)
       if (typeof signIn === "function") {
         signIn();
       } else {
@@ -398,14 +389,15 @@
     }
   </script>
 </div>
-  <!-- CHAPTER MAP — auto-renders all 13 chapters via JS -->
+
+  <!-- CHAPTER MAP -->
   <div id="chapterMap">
     <p class="chap-map-title">1 TIMOTHY, 2 TIMOTHY &amp; TITUS · CHAPTER ASSESSMENT</p>
-    <p class="chap-map-sub">Complete each chapter in order · Pass mark: 20/30 · 20 minutes per chapter</p>
+    <p class="chap-map-sub">Attempt any chapter in any order · Pass mark: 20/30 · 20 minutes per chapter</p>
     <div id="chapGrid"></div>
   </div>
 
-  <!-- QUIZ — UNCHANGED -->
+  <!-- QUIZ -->
   <div id="quizSection">
     <div class="quiz-header">
       <div class="quiz-title" id="quizTitle"></div>
@@ -416,7 +408,7 @@
     <button class="btn-submit" onclick="submitQuiz()">Submit Answers</button>
   </div>
 
-  <!-- RESULT — UNCHANGED -->
+  <!-- RESULT -->
   <div id="resultSection">
     <div class="result-badge" id="resultBadge"></div>
     <div class="result-score" id="resultScore"></div>
@@ -426,7 +418,7 @@
   </div>
 </div><!-- /.wrap -->
 
-<!-- FOOTER — ADDED AS INSTRUCTED -->
+<!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-divider">
@@ -438,21 +430,10 @@
 </footer>
 
 <script>
-/* =========================================================
-   DATA: 13 CHAPTERS TOTAL
-   ─────────────────────────────────────────────────────────
-   SEGMENT 1 — 1 TIMOTHY  (Chapters 1–6)   ← UNCHANGED
-   SEGMENT 2 — 2 TIMOTHY  (Chapters 7–10)  ← NEW
-   SEGMENT 3 — TITUS      (Chapters 11–13) ← NEW
-   ─────────────────────────────────────────────────────────
-   Each chapter: EXACTLY 30 questions
-   Format: { q, opts:[A,B,C,D], ans:'a'|'b'|'c'|'d' }
-   Sequential verse coverage per chapter
-========================================================= */
 const chapters = [
 
   /* ══════════════════════════════════════════════════════
-     SEGMENT 1 — 1 TIMOTHY  (ALL 6 CHAPTERS — UNCHANGED)
+     SEGMENT 1 — 1 TIMOTHY
   ══════════════════════════════════════════════════════ */
 
   {
@@ -679,10 +660,9 @@ const chapters = [
   },
 
   /* ══════════════════════════════════════════════════════
-     SEGMENT 2 — 2 TIMOTHY  (CHAPTERS 7–10 — NEW)
+     SEGMENT 2 — 2 TIMOTHY
   ══════════════════════════════════════════════════════ */
 
-  /* ── Chapter 7 → 2 Timothy 1:1–18 ── */
   {
     num: 7,
     title: "2 Timothy: Unashamed of the Gospel",
@@ -721,7 +701,6 @@ const chapters = [
     ]
   },
 
-  /* ── Chapter 8 → 2 Timothy 2:1–26 ── */
   {
     num: 8,
     title: "2 Timothy: A Good Soldier of Christ",
@@ -760,7 +739,6 @@ const chapters = [
     ]
   },
 
-  /* ── Chapter 9 → 2 Timothy 3:1–17 ── */
   {
     num: 9,
     title: "2 Timothy: Perilous Times & Scripture's Power",
@@ -799,7 +777,6 @@ const chapters = [
     ]
   },
 
-  /* ── Chapter 10 → 2 Timothy 4:1–22 ── */
   {
     num: 10,
     title: "2 Timothy: Preach the Word — Paul's Final Charge",
@@ -839,10 +816,9 @@ const chapters = [
   },
 
   /* ══════════════════════════════════════════════════════
-     SEGMENT 3 — TITUS  (CHAPTERS 11–13 — NEW)
+     SEGMENT 3 — TITUS
   ══════════════════════════════════════════════════════ */
 
-  /* ── Chapter 11 → Titus 1:1–16 ── */
   {
     num: 11,
     title: "Titus: Qualifications for Elders in Crete",
@@ -881,7 +857,6 @@ const chapters = [
     ]
   },
 
-  /* ── Chapter 12 → Titus 2:1–15 ── */
   {
     num: 12,
     title: "Titus: Sound Doctrine for Every Group",
@@ -920,7 +895,6 @@ const chapters = [
     ]
   },
 
-  /* ── Chapter 13 → Titus 3:1–15 ── */
   {
     num: 13,
     title: "Titus: Doing Good & Avoiding Division",
@@ -959,53 +933,41 @@ const chapters = [
     ]
   }
 
-]; /* ─── END OF chapters ARRAY ─── */
+];
 
 /* =========================================================
-   STATE  — UPDATED: Array(13) to cover all 13 chapters
+   STATE
 ========================================================= */
 let state = {
   user: null,
   currentChapter: 0,
   chapterResults: Array(13).fill(null),
-  currentQuestions: [] // 🔥 REQUIRED FOR SHUFFLE
+  currentQuestions: []
 };
 let timerInterval = null;
-const TIMER_SECONDS = 20 * 60;  // 20 minutes — fixed
-const PASS_MARK = 20;            // Pass mark — fixed
+const TIMER_SECONDS = 20 * 60;
+const PASS_MARK = 20;
 
 /* =========================================================
-   HELPERS (UTILITY FUNCTIONS)
+   HELPERS
 ========================================================= */
+function $(id) { return document.getElementById(id); }
 
-// Get element by ID
-function $(id) { 
-  return document.getElementById(id); 
-}
-
-// Show only one section at a time
 function showOnly(id) {
   ['signInSection','chapterMap','quizSection','resultSection'].forEach(s => {
     $(s).style.display = s === id ? 'block' : 'none';
   });
 }
 
-
 /* =========================================================
-   RANDOMIZATION ENGINE (SHUFFLE LOGIC)
+   RANDOMIZATION ENGINE
 ========================================================= */
-
-// Shuffle array (used to randomize questions each attempt)
 function shuffleArray(array) {
-  let arr = [...array]; // create a copy (important)
-  
+  let arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
-    
-    // swap elements
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-
   return arr;
 }
 
@@ -1029,10 +991,6 @@ function renderChapterMap() {
   const grid = $('chapGrid');
   grid.innerHTML = '';
 
-  // Book segment boundaries for labels
-  // Chapters index 0–5  = 1 Timothy  (ch.num 1–6)
-  // Chapters index 6–9  = 2 Timothy  (ch.num 7–10)
-  // Chapters index 10–12 = Titus      (ch.num 11–13)
   const bookLabels = {
     0:  '📖 1 TIMOTHY',
     6:  '📖 2 TIMOTHY',
@@ -1040,38 +998,33 @@ function renderChapterMap() {
   };
 
   chapters.forEach((ch, i) => {
-    // Insert book section label before first chapter of each book
     if (bookLabels[i]) {
       const label = document.createElement('div');
       label.className = 'book-label';
       label.textContent = bookLabels[i];
-      label.style.gridColumn = '1 / -1';  // span full width
+      label.style.gridColumn = '1 / -1';
       grid.appendChild(label);
-
-      // Open a new sub-grid for this book's cards
     }
 
     const result = state.chapterResults[i];
-    const prevPassed = i === 0 || (state.chapterResults[i-1] && state.chapterResults[i-1].score >= PASS_MARK);
-    const locked = !prevPassed;
+
     let statusHtml = '';
     if (result) {
       const p = result.score >= PASS_MARK;
-      statusHtml = `<div class="chap-status ${p ? 'status-pass':'status-locked'}">${p ? '✔ PASSED ('+result.score+'/30)' : '✘ FAILED ('+result.score+'/30)'}</div>`;
-    } else if (locked) {
-      statusHtml = `<div class="chap-status status-locked">🔒 Locked</div>`;
+      statusHtml = `<div class="chap-status ${p ? 'status-pass' : 'status-locked'}">${p ? '✔ PASSED (' + result.score + '/30)' : '✘ FAILED (' + result.score + '/30)'}</div>`;
     } else {
       statusHtml = `<div class="chap-status status-pending">▶ Start</div>`;
     }
+
     const card = document.createElement('div');
-    card.className = 'chap-card' + (locked ? ' locked' : '') + (result && result.score >= PASS_MARK ? ' passed' : '');
+    card.className = 'chap-card' + (result && result.score >= PASS_MARK ? ' passed' : '');
     card.innerHTML = `
       <div class="chap-num">${ch.num}</div>
       <div class="chap-title">${ch.title}</div>
       <div class="chap-verses">${ch.verses}</div>
       ${statusHtml}
     `;
-    if (!locked) card.onclick = () => startChapter(i);
+    card.onclick = () => startChapter(i);
     grid.appendChild(card);
   });
 }
@@ -1086,14 +1039,12 @@ function startChapter(idx) {
   showOnly('quizSection');
   window.scrollTo(0,0);
 }
+
 function renderQuestions(ch) {
   const container = $('questionsContainer');
   container.innerHTML = '';
 
-  // 🔥 SHUFFLE QUESTIONS
   const shuffled = shuffleArray(ch.questions);
-
-  // Save shuffled questions (VERY IMPORTANT for scoring)
   state.currentQuestions = shuffled;
 
   shuffled.forEach((q, i) => {
@@ -1116,14 +1067,12 @@ function renderQuestions(ch) {
   });
 
   updateProgress(0);
-
-  // progress on answer
   container.addEventListener('change', updateProgressFromAnswers);
 }
+
 function updateProgressFromAnswers() {
-const ch = { questions: state.currentQuestions };
   let answered = 0;
-  ch.questions.forEach((_, i) => {
+  state.currentQuestions.forEach((_, i) => {
     if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
   });
   updateProgress(answered / 30 * 100);
@@ -1159,7 +1108,7 @@ function submitQuiz() {
   let score = 0;
   const wrong = [];
 
-  ch.questions.forEach((q, i) => {
+  state.currentQuestions.forEach((q, i) => {
     const sel = document.querySelector(`input[name="q${i}"]:checked`);
     const userAns = sel ? sel.value : null;
     if (userAns === q.ans) {
@@ -1171,7 +1120,6 @@ function submitQuiz() {
 
   state.chapterResults[state.currentChapter] = { score, wrong };
 
-  // ===== ADD THIS PART (THIS IS WHAT YOU WERE MISSING) =====
   const quizData = {
     name: state.user.name,
     email: state.user.email,
@@ -1184,8 +1132,6 @@ function submitQuiz() {
   };
 
   sendToGoogleSheet(quizData);
-  // ===== END =====
-
   showResult(score, wrong);
 }
 
@@ -1195,53 +1141,47 @@ function showResult(score, wrong) {
   window.scrollTo(0,0);
   const passed = score >= PASS_MARK;
   const ch = chapters[state.currentChapter];
-  const isLast = state.currentChapter === 12;  // last of 13 chapters (index 12)
+  const isLast = state.currentChapter === 12;
 
   $('resultBadge').textContent = passed ? '🏆 PASS' : '✘ FAIL';
   $('resultBadge').className = 'result-badge ' + (passed ? 'pass' : 'fail');
   $('resultScore').textContent = `Score: ${score} / 30`;
   $('resultSub').textContent = `Chapter ${ch.num}: ${ch.title} · Pass mark: ${PASS_MARK}/30`;
 
-  // Actions
   const actions = $('resultActions');
   actions.innerHTML = '';
+
   const retryBtn = document.createElement('button');
   retryBtn.className = 'btn-retry';
   retryBtn.textContent = '↺ Retry Chapter';
   retryBtn.onclick = () => startChapter(state.currentChapter);
   actions.appendChild(retryBtn);
 
-  if (passed) {
-    if (isLast) {
-      // All 13 chapters done
-      const homeBtn = document.createElement('button');
-      homeBtn.className = 'btn-next';
-      homeBtn.textContent = '🏠 View Summary';
-      homeBtn.onclick = showChapterMap;
-      actions.appendChild(homeBtn);
-    } else {
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'btn-next';
-      nextBtn.textContent = `Next: Chapter ${ch.num + 1} →`;
-      nextBtn.onclick = () => startChapter(state.currentChapter + 1);
-      actions.appendChild(nextBtn);
-
-      const mapBtn = document.createElement('button');
-      mapBtn.className = 'btn-next';
-      mapBtn.style.background = 'rgba(201,168,76,0.2)';
-      mapBtn.style.border = '1px solid var(--gold)';
-      mapBtn.style.color = 'var(--gold)';
-      mapBtn.style.boxShadow = 'none';
-      mapBtn.textContent = '📖 Chapter Map';
-      mapBtn.onclick = showChapterMap;
-      actions.appendChild(mapBtn);
-    }
+  if (passed && isLast) {
+    const homeBtn = document.createElement('button');
+    homeBtn.className = 'btn-next';
+    homeBtn.textContent = '🏠 View Summary';
+    homeBtn.onclick = showChapterMap;
+    actions.appendChild(homeBtn);
+  } else if (passed) {
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn-next';
+    nextBtn.textContent = `Next: Chapter ${ch.num + 1} →`;
+    nextBtn.onclick = () => startChapter(state.currentChapter + 1);
+    actions.appendChild(nextBtn);
   }
 
-  // Completion banner if all 13 passed
-  const allPassed = state.chapterResults.every(r => r && r.score >= PASS_MARK);
+  const mapBtn = document.createElement('button');
+  mapBtn.className = 'btn-next';
+  mapBtn.style.background = 'rgba(201,168,76,0.2)';
+  mapBtn.style.border = '1px solid var(--gold)';
+  mapBtn.style.color = 'var(--gold)';
+  mapBtn.style.boxShadow = 'none';
+  mapBtn.textContent = '📖 Chapter Map';
+  mapBtn.onclick = showChapterMap;
+  actions.appendChild(mapBtn);
 
-  // Wrong answers review
+  const allPassed = state.chapterResults.every(r => r && r.score >= PASS_MARK);
   const reviewContainer = $('reviewContainer');
   reviewContainer.innerHTML = '';
 
@@ -1275,20 +1215,17 @@ function showResult(score, wrong) {
     });
   }
 }
-// ===== SEND TO GOOGLE SHEET FUNCTION =====
+
+/* ========================================================= GOOGLE SHEET */
 function sendToGoogleSheet(data) {
   const url = "https://script.google.com/macros/s/AKfycbyVvl-cmbFzaAiynh0BEPO0LsVIWqXO0ZLHw65xfwbcvTMGRbAdWkyrX2CT4nF3IRO0/exec";
-  
   fetch(url, {
     method: "POST",
     mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
-
-  console.log("Data sent:", data); // optional (for testing)
+  console.log("Data sent:", data);
 }
 </script>
 </body>
