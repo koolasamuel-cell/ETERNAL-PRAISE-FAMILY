@@ -301,6 +301,49 @@
       color: rgba(247,243,234,0.38);
       letter-spacing: 0.5px;
     }
+
+    /* ---- GENERAL BIBLE KNOWLEDGE ADD-ON STYLES ---- */
+    #gbkMenuSection { display: none; }
+    .gbk-menu-title {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold);
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .gbk-menu-sub { text-align: center; color: rgba(247,243,234,0.5); font-size: 13px; margin-bottom: 28px; }
+    .gbk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .gbk-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .gbk-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.07); transform: translateY(-2px); }
+    .gbk-card.passed { border-color: var(--green); }
+    .gbk-card .gbk-icon { font-size: 32px; margin-bottom: 10px; }
+    .gbk-card .gbk-name { font-family: 'Cinzel Decorative', serif; font-size: 13px; color: var(--gold); letter-spacing: 1px; }
+    .gbk-card .gbk-count { font-size: 12px; color: rgba(247,243,234,0.45); margin-top: 4px; }
+    .gbk-card .gbk-status { margin-top: 10px; font-size: 12px; font-weight: 600; }
+    .btn-back-map {
+      display: inline-block;
+      padding: 10px 24px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      transition: 0.15s;
+    }
+    .btn-back-map:hover { background: rgba(201,168,76,0.28); }
   </style>
 </head>
 <body>
@@ -391,6 +434,25 @@
     <p class="chap-map-title">1 TIMOTHY, 2 TIMOTHY &amp; TITUS · CHAPTER ASSESSMENT</p>
     <p class="chap-map-sub">Attempt any chapter in any order · Pass mark: 20/30 · 20 minutes per chapter</p>
     <div id="chapGrid"></div>
+
+    <!-- ADD-ON: General Bible Knowledge entry card -->
+    <div class="book-label" style="margin-top:32px;">📚 BONUS CATEGORY</div>
+    <div class="chap-grid" style="margin-top:12px;">
+      <div class="chap-card" id="gbkEntryCard" onclick="showGBKMenu()" style="border-color:rgba(201,168,76,0.55);background:rgba(201,168,76,0.06);">
+        <div class="chap-num">📖</div>
+        <div class="chap-title" style="font-family:'Cinzel Decorative',serif;font-size:12px;letter-spacing:1px;color:var(--gold);">GENERAL BIBLE KNOWLEDGE</div>
+        <div class="chap-verses">Related to 1 Tim, 2 Tim &amp; Titus · 3 Sections · 30 Qs each</div>
+        <div class="chap-status status-pending">▶ Enter</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GBK SECTION MENU -->
+  <div id="gbkMenuSection">
+    <button class="btn-back-map" onclick="showChapterMap()">← Back to Chapter Map</button>
+    <p class="gbk-menu-title">GENERAL BIBLE KNOWLEDGE</p>
+    <p class="gbk-menu-sub">Related to 1 Timothy, 2 Timothy &amp; Titus · Choose a section · Pass mark: 20/30 · 20 min</p>
+    <div class="gbk-grid" id="gbkGrid"></div>
   </div>
 
   <!-- QUIZ -->
@@ -940,7 +1002,7 @@ const PASS_MARK = 20;
 function $(id) { return document.getElementById(id); }
 
 function showOnly(id) {
-  ['signInSection','chapterMap','quizSection','resultSection'].forEach(s => {
+  ['signInSection','chapterMap','quizSection','resultSection','gbkMenuSection'].forEach(s => {
     $(s).style.display = s === id ? 'block' : 'none';
   });
 }
@@ -1211,6 +1273,316 @@ function sendToGoogleSheet(data) {
     body: JSON.stringify(data)
   });
   console.log("Data sent:", data);
+}
+
+/* =========================================================
+   GENERAL BIBLE KNOWLEDGE ADD-ON
+   Three sections · 30 questions each
+   Completely separate from existing chapter quizzes
+========================================================= */
+
+const generalBibleKnowledge = [
+
+  /* ------------------------------------------------------------------ */
+  {
+    section: "Old Testament",
+    icon: "📜",
+    questions: [
+      { q:"Which OT figure is described as 'faithful in all God's house' — a type of faithful ministry that Paul calls Timothy to model?", opts:["Elijah","Moses","Aaron","Joshua"], ans:1 },
+      { q:"Paul's call to 'fight the good fight' in 1 Tim 6:12 echoes which OT warrior's charge from God to be 'strong and courageous'?", opts:["Samson","Gideon","Joshua","David"], ans:2 },
+      { q:"The OT concept of elders judging Israel is reflected in Paul's instructions for church elders in 1 Timothy. Who first appointed 70 elders in the OT?", opts:["Aaron","Moses","Samuel","Solomon"], ans:1 },
+      { q:"In 2 Timothy 3:8, Paul names two men who opposed Moses. What were their names?", opts:["Balaam and Balak","Jannes and Jambres","Korah and Dathan","Zimri and Cozbi"], ans:1 },
+      { q:"Paul tells Timothy that 'all Scripture is God-breathed' (2 Tim 3:16). In the OT, which phrase signifies God's direct speech to the prophets?", opts:["'As the LORD commanded'","'Thus says the LORD'","'In the name of God'","'According to the covenant'"], ans:1 },
+      { q:"Titus 1:12 quotes a Cretan prophet calling Cretans 'liars.' This use of pagan testimony reflects a practice used in OT wisdom literature. From which OT book does Proverbs' teaching on sound doctrine most closely parallel Titus 1?", opts:["Job","Ecclesiastes","Proverbs","Psalms"], ans:2 },
+      { q:"Paul's instruction for widows (1 Tim 5) reflects the OT command to care for widows. Which OT book commands, 'Do not afflict the widow or orphan'?", opts:["Leviticus","Exodus","Deuteronomy","Numbers"], ans:1 },
+      { q:"The OT high priest was required to be 'blameless.' This maps directly to Paul's requirement for elders in 1 Timothy 3. Which OT book outlines priestly qualifications?", opts:["Numbers","Genesis","Deuteronomy","Leviticus"], ans:3 },
+      { q:"Paul's warning against the love of money (1 Tim 6:10) is echoed in which OT story of someone who coveted silver and hid it, causing disaster?", opts:["Gehazi hiding gold","Achan hiding silver and a garment","Judas returning silver","Balaam seeking reward"], ans:1 },
+      { q:"In 2 Timothy 1:5, Paul mentions Timothy's grandmother Lois. The OT pattern of faith passed through generations is best illustrated by which family?", opts:["Abraham, Isaac, and Jacob","Moses and Miriam","David and Solomon","Elijah and Elisha"], ans:0 },
+      { q:"Paul's charge for godly living in Titus 2 mirrors the OT covenant structure. Which OT term describes the binding agreement God made with Israel on how they should live?", opts:["Torah","Berith (Covenant)","Mishpat","Shema"], ans:1 },
+      { q:"The 'renewing of the Holy Spirit' in Titus 3:5 has an OT parallel in which prophet's vision of dry bones coming to life?", opts:["Isaiah","Jeremiah","Ezekiel","Daniel"], ans:2 },
+      { q:"Paul warns about 'Jewish myths' in Titus 1:14. These likely refer to speculative traditions from which body of Jewish literature?", opts:["The Talmud","Apocrypha","Oral Law / Midrashic traditions","Dead Sea Scrolls"], ans:2 },
+      { q:"The OT teaching that a worker deserves his wages (cited in 1 Tim 5:18) comes from which book?", opts:["Numbers","Leviticus","Deuteronomy","Proverbs"], ans:2 },
+      { q:"'God our Savior' is a title Paul uses in both 1 Timothy and Titus. In the OT, this title appears prominently in which book of Psalms context?", opts:["Psalms 23","Psalms 68","Psalms 95","Psalms 106"], ans:1 },
+      { q:"Paul's call for prayer for rulers (1 Tim 2:1–2) aligns with which OT prophet's call for Israel to pray for the peace of the city of their captivity?", opts:["Isaiah","Ezekiel","Jeremiah","Amos"], ans:2 },
+      { q:"In 2 Timothy 3:11, Paul refers to his sufferings at Antioch, Iconium, and Lystra. The OT pattern of God delivering His servant from persecution is most echoed in which Psalm?", opts:["Psalm 22","Psalm 34","Psalm 51","Psalm 91"], ans:1 },
+      { q:"The OT law prohibited charging interest ('usury'). Paul's warning against greed in 1 Timothy reflects this OT principle found in which book?", opts:["Exodus","Deuteronomy","Leviticus","All of the above"], ans:3 },
+      { q:"Paul refers to God as 'the King eternal, immortal, invisible' in 1 Tim 1:17. This echoes the OT declaration of God's eternal kingship found prominently in which Psalm?", opts:["Psalm 90","Psalm 145","Psalm 100","Psalm 23"], ans:1 },
+      { q:"The concept of 'sound doctrine' in the Pastorals parallels OT 'teaching of the Law.' Which Hebrew word captures the sense of God's instruction/law?", opts:["Shalom","Torah","Hesed","Emet"], ans:1 },
+      { q:"Paul's warning against 'endless genealogies' (1 Tim 1:4) likely refers to speculative embellishments on OT patriarchal records. Which OT book contains the most extensive genealogies?", opts:["Genesis","Numbers","1 Chronicles","Ezra"], ans:2 },
+      { q:"The OT requirement for two or three witnesses before judgment (Deut 19:15) is directly cited by Paul in which Pastoral context?", opts:["Rebuking an elder (1 Tim 5:19)","Appointing deacons (1 Tim 3)","Enrolling widows (1 Tim 5:9)","Testing teachers (Titus 1)"], ans:0 },
+      { q:"'Lay hands suddenly on no one' (1 Tim 5:22) has an OT parallel in the careful appointment of leaders. Which OT event involved laying hands to commission a leader?", opts:["Moses consecrating Aaron","Moses commissioning Joshua","David anointing Solomon","Elijah calling Elisha"], ans:1 },
+      { q:"Paul's instruction that elders who rule well are 'worthy of double honor' echoes the OT principle about honoring those who serve. Which OT group received portions and tithes as their provision?", opts:["Prophets","Levites","Judges","Scribes"], ans:1 },
+      { q:"'The LORD knows those who are His' (2 Tim 2:19) quotes or alludes to which OT incident where God distinguished His true servants?", opts:["God's protection of Noah","The rebellion of Korah","The Passover night","Elijah at Horeb"], ans:1 },
+      { q:"Paul's metaphor of a soldier not entangling himself in civilian affairs (2 Tim 2:4) recalls OT laws about which group being exempt from everyday duties during service?", opts:["Prophets","Priests and Levites","The newly married (Deut 24:5)","Nazarites"], ans:1 },
+      { q:"In 2 Timothy 4:17, Paul says 'I was delivered out of the mouth of the lion.' This echoes which OT deliverance narrative?", opts:["Jonah and the fish","Daniel in the lions' den","David killing the lion","Samson and the lion"], ans:1 },
+      { q:"Titus 2:14 says Christ 'gave Himself for us to redeem us.' This redemption language in the OT was associated with which concept?", opts:["The Jubilee Year","The kinsman-redeemer (goel)","The sin offering","The Passover lamb"], ans:1 },
+      { q:"Paul's instruction that older women teach younger women (Titus 2:3–5) mirrors the OT wisdom tradition where wisdom is personified as a woman instructing in which book?", opts:["Job","Song of Solomon","Proverbs","Ecclesiastes"], ans:2 },
+      { q:"The phrase 'godliness with contentment is great gain' (1 Tim 6:6) most closely parallels the OT Wisdom teaching found in which book's theme that 'a little with righteousness is better than much with injustice'?", opts:["Psalms","Proverbs","Ecclesiastes","Job"], ans:1 },
+    ]
+  },
+
+  /* ------------------------------------------------------------------ */
+  {
+    section: "Gospels",
+    icon: "✝️",
+    questions: [
+      { q:"Paul's charge to Timothy to 'preach the word in season and out of season' (2 Tim 4:2) mirrors Jesus' commissioning of disciples in which Gospel passage?", opts:["The Sermon on the Mount","The Great Commission (Matt 28:19–20)","The Bread of Life discourse","The Upper Room discourse"], ans:1 },
+      { q:"Jesus said, 'No one can serve two masters… you cannot serve God and money.' Which Pastoral Epistle most directly echoes this warning?", opts:["Titus 1","2 Timothy 2","1 Timothy 6","1 Timothy 3"], ans:2 },
+      { q:"In 1 Timothy 2:5, Paul declares 'one mediator between God and men.' Jesus claimed a similar exclusive mediating role in which Gospel statement?", opts:["'I am the bread of life'","'I am the way, truth, and life'","'I am the resurrection'","'I am the good shepherd'"], ans:1 },
+      { q:"Paul's command to 'pray for kings' in 1 Timothy 2:2 resonates with Jesus' teaching to pray for whom?", opts:["The poor","Your enemies","Church leaders","The sick"], ans:1 },
+      { q:"'God desires all people to be saved' (1 Tim 2:4) connects to which Gospel declaration about God's inclusive love?", opts:["Matt 5:3","John 3:16","Luke 15:7","Mark 10:45"], ans:1 },
+      { q:"Paul describes the church as the 'pillar and foundation of truth' (1 Tim 3:15). Jesus described Himself as the 'truth' in which Gospel verse?", opts:["John 14:6","John 8:32","John 17:17","John 1:14"], ans:0 },
+      { q:"The 'faithful saying' in 1 Timothy 1:15 — 'Christ Jesus came into the world to save sinners' — echoes Jesus' own words in which Gospel verse?", opts:["Matt 9:13","Luke 19:10","John 12:47","Mark 2:17"], ans:1 },
+      { q:"Timothy is told to 'fight the good fight of faith' (1 Tim 6:12). Jesus spoke of entering through the 'narrow gate' requiring effort in which Gospel?", opts:["John 10","Luke 13:24","Matthew 7:13–14","Mark 8:34"], ans:2 },
+      { q:"Paul warns about 'false teachers' in both Timothy and Titus. Jesus warned of 'wolves in sheep's clothing' in which Gospel sermon?", opts:["The Olivet Discourse","The Sermon on the Mount","The Bread of Life discourse","The Upper Room discourse"], ans:1 },
+      { q:"'Holding fast to the faithful word' (Titus 1:9) parallels Jesus' parable about building on rock vs sand, found in which Gospel?", opts:["Mark 4","Luke 6","Matthew 7","John 5"], ans:2 },
+      { q:"Paul's instruction for women to be 'silent' in 1 Timothy 2:12 is often discussed alongside women's interactions with Jesus. Mary Magdalene was the first to proclaim the resurrection. In which Gospel is this most detailed?", opts:["Matthew 28","Mark 16","Luke 24","John 20"], ans:3 },
+      { q:"'The worker deserves his wages' (1 Tim 5:18) is directly cited by Paul as Scripture. Jesus used this same phrase when sending out disciples in which Gospel?", opts:["Matthew 10:10","Luke 10:7","Mark 6:8","John 4:38"], ans:1 },
+      { q:"Paul's description of Christ as appearing in the flesh, vindicated by the Spirit (1 Tim 3:16) connects to Jesus' baptism event in which Gospel that uniquely emphasizes the Spirit descending?", opts:["Matthew 3","Mark 1","Luke 3","John 1"], ans:3 },
+      { q:"Titus 2:14 says Christ gave Himself 'to purify for Himself a people zealous for good works.' Jesus' cleansing of the temple showed zeal for God's house. This account appears in all four Gospels, but which is the only one that places it at the start of Jesus' ministry?", opts:["Matthew","Mark","Luke","John"], ans:3 },
+      { q:"Paul's warning against 'quarrelsome' church leaders (1 Tim 3:3) recalls Jesus' rebuke of disciples who argued about greatness. This argument appears most fully in which Gospel?", opts:["Matthew 18","Mark 9","Luke 9","All three Synoptics"], ans:3 },
+      { q:"'Godliness is profitable for all things' (1 Tim 4:8). Jesus promised that seekers of the kingdom would have 'all these things added.' This is found in which Sermon teaching?", opts:["The Beatitudes","Seek first the kingdom (Matt 6:33)","The Lord's Prayer","Love your enemies"], ans:1 },
+      { q:"In 2 Timothy 2:12, Paul states 'if we endure, we will reign with Him.' Jesus promised His disciples they would 'sit on thrones judging the twelve tribes.' This is recorded in which Gospel?", opts:["Matthew 19:28","Luke 22:30","Both Matthew and Luke","John 17"], ans:2 },
+      { q:"Paul's instruction to Timothy to 'preach the word' echoes Jesus' great commission. Which Gospel ends with the broadest commission to teach 'all that I have commanded'?", opts:["Mark","Luke","John","Matthew"], ans:3 },
+      { q:"The doctrine of resurrection, which Paul defends in 2 Timothy 2:18 against those who say it already passed, was directly taught by Jesus in which Gospel encounter with the Sadducees?", opts:["Matt 22:23–33","Mark 12:18–27","Luke 20:27–38","All three Synoptics"], ans:3 },
+      { q:"Paul's call to 'endure hardship as a good soldier of Jesus Christ' (2 Tim 2:3) echoes Jesus' call to take up one's cross. This call is recorded in which Gospels?", opts:["Matthew only","Matthew and Mark","Matthew, Mark, and Luke","All four Gospels"], ans:2 },
+      { q:"1 Timothy 6:13 says Paul charges Timothy 'before God… and before Christ Jesus, who testified the good confession before Pontius Pilate.' Jesus' trial before Pilate is recorded in all four Gospels. Which Gospel gives the most detailed account of Jesus' responses to Pilate?", opts:["Matthew","Mark","Luke","John"], ans:3 },
+      { q:"'Sound words of our Lord Jesus Christ' (1 Tim 6:3) refers to the authoritative teaching of Jesus. Which Gospel most extensively records Jesus' teaching discourses (5 major blocks)?", opts:["Mark","Luke","John","Matthew"], ans:3 },
+      { q:"Titus 3:5 speaks of 'washing of regeneration.' Jesus spoke of being 'born of water and the Spirit' in a conversation with which religious leader in John's Gospel?", opts:["The rich young ruler","Nicodemus","The Pharisee Simon","Zacchaeus"], ans:1 },
+      { q:"Paul warns about those who have 'a form of godliness but deny its power' (2 Tim 3:5). Jesus condemned which group for outward religiosity while inwardly being corrupt?", opts:["The Sadducees","The Pharisees","The scribes only","The priests"], ans:1 },
+      { q:"'All who desire to live godly in Christ Jesus will suffer persecution' (2 Tim 3:12). Jesus promised persecution to His followers in which Beatitude?", opts:["Blessed are the meek","Blessed are the merciful","Blessed are the peacemakers","Blessed are those persecuted for righteousness"], ans:3 },
+      { q:"The 'appearing of our Savior Christ Jesus, who abolished death' (2 Tim 1:10) refers to Jesus' resurrection. Which Gospel uniquely describes the resurrection as the 'eighth day' by its placement?", opts:["Matthew","Mark","Luke","John"], ans:3 },
+      { q:"Paul mentions that in the last days people will be 'lovers of pleasure rather than lovers of God' (2 Tim 3:4). Jesus warned about a generation seeking signs and pleasures in which parable?", opts:["Prodigal Son","Rich man and Lazarus","The sower","The ten virgins"], ans:3 },
+      { q:"'I have kept the faith' (2 Tim 4:7) uses the language of stewardship. Jesus taught about faithful stewardship in which parable that appears in Matthew 25 and Luke 19?", opts:["The prodigal son","The talents/minas","The unjust steward","The ten virgins"], ans:1 },
+      { q:"Paul tells Titus to 'remind' believers to be subject to rulers (Titus 3:1). Jesus addressed paying taxes to Caesar in a famous encounter. Which Gospels record this?", opts:["Matthew only","Matthew and Mark","Matthew, Mark, and Luke","All four Gospels"], ans:2 },
+      { q:"'God our Savior desires all to be saved' (1 Tim 2:3–4). This universal scope of salvation is illustrated in Jesus' parable of the great banquet where the master says 'compel them to come in.' This parable is recorded uniquely in which Gospel?", opts:["Matthew","Mark","Luke","John"], ans:2 },
+    ]
+  },
+
+  /* ------------------------------------------------------------------ */
+  {
+    section: "New Testament",
+    icon: "📖",
+    questions: [
+      { q:"Paul's self-description as a 'herald, apostle, and teacher' (1 Tim 2:7; 2 Tim 1:11) is unique among NT writers. Which other NT letter also opens with Paul claiming his apostleship was by God's will?", opts:["Romans","1 Corinthians","Galatians","All of the above"], ans:3 },
+      { q:"The requirement for elders to be 'above reproach' (1 Tim 3:2; Titus 1:6) parallels leadership requirements given in which other Pauline letter?", opts:["Philippians 1:1","Ephesians 4:11–12","Romans 12:8","1 Corinthians 12"], ans:0 },
+      { q:"'The grace of God has appeared, bringing salvation to all' (Titus 2:11) is theologically connected to which statement in Paul's letter to the Romans?", opts:["Romans 1:16","Romans 3:23","Romans 5:8","Romans 8:1"], ans:0 },
+      { q:"Paul's description of being 'poured out as a drink offering' (2 Tim 4:6) also appears in which other Pauline letter?", opts:["Romans 15","Philippians 2:17","Colossians 1","Galatians 2"], ans:1 },
+      { q:"The Pastoral Epistles emphasize 'sound doctrine.' Which other NT letter uses the phrase 'healthy teaching' in a similar concern for doctrinal integrity?", opts:["James","1 Peter","Jude","None — unique to Pastorals"], ans:3 },
+      { q:"'Godliness with contentment is great gain' (1 Tim 6:6). Which other NT letter also speaks of having learned contentment in all circumstances?", opts:["Philippians 4:11","Hebrews 13:5","James 1:17","1 Peter 5:7"], ans:0 },
+      { q:"Titus 3:5 speaks of 'washing of regeneration and renewing of the Holy Spirit.' Which other NT passage most closely parallels this with baptism and the Spirit?", opts:["Acts 2:38","Romans 6:4","1 Cor 12:13","All of the above"], ans:3 },
+      { q:"Paul warns in 2 Timothy 4:3–4 that people will 'heap up teachers' to suit their desires. Which NT letter describes false teachers who exploit people for gain in similar terms?", opts:["2 Peter 2","Jude","1 John 4","Both 2 Peter 2 and Jude"], ans:3 },
+      { q:"'The Lord knows those who are His' (2 Tim 2:19) is a seal of God's ownership. Which NT letter describes believers as 'sealed with the Holy Spirit'?", opts:["Romans 8","Ephesians 1:13","Galatians 3","Colossians 2"], ans:1 },
+      { q:"Paul's doxology in 1 Timothy 1:17 — 'to the King eternal, immortal, invisible' — echoes the theology of God's nature described in which other NT passage?", opts:["Hebrews 11:27","Romans 1:20","Colossians 1:15","John 4:24"], ans:2 },
+      { q:"The warning against 'quarrels about words' (2 Tim 2:14) is also reflected in which other Pauline instruction about avoiding 'foolish controversies'?", opts:["Titus 3:9","Romans 14:1","1 Cor 1:10","Gal 5:20"], ans:0 },
+      { q:"Paul's instruction that the Scriptures make one 'wise for salvation' (2 Tim 3:15) is connected to which NT description of the Word as a 'lamp' or 'sword'?", opts:["Hebrews 4:12 (sword)","Ephesians 6:17 (sword of the Spirit)","Both Hebrews and Ephesians","James 1:21"], ans:2 },
+      { q:"'I have fought the good fight, finished the race, kept the faith' (2 Tim 4:7). Paul uses the racing metaphor elsewhere in which NT letter?", opts:["1 Corinthians 9:24–27","Philippians 3:14","Hebrews 12:1","Both 1 Corinthians and Philippians"], ans:3 },
+      { q:"Hymenaeus and Philetus (2 Tim 2:17–18) taught the resurrection had already happened. This error is related to which broader NT theological concern?", opts:["Denial of Jesus' physical return","Cessation of spiritual gifts","Antinomianism","Judaizing"], ans:0 },
+      { q:"Paul's instruction to Timothy to 'fan into flame the gift of God' (2 Tim 1:6) uses a spiritual gift language also found in which NT letter?", opts:["Romans 12:6–8","1 Corinthians 12","Ephesians 4:7–8","All of the above"], ans:3 },
+      { q:"Titus is instructed to appoint elders in every town (Titus 1:5). This church-planting pattern mirrors Paul and Barnabas' activity described in which NT book?", opts:["Romans 15","Acts 14:23","Galatians 2","1 Corinthians 3"], ans:1 },
+      { q:"Paul's farewell in 2 Timothy 4:11 — 'only Luke is with me' — identifies Luke as a companion. Luke is also mentioned as a 'beloved physician' in which other Pauline letter?", opts:["Colossians 4:14","Philippians 4:22","Romans 16:21","Philemon 24"], ans:0 },
+      { q:"The instruction for church members to 'obey' and 'submit to' leaders (Titus 3:1) is also found in which NT letter?", opts:["Hebrews 13:17","1 Peter 5:5","James 4:7","Both Hebrews 13 and 1 Peter 5"], ans:3 },
+      { q:"Paul instructs Timothy to do the work of an evangelist (2 Tim 4:5). This office of 'evangelist' also appears in which NT letter listing church roles?", opts:["Romans 12","1 Corinthians 12","Ephesians 4:11","Colossians 3"], ans:2 },
+      { q:"The charge to 'preach the word; be ready in season and out of season' (2 Tim 4:2) is related to the NT concept of 'herald' (keryx). Which NT letter most extensively discusses the preaching of the cross?", opts:["Romans","1 Corinthians","Galatians","Hebrews"], ans:1 },
+      { q:"'Avoid foolish and ignorant disputes' (2 Tim 2:23) connects to similar warnings in which Pauline letters?", opts:["Romans 16:17","Titus 3:9","1 Corinthians 1:10","Both Romans and Titus"], ans:3 },
+      { q:"Paul's instruction that an elder must not be 'a lover of money' (1 Tim 3:3) mirrors the NT warning that 'the love of money is a root of all evil.' In the NT, which other passage warns specifically against greed among leaders?", opts:["Acts 20:33","1 Peter 5:2","Hebrews 13:5","Both Acts 20 and 1 Peter 5"], ans:3 },
+      { q:"Paul warns that in the last days people will be 'lovers of themselves' (2 Tim 3:2). The same selfish spirit is warned against in which NT letter describing 'quarrels and fights'?", opts:["James 4:1–3","1 John 2:15–16","Jude 18–19","All of the above"], ans:3 },
+      { q:"The Pastoral theology of 'appearing' (epiphaneia) — Christ's first and second appearing — is also found in which other NT letter?", opts:["Hebrews 9:28 (second coming)","Colossians 3:4","Philippians 3:20","All of the above"], ans:3 },
+      { q:"Paul's instruction for slaves to honor their masters (1 Tim 6:1; Titus 2:9) parallels similar instructions found in which NT letter(s)?", opts:["Ephesians 6:5","Colossians 3:22","1 Peter 2:18","All of the above"], ans:3 },
+      { q:"The phrase 'the grace of God has appeared' (Titus 2:11) describes the incarnation theologically. Which NT hymn or passage most similarly describes Christ's coming as an act of grace and self-emptying?", opts:["Philippians 2:6–8","Colossians 1:15–20","John 1:1–14","Hebrews 1:1–3"], ans:0 },
+      { q:"'Rebuke them sharply so that they may be sound in faith' (Titus 1:13) reflects firm correction in love. Which other NT letter commands that a sinning brother be rebuked before witnesses?", opts:["Matthew 18:15–17","Galatians 6:1","1 Thessalonians 5:14","2 Thessalonians 3:15"], ans:0 },
+      { q:"Paul's instruction to Titus to 'set in order what remains' (Titus 1:5) echoes the NT pattern of consolidating church structure. Which NT book records the Jerusalem Council as an example of early church structure being established?", opts:["Romans","Acts 15","Galatians 2","1 Corinthians 5"], ans:1 },
+      { q:"2 Timothy 3:12 states 'all who desire to live godly in Christ Jesus will suffer persecution.' This is consistent with NT teaching in which letter that says 'through many tribulations we must enter the kingdom'?", opts:["Acts 14:22","Romans 8:17","1 Peter 4:12","James 1:2"], ans:0 },
+      { q:"Paul's farewell 'I have kept the faith' (2 Tim 4:7) connects to the NT call to 'contend for the faith once delivered to the saints' found in which NT letter?", opts:["1 Peter 5","2 Peter 1","Jude 3","Hebrews 12"], ans:2 },
+    ]
+  }
+
+];
+
+/* ---- GBK state (separate from existing chapter state) ---- */
+const gbkState = {
+  sectionResults: [null, null, null],
+  currentSection: null,
+  currentQuestions: [],
+  isGBKMode: false
+};
+
+/* ---- Show GBK section picker ---- */
+function showGBKMenu() {
+  showOnly('gbkMenuSection');
+  renderGBKMenu();
+  window.scrollTo(0, 0);
+}
+
+function renderGBKMenu() {
+  const grid = $('gbkGrid');
+  grid.innerHTML = '';
+  generalBibleKnowledge.forEach((sec, i) => {
+    const result = gbkState.sectionResults[i];
+    let statusHtml = '';
+    if (result) {
+      const p = result.score >= PASS_MARK;
+      statusHtml = `<div class="gbk-status ${p ? 'status-pass' : 'status-pending'}">${p ? '✔ PASSED (' + result.score + '/30)' : '✘ FAILED (' + result.score + '/30)'}</div>`;
+    } else {
+      statusHtml = `<div class="gbk-status status-pending">▶ Start</div>`;
+    }
+    const card = document.createElement('div');
+    card.className = 'gbk-card' + (result && result.score >= PASS_MARK ? ' passed' : '');
+    card.innerHTML = `
+      <div class="gbk-icon">${sec.icon}</div>
+      <div class="gbk-name">${sec.section.toUpperCase()} SECTION</div>
+      <div class="gbk-count">30 Questions · Bible Knowledge</div>
+      ${statusHtml}
+    `;
+    card.onclick = () => startGBKSection(i);
+    grid.appendChild(card);
+  });
+}
+
+/* ---- Start a GBK section ---- */
+function startGBKSection(idx) {
+  gbkState.currentSection = idx;
+  gbkState.isGBKMode = true;
+  const sec = generalBibleKnowledge[idx];
+  $('quizTitle').textContent = `General Bible Knowledge · ${sec.section} Section`;
+  renderGBKQuestions(sec);
+  startTimer();
+  showOnly('quizSection');
+  window.scrollTo(0, 0);
+}
+
+function renderGBKQuestions(sec) {
+  const container = $('questionsContainer');
+  container.innerHTML = '';
+  const shuffled = shuffleArray([...sec.questions]);
+  gbkState.currentQuestions = shuffled;
+
+  shuffled.forEach((q, i) => {
+    const block = document.createElement('div');
+    block.className = 'q-block';
+    block.id = `q-block-${i}`;
+    const optHtml = q.opts.map((opt, oi) => {
+      return `<label><input type="radio" name="q${i}" value="${oi}"> ${opt}</label>`;
+    }).join('');
+    block.innerHTML = `
+      <div class="q-num">Question ${i + 1} of 30</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">${optHtml}</div>
+    `;
+    container.appendChild(block);
+  });
+
+  updateProgress(0);
+  container.addEventListener('change', updateProgressFromAnswers);
+}
+
+/* ---- Override submitQuiz to route GBK correctly ---- */
+const _originalSubmitQuiz = submitQuiz;
+submitQuiz = function() {
+  if (gbkState.isGBKMode) {
+    submitGBKQuiz();
+  } else {
+    _originalSubmitQuiz();
+  }
+};
+
+function submitGBKQuiz() {
+  clearInterval(timerInterval);
+  const sec = generalBibleKnowledge[gbkState.currentSection];
+  let score = 0;
+  const wrong = [];
+
+  gbkState.currentQuestions.forEach((q, i) => {
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    const userAns = sel ? parseInt(sel.value) : null;
+    if (userAns !== null && userAns === q.ans) {
+      score++;
+    } else {
+      wrong.push({ num: i + 1, question: q.q, yourAns: userAns, correct: q.ans, opts: q.opts });
+    }
+  });
+
+  gbkState.sectionResults[gbkState.currentSection] = { score, wrong };
+
+  const quizData = {
+    name: state.user.name,
+    email: state.user.email,
+    phone: state.user.phone,
+    chapter: 'GBK',
+    chapterTitle: `General Bible Knowledge – ${sec.section} Section`,
+    score: score,
+    total: 30,
+    status: score >= PASS_MARK ? "PASS" : "FAIL"
+  };
+  sendToGoogleSheet(quizData);
+  showGBKResult(score, wrong);
+}
+
+function showGBKResult(score, wrong) {
+  showOnly('resultSection');
+  window.scrollTo(0, 0);
+  const passed = score >= PASS_MARK;
+  const sec = generalBibleKnowledge[gbkState.currentSection];
+
+  $('resultBadge').textContent = passed ? '🏆 PASS' : '✘ FAIL';
+  $('resultBadge').className = 'result-badge ' + (passed ? 'pass' : 'fail');
+  $('resultScore').textContent = `Score: ${score} / 30`;
+  $('resultSub').textContent = `General Bible Knowledge · ${sec.section} Section · Pass mark: ${PASS_MARK}/30`;
+
+  const actions = $('resultActions');
+  actions.innerHTML = '';
+
+  const retryBtn = document.createElement('button');
+  retryBtn.className = 'btn-retry';
+  retryBtn.textContent = '↺ Retry Section';
+  retryBtn.onclick = () => startGBKSection(gbkState.currentSection);
+  actions.appendChild(retryBtn);
+
+  const menuBtn = document.createElement('button');
+  menuBtn.className = 'btn-next';
+  menuBtn.textContent = '📚 Section Menu';
+  menuBtn.onclick = () => { gbkState.isGBKMode = false; showGBKMenu(); };
+  actions.appendChild(menuBtn);
+
+  const mapBtn = document.createElement('button');
+  mapBtn.className = 'btn-next';
+  mapBtn.style.background = 'rgba(201,168,76,0.2)';
+  mapBtn.style.border = '1px solid var(--gold)';
+  mapBtn.style.color = 'var(--gold)';
+  mapBtn.style.boxShadow = 'none';
+  mapBtn.textContent = '📖 Chapter Map';
+  mapBtn.onclick = () => { gbkState.isGBKMode = false; showChapterMap(); };
+  actions.appendChild(mapBtn);
+
+  const reviewContainer = $('reviewContainer');
+  reviewContainer.innerHTML = '';
+
+  if (wrong.length > 0) {
+    const title = document.createElement('div');
+    title.className = 'review-title';
+    title.textContent = `📋 Review: ${wrong.length} Wrong Answer${wrong.length > 1 ? 's' : ''}`;
+    reviewContainer.appendChild(title);
+
+    wrong.forEach(w => {
+      const item = document.createElement('div');
+      item.className = 'review-item';
+      const optLabels = ['A', 'B', 'C', 'D'];
+      const yourLabel = (w.yourAns !== null && w.yourAns !== undefined) ? optLabels[w.yourAns] + '. ' + w.opts[w.yourAns] : 'No answer selected';
+      const correctLabel = optLabels[w.correct] + '. ' + w.opts[w.correct];
+      item.innerHTML = `
+        <div class="rq">Q${w.num}: ${w.question}</div>
+        <div class="ry">✘ Your answer: ${yourLabel}</div>
+        <div class="rc">✔ Correct: ${correctLabel}</div>
+      `;
+      reviewContainer.appendChild(item);
+    });
+  } else {
+    reviewContainer.innerHTML = `
+      <div class="completion-banner">
+        <h2>🎉 Perfect Section!</h2>
+        <p>Outstanding, ${state.user.name}! You answered all 30 questions correctly in the ${sec.section} Section. Well done!</p>
+      </div>`;
+  }
 }
 </script>
 </body>
