@@ -141,24 +141,54 @@ th{
   <div id="scoreForm" style="display:none;">
     <button class="logout" id="logoutBtn">Logout</button>
     <h2 style="color:gold;">Judge Panel</h2>
-    
-  <label>Judge Name</label>
-    <input id="judge" readonly style="background:#333; color:gold;">
-      <label>Contestant Name</label>
-    <input id="name" placeholder="Name of contestant">
 
-  
+<label>Judge Name</label>
+<input id="judge" readonly style="background:#333; color:gold;">
+
+<label>Contestant Name</label>
+<input id="name" placeholder="Name of contestant">
 
     <div class="grid">
-      <div class="box"><label>Pitch (20)</label><input type="number" id="pitch"></div>
-      <div class="box"><label>Tone (15)</label><input type="number" id="tone"></div>
-      <div class="box"><label>Rhythm (15)</label><input type="number" id="rhythm"></div>
-      <div class="box"><label>Mic (10)</label><input type="number" id="mic"></div>
-      <div class="box"><label>Stage (15)</label><input type="number" id="stage"></div>
-      <div class="box"><label>Comm (10)</label><input type="number" id="comm"></div>
-      <div class="box"><label>Creativity (10)</label><input type="number" id="creativity"></div>
-      <div class="box"><label>Impact (5)</label><input type="number" id="impact"></div>
-    </div>
+  <div class="box">
+    <label>Pitch (20)</label>
+    <input type="number" id="pitch" placeholder="Tone & Key accuracy">
+  </div>
+
+  <div class="box">
+    <label>Diction (15)</label>
+    <input type="number" id="diction" placeholder="Lyrics clarity & pronunciation">
+  </div>
+
+  <div class="box">
+    <label>Rhythm (15)</label>
+    <input type="number" id="rhythm" placeholder="Timing & flow consistency">
+  </div>
+
+  <div class="box">
+    <label>Technique (10)</label>
+    <input type="number" id="mic" placeholder="Mic control & voice handling">
+  </div>
+
+  <div class="box">
+    <label>Performance (15)</label>
+    <input type="number" id="performance" placeholder="Stage presence, confidence & presentation">
+  </div>
+
+  <div class="box">
+    <label>Delivery (10)</label>
+    <input type="number" id="delivery" placeholder="Expression & communication">
+  </div>
+
+  <div class="box">
+    <label>Creativity (10)</label>
+    <input type="number" id="creativity" placeholder="Originality & style">
+  </div>
+
+  <div class="box">
+    <label>Impact (5)</label>
+    <input type="number" id="impact" placeholder="Audience connection & effect">
+  </div>
+</div>
 
     <button class="submit" id="submitBtn">Submit Score</button>
     <button class="reset" id="resetBtn">Clear Form</button>
