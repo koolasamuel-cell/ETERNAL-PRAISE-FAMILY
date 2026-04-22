@@ -148,48 +148,47 @@ th{
 <label>Contestant Name</label>
 <input id="name" placeholder="Name of contestant">
 
-    <div class="grid">
+<div class="grid">
   <div class="box">
     <label>Pitch (20)</label>
-    <input type="number" id="pitch" placeholder="Tone & Key accuracy">
+    <input type="number" id="pitch" min="0" max="20" placeholder="0-20">
   </div>
 
   <div class="box">
     <label>Diction (15)</label>
-    <input type="number" id="diction" placeholder="Lyrics clarity & pronunciation">
+    <input type="number" id="diction" min="0" max="15" placeholder="0-15">
   </div>
 
   <div class="box">
     <label>Rhythm (15)</label>
-    <input type="number" id="rhythm" placeholder="Timing & flow consistency">
+    <input type="number" id="rhythm" min="0" max="15" placeholder="0-15">
   </div>
 
   <div class="box">
     <label>Technique (10)</label>
-    <input type="number" id="mic" placeholder="Mic control & voice handling">
+    <input type="number" id="mic" min="0" max="10" placeholder="0-10">
   </div>
 
   <div class="box">
     <label>Performance (15)</label>
-    <input type="number" id="performance" placeholder="Stage presence, confidence & presentation">
+    <input type="number" id="performance" min="0" max="15" placeholder="0-15">
   </div>
 
   <div class="box">
     <label>Delivery (10)</label>
-    <input type="number" id="delivery" placeholder="Expression & communication">
+    <input type="number" id="delivery" min="0" max="10" placeholder="0-10">
   </div>
 
   <div class="box">
     <label>Creativity (10)</label>
-    <input type="number" id="creativity" placeholder="Originality & style">
+    <input type="number" id="creativity" min="0" max="10" placeholder="0-10">
   </div>
 
   <div class="box">
     <label>Impact (5)</label>
-    <input type="number" id="impact" placeholder="Audience connection & effect">
+    <input type="number" id="impact" min="0" max="5" placeholder="0-5">
   </div>
 </div>
-
     <button class="submit" id="submitBtn">Submit Score</button>
     <button class="reset" id="resetBtn">Clear Form</button>
     <div class="status" id="status"></div>
@@ -224,7 +223,7 @@ th{
 </div>
 
 <script>
-const APP_URL = "https://script.google.com/macros/s/AKfycbzQ41hVIHIYzzU9-h88izrPt5s92RZDjl4XOPEtvFWhEWdtihzBcrh0JnyPsKmaq47_/exec";
+const APP_URL = "https://script.google.com/macros/s/AKfycbwYIu5TYPPYlV9hmi1NMweZNtN22Gq0blQ3kt6oEaIuqmA2ImOBDivQHjJkvsGnM2LA/exec";
 
 function showLoginOnly() {
     document.getElementById("scoreForm").style.display = "none";
@@ -271,28 +270,48 @@ document.getElementById("logoutBtn").onclick = function() {
     sessionStorage.clear();
     showLoginOnly();
 };
-
 async function submitScore(){
     const user = JSON.parse(sessionStorage.getItem("user"));
     const contestant = document.getElementById("name").value.trim();
 
     if (!contestant) { alert("Please enter Contestant Name"); return; }
 
-    // REQUIREMENT: PROMPT CONFIRMATION
+    // 1. GET ALL VALUES AS NUMBERS
+    const p = Number(document.getElementById("pitch").value) || 0;
+    const d = Number(document.getElementById("diction").value) || 0;
+    const r = Number(document.getElementById("rhythm").value) || 0;
+    const m = Number(document.getElementById("mic").value) || 0;
+    const pf = Number(document.getElementById("performance").value) || 0;
+    const dv = Number(document.getElementById("delivery").value) || 0;
+    const c = Number(document.getElementById("creativity").value) || 0;
+    const i = Number(document.getElementById("impact").value) || 0;
+
+    // 2. SAFETY CHECK: PREVENT OVER-SCORING
+    if (p < 0 || p > 20) { alert("Pitch must be between 0 and 20"); return; }
+    if (d < 0 || d > 15) { alert("Diction must be between 0 and 15"); return; }
+    if (r < 0 || r > 15) { alert("Rhythm must be between 0 and 15"); return; }
+    if (m < 0 || m > 10) { alert("Technique must be between 0 and 10"); return; }
+    if (pf < 0 || pf > 15) { alert("Performance must be between 0 and 15"); return; }
+    if (dv < 0 || dv > 10) { alert("Delivery must be between 0 and 10"); return; }
+    if (c < 0 || c > 10) { alert("Creativity must be between 0 and 10"); return; }
+    if (i < 0 || i > 5)  { alert("Impact must be between 0 and 5"); return; }
+
+    // 3. CONFIRMATION
     const confirmVote = confirm(`Are you sure you want to submit the score for ${contestant}? This cannot be changed.`);
     if(!confirmVote) return;
 
+    // 4. PREPARE DATA FOR APPSCRIPT
     const data = {
         contestant: contestant,
         judge: user.name,
-        pitch: document.getElementById("pitch").value || 0,
-        tone: document.getElementById("tone").value || 0,
-        rhythm: document.getElementById("rhythm").value || 0,
-        mic: document.getElementById("mic").value || 0,
-        stage: document.getElementById("stage").value || 0,
-        communication: document.getElementById("comm").value || 0,
-        creativity: document.getElementById("creativity").value || 0,
-        impact: document.getElementById("impact").value || 0
+        pitch: p,
+        tone: d,          // Maps Diction to tone
+        rhythm: r,
+        mic: m,
+        stage: pf,        // Maps Performance to stage
+        communication: dv, // Maps Delivery to communication
+        creativity: c,
+        impact: i
     };
 
     const status = document.getElementById("status");
@@ -309,14 +328,16 @@ async function submitScore(){
             alert("Score successfully recorded! Total: " + result.total);
             resetForm();
             loadBoard();
+            status.innerText = "";
         } else {
             alert("Error: " + result.error);
             status.innerText = result.error;
         }
-    } catch (err) { status.innerText = "Submission failed."; }
-}
-
-function resetForm(){
+    } catch (err) { 
+        console.error(err);
+        status.innerText = "Submission failed."; 
+    }
+}function resetForm(){
     document.getElementById("name").value = "";
     document.querySelectorAll("#scoreForm input[type='number']").forEach(i => i.value = "");
 }
