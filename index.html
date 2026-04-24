@@ -2,391 +2,387 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Express Yourself System</title>
+<title>EPF - Express Yourself System HD</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <style>
-body{
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f0f0f,#1c1c1c);
-    color:white;
-    padding:20px;
-}
+    :root {
+        --sky-blue: #00d2ff;
+        --crystal-blue: #3a7bd5;
+        --deep-ocean: #001f3f;
+        --bright-text: #ffffff;
+        --neon-cyan: #00ffff;
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --bg-gradient: radial-gradient(circle at center, #3a7bd5 0%, #001f3f 100%);
+    }
+    
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+        background: var(--bg-gradient);
+        background-attachment: fixed;
+        color: var(--bright-text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* 3D Flyer Background Image Simulation */
+        background-image: 
+            linear-gradient(rgba(0, 31, 63, 0.8), rgba(0, 31, 63, 0.8)),
+            url('https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=1000');
+        background-size: cover;
+        background-position: center;
+        padding-bottom: 100px; /* Space for the footer */
+    }
 
-h1{
-    text-align:center;
-    color:gold;
-}
+    /* 3D Visual Branding Background */
+    body::before {
+        content: "EPF";
+        position: fixed;
+        bottom: 10%;
+        right: 5%;
+        font-size: 10rem;
+        font-weight: 900;
+        opacity: 0.03;
+        color: white;
+        z-index: -1;
+        transform: rotate(-15deg);
+        pointer-events: none;
+    }
 
-/* SECTIONS */
-#loginSection, #scoreForm{
-    max-width:600px;
-    margin:0 auto 20px;
-    background:rgba(255,255,255,0.05);
-    padding:20px;
-    border-radius:12px;
-}
+    .header-container {
+        text-align: center;
+        margin-bottom: 40px;
+        perspective: 1000px;
+    }
 
-label{ display:block; color:#ccc; margin:5px 0 3px; }
+    h1 {
+        font-size: clamp(2.5rem, 10vw, 4.5rem);
+        font-weight: 900;
+        margin: 0;
+        text-transform: uppercase;
+        color: var(--bright-text);
+        text-shadow: 0 10px 20px rgba(0, 255, 255, 0.4), 0 0 100px rgba(255,255,255,0.2);
+        letter-spacing: -2px;
+        transform: translateZ(50px);
+    }
 
-input{
-    width:100%;
-    padding:10px;
-    border-radius:8px;
-    border:none;
-    outline:none;
-    box-sizing: border-box;
-}
+    h2 {
+        font-size: 1.2rem;
+        letter-spacing: 6px;
+        color: var(--neon-cyan);
+        margin: 0;
+        text-transform: uppercase;
+        font-weight: 800;
+        opacity: 0.9;
+    }
 
-/* GRID FOR SCORES */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-    margin-top:15px;
-}
+    h3 {
+        font-size: 1.2rem;
+        color: var(--bright-text);
+        text-align: center;
+        margin: 20px 0;
+        letter-spacing: 2px;
+    }
 
-.box{
-    background:rgba(255,255,255,0.05);
-    padding:10px;
-    border-radius:10px;
-}
+    .container {
+        width: 100%;
+        max-width: 650px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        padding: 35px;
+        border-radius: 30px;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        margin-bottom: 30px;
+        box-sizing: border-box;
+    }
 
-button{
-    margin-top:15px;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-    transition: 0.3s;
-}
+    label {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--neon-cyan);
+        margin: 20px 0 8px;
+        text-transform: uppercase;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
 
-.submit{background:gold;color:black; width: 100%; font-size: 1.1em;}
-.submit:hover{background: #ffd700; transform: scale(1.02);}
-.reset{background:#444;color:white; width: 100%;}
-.logout{background:#e74c3c;color:white; float:right; margin-top:0; padding: 5px 15px;}
+    input {
+        width: 100%;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        box-sizing: border-box;
+        font-size: 1.1rem;
+        transition: 0.3s;
+    }
 
-.status{
-    text-align:center;
-    margin-top:10px;
-    color:lightgreen;
-    font-weight:bold;
-}
+    input:focus {
+        outline: none;
+        border-color: var(--neon-cyan);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
 
-/* TABLES */
-.board, .history-section{
-    margin-top:40px;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-}
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 15px;
+    }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:10px;
-    background: rgba(0,0,0,0.3);
-}
+    .box {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        border-radius: 18px;
+    }
 
-th,td{
-    padding:12px;
-    border:1px solid #333;
-    text-align:center;
-}
+    .submit {
+        background: linear-gradient(135deg, var(--sky-blue) 0%, var(--crystal-blue) 100%);
+        color: var(--deep-ocean);
+        font-weight: 900;
+        font-size: 1.1rem;
+        padding: 20px;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        text-transform: uppercase;
+        width: 100%;
+        margin-top: 25px;
+        transition: 0.3s;
+    }
 
-th{
-    background:gold;
-    color:black;
-}
+    .submit:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.2);
+    }
 
-/* JUDGE LIST STYLING (The footer requirement) */
-.judge-row-footer {
-    font-size: 0.75em;
-    color: #ffd700;
-    margin-top: 8px;
-    display: block;
-    text-align: left;
-    border-top: 1px solid #444;
-    padding-top: 4px;
-}
+    .logout {
+        background: rgba(255, 50, 50, 0.2);
+        color: #ff6b6b;
+        border: 1px solid rgba(255, 50, 50, 0.3);
+        padding: 8px 15px;
+        font-weight: 800;
+        float: right;
+        border-radius: 10px;
+        cursor: pointer;
+    }
 
-/* TOP 3 COLORS */
-.first{background:rgba(31, 170, 89, 0.3); color:white;}
-.second{background:rgba(241, 196, 15, 0.3); color:white;}
-.third{background:rgba(231, 76, 60, 0.3); color:white;}
+    table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+    td { 
+        background: rgba(255, 255, 255, 0.05); 
+        padding: 15px; 
+        text-align: center; 
+    }
+    td:first-child { border-radius: 15px 0 0 15px; color: var(--neon-cyan); font-weight: 900; }
+    td:last-child { border-radius: 0 15px 15px 0; font-size: 1.2rem; font-weight: 900; color: var(--sky-blue); }
+    
+    .first td { 
+        background: rgba(0, 255, 255, 0.1);
+        border-top: 1px solid var(--neon-cyan);
+        border-bottom: 1px solid var(--neon-cyan);
+    }
+
+    /* FOOTER STYLING */
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 0;
+        background: rgba(0, 31, 63, 0.8);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid var(--glass-border);
+        text-align: center;
+        z-index: 100;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .copy-text {
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: var(--bright-text);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+    }
+
+    .designer-text {
+        font-size: 0.7rem;
+        color: var(--neon-cyan);
+        opacity: 0.7;
+        letter-spacing: 1px;
+    }
+
 </style>
 </head>
-
 <body>
 
-<h1>🎤 Express Yourself System</h1>
-
-<div id="app">
-  <div id="loginSection">
-    <h2>🔑 Judge Login</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
-      <div>
-        <label>Name</label>
-        <input id="loginName" placeholder="Your name">
-      </div>
-      <div>
-        <label>Password</label>
-        <input type="password" id="loginPass" placeholder="Your password">
-      </div>
-    </div>
-    <button id="loginBtn" style="width: 100%;">Login as Judge</button>
-    <div id="loginMsg"></div>
-  </div>
-
-  <div id="scoreForm" style="display:none;">
-    <button class="logout" id="logoutBtn">Logout</button>
-    <h2 style="color:gold;">Judge Panel</h2>
-
-<label>Judge Name</label>
-<input id="judge" readonly style="background:#333; color:gold;">
-
-<label>Contestant Name</label>
-<input id="name" placeholder="Name of contestant">
-
-<div class="grid">
-  <div class="box">
-    <label>Pitch (20)</label>
-    <input type="number" id="pitch" min="0" max="20" placeholder="0-20">
-  </div>
-
-  <div class="box">
-    <label>Diction (15)</label>
-    <input type="number" id="diction" min="0" max="15" placeholder="0-15">
-  </div>
-
-  <div class="box">
-    <label>Rhythm (15)</label>
-    <input type="number" id="rhythm" min="0" max="15" placeholder="0-15">
-  </div>
-
-  <div class="box">
-    <label>Technique (10)</label>
-    <input type="number" id="mic" min="0" max="10" placeholder="0-10">
-  </div>
-
-  <div class="box">
-    <label>Performance (15)</label>
-    <input type="number" id="performance" min="0" max="15" placeholder="0-15">
-  </div>
-
-  <div class="box">
-    <label>Delivery (10)</label>
-    <input type="number" id="delivery" min="0" max="10" placeholder="0-10">
-  </div>
-
-  <div class="box">
-    <label>Creativity (10)</label>
-    <input type="number" id="creativity" min="0" max="10" placeholder="0-10">
-  </div>
-
-  <div class="box">
-    <label>Impact (5)</label>
-    <input type="number" id="impact" min="0" max="5" placeholder="0-5">
-  </div>
+<div class="header-container">
+    <h2>Eternal Praise Family</h2>
+    <h1>Express Yourself</h1>
 </div>
-    <button class="submit" id="submitBtn">Submit Score</button>
-    <button class="reset" id="resetBtn">Clear Form</button>
-    <div class="status" id="status"></div>
 
-    <div class="history-section">
-        <h3 style="color:gold; text-align:center;">📋 Your Recently Voted</h3>
-        <table style="font-size: 0.9em;">
+<div id="app" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+    
+    <div id="loginSection" class="container">
+        <h3>SYSTEM ACCESS</h3>
+        <label>Identify Yourself</label>
+        <input id="loginName" placeholder="Enter Name">
+        <label>Passcode</label>
+        <input type="password" id="loginPass" placeholder="••••">
+        <button id="loginBtn" class="submit">Authorize</button>
+        <div id="loginMsg" style="color: #ff6b6b; text-align: center; margin-top: 15px; font-weight: bold;"></div>
+    </div>
+
+    <div id="scoreForm" class="container" style="display:none;">
+        <button class="logout" id="logoutBtn">EXIT</button>
+        <h3>JUDGE PANEL</h3>
+        
+        <label>Active Judge</label>
+        <input id="judge" readonly style="background: transparent; border: none; color: var(--neon-cyan); font-weight: 900; font-size: 1.5rem; padding-left: 0;">
+
+        <label>Contestant Name</label>
+        <input id="nameInput" placeholder="Type name here..." oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')">
+
+        <div class="grid">
+            <div class="box">
+                <label>Pitch (20)</label>
+                <input type="number" id="pitch" placeholder="0-20" oninput="v(this, 20)">
+            </div>
+            <div class="box">
+                <label>Diction (15)</label>
+                <input type="number" id="diction" placeholder="0-15" oninput="v(this, 15)">
+            </div>
+            <div class="box">
+                <label>Rhythm (15)</label>
+                <input type="number" id="rhythm" placeholder="0-15" oninput="v(this, 15)">
+            </div>
+            <div class="box">
+                <label>Mic (10)</label>
+                <input type="number" id="mic" placeholder="0-10" oninput="v(this, 10)">
+            </div>
+            <div class="box">
+                <label>Stage (15)</label>
+                <input type="number" id="stage" placeholder="0-15" oninput="v(this, 15)">
+            </div>
+            <div class="box">
+                <label>Delivery (10)</label>
+                <input type="number" id="delivery" placeholder="0-10" oninput="v(this, 10)">
+            </div>
+            <div class="box">
+                <label>Creative (10)</label>
+                <input type="number" id="creativity" placeholder="0-10" oninput="v(this, 10)">
+            </div>
+            <div class="box">
+                <label>Impact (5)</label>
+                <input type="number" id="impact" placeholder="0-5" oninput="v(this, 5)">
+            </div>
+        </div>
+
+        <button class="submit" id="submitBtn">Confirm Score</button>
+        <div id="status" style="text-align: center; color: var(--neon-cyan); margin-top: 15px; font-weight: 800;"></div>
+    </div>
+
+    <div class="container">
+        <h3 style="color: var(--neon-cyan);">🏆 LIVE STANDINGS</h3>
+        <table>
             <thead>
-                <tr>
-                    <th>Contestant</th>
-                    <th>Status</th>
+                <tr style="color: var(--sky-blue); font-size: 0.7rem; letter-spacing: 2px;">
+                    <th>POS</th><th>CONTESTANT</th><th>AVG</th>
                 </tr>
             </thead>
-            <tbody id="judgeHistory"></tbody>
+            <tbody id="boardBody"></tbody>
         </table>
     </div>
-  </div>
-
-  <div class="board">
-    <h2 style="color:gold;text-align:center;">🏆 Live Leaderboard</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Contestant Info</th>
-          <th>Average Score</th>
-        </tr>
-      </thead>
-      <tbody id="board"></tbody>
-    </table>
-  </div>
 </div>
 
-<script>
-const APP_URL = "https://script.google.com/macros/s/AKfycbwYIu5TYPPYlV9hmi1NMweZNtN22Gq0blQ3kt6oEaIuqmA2ImOBDivQHjJkvsGnM2LA/exec";
+<footer>
+    <div class="footer-content">
+        <div class="copy-text">© ETERNAL PRAISE FAMILY</div>
+        <div class="designer-text">DESIGNED BY KOOLA</div>
+    </div>
+</footer>
 
-function showLoginOnly() {
-    document.getElementById("scoreForm").style.display = "none";
-    document.getElementById("loginSection").style.display = "block";
+<script>
+const APP_URL = "https://script.google.com/macros/s/AKfycbyfLJ-Ne9co0dBxTGwDIRAR5PS3M4KtH9RdVZAK6THG-vnnHFFdD4V3uIK3AYY1r6ZV/exec";
+
+function v(input, max) {
+    if(input.value > max) input.value = max;
+    if(input.value < 0) input.value = 0;
 }
 
-function showJudgePanel(name) {
-    document.getElementById("judge").value = name;
-    document.getElementById("scoreForm").style.display = "block";
-    document.getElementById("loginSection").style.display = "none";
+function showPanel(user){
+    document.getElementById("judge").value = user.name.toUpperCase();
+    document.getElementById("scoreForm").style.display="block";
+    document.getElementById("loginSection").style.display="none";
     loadBoard();
 }
 
 (function(){
-    const userJson = sessionStorage.getItem("user");
-    if (userJson) {
-        const user = JSON.parse(userJson);
-        showJudgePanel(user.name);
-    } else {
-        showLoginOnly();
-    }
+    const user = sessionStorage.getItem("user");
+    if(user) showPanel(JSON.parse(user));
 })();
 
-document.getElementById("loginBtn").onclick = async function(){
-    const name = document.getElementById("loginName").value.trim();
-    const password = document.getElementById("loginPass").value.trim();
-    const msg = document.getElementById("loginMsg");
-    if (!name || !password) { msg.innerText = "Enter credentials."; return; }
-    msg.innerText = "Logging in...";
-    try {
-        const res = await fetch(APP_URL, {
-            method: "POST",
-            body: new URLSearchParams({ action: "login", name, password }),
-        });
-        const user = await res.json();
-        if (user.success) {
-            sessionStorage.setItem("user", JSON.stringify(user));
-            showJudgePanel(user.name);
-        } else { msg.innerText = user.message; }
-    } catch (err) { msg.innerText = "Network error."; }
+loginBtn.onclick = async () => {
+    const name = loginName.value.trim();
+    const password = loginPass.value.trim();
+    if(!name || !password) return;
+    loginMsg.innerText = "AUTHENTICATING...";
+    const res = await fetch(APP_URL, { method:"POST", body: new URLSearchParams({action:"login", name, password}) });
+    const user = await res.json();
+    if(user.success) { sessionStorage.setItem("user", JSON.stringify(user)); showPanel(user); }
+    else loginMsg.innerText = user.message;
 };
 
-document.getElementById("logoutBtn").onclick = function() {
-    sessionStorage.clear();
-    showLoginOnly();
-};
-async function submitScore(){
+submitBtn.onclick = async () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
-    const contestant = document.getElementById("name").value.trim();
+    const contestant = nameInput.value.trim();
+    if(!contestant) return alert("Enter name!");
 
-    if (!contestant) { alert("Please enter Contestant Name"); return; }
-
-    // 1. GET ALL VALUES AS NUMBERS
-    const p = Number(document.getElementById("pitch").value) || 0;
-    const d = Number(document.getElementById("diction").value) || 0;
-    const r = Number(document.getElementById("rhythm").value) || 0;
-    const m = Number(document.getElementById("mic").value) || 0;
-    const pf = Number(document.getElementById("performance").value) || 0;
-    const dv = Number(document.getElementById("delivery").value) || 0;
-    const c = Number(document.getElementById("creativity").value) || 0;
-    const i = Number(document.getElementById("impact").value) || 0;
-
-    // 2. SAFETY CHECK: PREVENT OVER-SCORING
-    if (p < 0 || p > 20) { alert("Pitch must be between 0 and 20"); return; }
-    if (d < 0 || d > 15) { alert("Diction must be between 0 and 15"); return; }
-    if (r < 0 || r > 15) { alert("Rhythm must be between 0 and 15"); return; }
-    if (m < 0 || m > 10) { alert("Technique must be between 0 and 10"); return; }
-    if (pf < 0 || pf > 15) { alert("Performance must be between 0 and 15"); return; }
-    if (dv < 0 || dv > 10) { alert("Delivery must be between 0 and 10"); return; }
-    if (c < 0 || c > 10) { alert("Creativity must be between 0 and 10"); return; }
-    if (i < 0 || i > 5)  { alert("Impact must be between 0 and 5"); return; }
-
-    // 3. CONFIRMATION
-    const confirmVote = confirm(`Are you sure you want to submit the score for ${contestant}? This cannot be changed.`);
-    if(!confirmVote) return;
-
-    // 4. PREPARE DATA FOR APPSCRIPT
     const data = {
-        contestant: contestant,
-        judge: user.name,
-        pitch: p,
-        tone: d,          // Maps Diction to tone
-        rhythm: r,
-        mic: m,
-        stage: pf,        // Maps Performance to stage
-        communication: dv, // Maps Delivery to communication
-        creativity: c,
-        impact: i
+        contestant, judge: user.name, role: user.role,
+        pitch: +pitch.value || 0, tone: +diction.value || 0,
+        rhythm: +rhythm.value || 0, mic: +mic.value || 0,
+        stage: +stage.value || 0, communication: +delivery.value || 0,
+        creativity: +creativity.value || 0, impact: +impact.value || 0
     };
 
-    const status = document.getElementById("status");
-    status.innerText = "Checking and Saving...";
-
-    try {
-        const res = await fetch(APP_URL, {
-            method: "POST",
-            body: new URLSearchParams(data)
-        });
-        const result = await res.json();
-
-        if (result.success) {
-            alert("Score successfully recorded! Total: " + result.total);
-            resetForm();
-            loadBoard();
-            status.innerText = "";
-        } else {
-            alert("Error: " + result.error);
-            status.innerText = result.error;
-        }
-    } catch (err) { 
-        console.error(err);
-        status.innerText = "Submission failed."; 
-    }
-}function resetForm(){
-    document.getElementById("name").value = "";
-    document.querySelectorAll("#scoreForm input[type='number']").forEach(i => i.value = "");
-}
+    if(!confirm(`Submit for ${contestant}?`)) return;
+    status.innerText = "TRANSMITTING TO CLOUD...";
+    const res = await fetch(APP_URL, { method:"POST", body: new URLSearchParams(data) });
+    const result = await res.json();
+    if(result.success) { alert("SUCCESS ✔"); location.reload(); }
+    else alert(result.error);
+};
 
 async function loadBoard(){
     try {
-        const res = await fetch(`${APP_URL}?p=board`);
+        const res = await fetch(APP_URL+"?p=board");
         const data = await res.json();
-        const board = document.getElementById("board");
-        const historyTable = document.getElementById("judgeHistory");
-        const currentUser = JSON.parse(sessionStorage.getItem("user"));
-
-        board.innerHTML = "";
-        if(historyTable) historyTable.innerHTML = "";
-
-        data.forEach((d, i) => {
-            let cls = "";
-            if(i==0) cls="first";
-            else if(i==1) cls="second";
-            else if(i==2) cls="third";
-
-            // REQUIREMENT: DISPLAY JUDGE NAMES AT THE BOTTOM OF ROW
-            const judgesString = d.judges.join(" | ");
-
-            board.innerHTML += `
-                <tr class="${cls}">
-                    <td>${i+1}</td>
-                    <td>
-                        <div style="font-weight: bold; font-size: 1.2em;">${d.name}</div>
-                        <div class="judge-row-footer">Voted by: ${judgesString}</div>
-                    </td>
-                    <td>${d.avg.toFixed(2)}</td>
-                </tr>
-            `;
-
-            // REQUIREMENT: SHOW JUDGE THEIR OWN VOTES
-            if(currentUser && d.judges.includes(currentUser.name)) {
-                historyTable.innerHTML += `<tr><td>${d.name}</td><td style="color:lightgreen;">Submitted ✔</td></tr>`;
-            }
-        });
-    } catch(err){ console.log("Refresh failed"); }
+        boardBody.innerHTML = data.map((d,i)=> `
+            <tr class="${i==0?'first':''}">
+                <td>#${i+1}</td>
+                <td style="text-align: left;">
+                    <div style="font-weight:900; font-size:1.1rem; color:white;">${d.name}</div>
+                    <div style="font-size:0.6rem; color:var(--neon-cyan); opacity:0.8; font-weight:bold;">VOTED BY: ${d.judges.join(" | ")}</div>
+                </td>
+                <td>${d.avg.toFixed(2)}</td>
+            </tr>`).join('');
+    } catch(e) { console.log("Update pending..."); }
 }
 
-setInterval(loadBoard, 10000); 
+logoutBtn.onclick = () => { sessionStorage.clear(); location.reload(); };
+setInterval(loadBoard, 15000);
 loadBoard();
-
-document.getElementById("submitBtn").onclick = submitScore;
-document.getElementById("resetBtn").onclick = resetForm;
 </script>
-
 </body>
 </html>
