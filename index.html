@@ -27,16 +27,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* 3D Flyer Background Image Simulation */
         background-image: 
             linear-gradient(rgba(0, 31, 63, 0.8), rgba(0, 31, 63, 0.8)),
             url('https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=1000');
         background-size: cover;
         background-position: center;
-        padding-bottom: 100px; /* Space for the footer */
+        padding-bottom: 100px;
     }
 
-    /* 3D Visual Branding Background */
     body::before {
         content: "EPF";
         position: fixed;
@@ -187,7 +185,6 @@
         border-bottom: 1px solid var(--neon-cyan);
     }
 
-    /* FOOTER STYLING */
     footer {
         position: fixed;
         bottom: 0;
@@ -221,7 +218,6 @@
         opacity: 0.7;
         letter-spacing: 1px;
     }
-
 </style>
 </head>
 <body>
@@ -253,51 +249,40 @@
         <label>Contestant Name</label>
         <input id="nameInput" placeholder="Type name here..." oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')">
 
-       
-<div class="grid">
-    <div class="box">
-        <label>Pitch (20)</label>
-        <small style="display:block; color:#aaa; margin-bottom:4px;">Tone & key accuracy</small>
-        <input type="number" id="pitch" placeholder="0-20" oninput="v(this, 20)">
-    </div>
-    <div class="box">
-        <label>Diction (15)</label>
-        <small style="display:block; color:#aaa; margin-bottom:4px;">Lyrics, pronunciation & clarity</small>
-        <input type="number" id="diction" placeholder="0-15" oninput="v(this, 15)">
-    </div>
-    <div class="box">
-        <label>Rhythm (15)</label>
-        <small style="display:block; color:#aaa; margin-bottom:4px;">Timing, flow & consistency</small>
-        <input type="number" id="rhythm" placeholder="0-15" oninput="v(this, 15)">
-    </div>
-    <div class="box">
-        <label>Mic (10)</label>
-        <small style="display:block; color:#aaa; margin-bottom:4px;">Mic control & voice handling</small>
-        <input type="number" id="mic" placeholder="0-10" oninput="v(this, 10)">
-    </div>
-    <div class="box">
-        <label>Stage (15)</label>
-        <small style="display:block; color:#aaa; margin-bottom:4px;">Stage presence & confidence</small>
-        <input type="number" id="stage" placeholder="0-15" oninput="v(this, 15)">
-    </div>
-    <div class="box">
-        <label>Delivery (10)</label>
-        <small style="display:block; color:#aaa; margin-bottom:4px;">Expression & communication</small>
-        <input type="number" id="delivery" placeholder="0-10" oninput="v(this, 10)">
-    </div>
-    <div class="box">
-        <label>Creative (10)</label>
-        <small style="display:block; color:#aaa; margin-bottom:4px;">Originality & style</small>
-        <input type="number" id="creativity" placeholder="0-10" oninput="v(this, 10)">
-    </div>
-    <div class="box">
-        <label>Impact (5)</label>
-        <small style="display:block; color:#aaa; margin-bottom:4px;">Audience connection & effect</small>
-        <input type="number" id="impact" placeholder="0-5" oninput="v(this, 5)">
-    </div>
-</div>
-
-
+        <div class="grid">
+            <div class="box">
+                <label>Pitch (20)</label>
+                <input type="number" id="pitch" placeholder="1-20" oninput="v(this, 20)">
+            </div>
+            <div class="box">
+                <label>Diction (15)</label>
+                <input type="number" id="diction" placeholder="1-15" oninput="v(this, 15)">
+            </div>
+            <div class="box">
+                <label>Rhythm (15)</label>
+                <input type="number" id="rhythm" placeholder="1-15" oninput="v(this, 15)">
+            </div>
+            <div class="box">
+                <label>Mic (10)</label>
+                <input type="number" id="mic" placeholder="1-10" oninput="v(this, 10)">
+            </div>
+            <div class="box">
+                <label>Stage (15)</label>
+                <input type="number" id="stage" placeholder="1-15" oninput="v(this, 15)">
+            </div>
+            <div class="box">
+                <label>Delivery (10)</label>
+                <input type="number" id="delivery" placeholder="1-10" oninput="v(this, 10)">
+            </div>
+            <div class="box">
+                <label>Creative (10)</label>
+                <input type="number" id="creativity" placeholder="1-10" oninput="v(this, 10)">
+            </div>
+            <div class="box">
+                <label>Impact (5)</label>
+                <input type="number" id="impact" placeholder="1-5" oninput="v(this, 5)">
+            </div>
+        </div>
 
         <button class="submit" id="submitBtn">Confirm Score</button>
         <div id="status" style="text-align: center; color: var(--neon-cyan); margin-top: 15px; font-weight: 800;"></div>
@@ -324,11 +309,25 @@
 </footer>
 
 <script>
-const APP_URL = "https://script.google.com/macros/s/AKfycbyfLJ-Ne9co0dBxTGwDIRAR5PS3M4KtH9RdVZAK6THG-vnnHFFdD4V3uIK3AYY1r6ZV/exec";
+const APP_URL = "https://script.google.com/macros/s/AKfycbwjOXag9UeSwCbhIB7JdVDZS4PDr-f9xSsDF1SptIDh6_ret-qBIPcWIhDGrBVsQiNe/exec";
 
+// 1. Block 'e', '+', '-' keys immediately
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('keydown', (e) => {
+        if (['e', 'E', '+', '-'].includes(e.key)) e.preventDefault();
+    });
+});
+
+// 2. Real-time validation for 0 or high values
 function v(input, max) {
-    if(input.value > max) input.value = max;
-    if(input.value < 0) input.value = 0;
+    let val = input.value;
+    if (val === "0") {
+        alert("Score cannot be zero!");
+        input.value = "";
+        return;
+    }
+    if (parseFloat(val) > max) input.value = max;
+    if (parseFloat(val) < 0) input.value = "";
 }
 
 function showPanel(user){
@@ -357,14 +356,37 @@ loginBtn.onclick = async () => {
 submitBtn.onclick = async () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     const contestant = nameInput.value.trim();
-    if(!contestant) return alert("Enter name!");
+    
+    // Check Contestant Name
+    if(!contestant) return alert("Please enter the Contestant Name!");
+
+    // 3. Validation for empty fields or zeros on submit
+    const scoreFields = [
+        { id: "pitch", name: "Pitch" },
+        { id: "diction", name: "Diction" },
+        { id: "rhythm", name: "Rhythm" },
+        { id: "mic", name: "Mic" },
+        { id: "stage", name: "Stage" },
+        { id: "delivery", name: "Delivery" },
+        { id: "creativity", name: "Creative" },
+        { id: "impact", name: "Impact" }
+    ];
+
+    for (let field of scoreFields) {
+        const val = document.getElementById(field.id).value;
+        if (val === "" || parseFloat(val) <= 0) {
+            alert(`Please complete the form: "${field.name}" is empty or invalid!`);
+            document.getElementById(field.id).focus();
+            return;
+        }
+    }
 
     const data = {
         contestant, judge: user.name, role: user.role,
-        pitch: +pitch.value || 0, tone: +diction.value || 0,
-        rhythm: +rhythm.value || 0, mic: +mic.value || 0,
-        stage: +stage.value || 0, communication: +delivery.value || 0,
-        creativity: +creativity.value || 0, impact: +impact.value || 0
+        pitch: +pitch.value, tone: +diction.value,
+        rhythm: +rhythm.value, mic: +mic.value,
+        stage: +stage.value, communication: +delivery.value,
+        creativity: +creativity.value, impact: +impact.value
     };
 
     if(!confirm(`Submit for ${contestant}?`)) return;
