@@ -170,6 +170,40 @@
         cursor: pointer;
     }
 
+    /* CUSTOM NOTIFICATION STYLES */
+    #modalOverlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+    }
+    .modal-box {
+        background: var(--glass-bg);
+        border: 1px solid var(--neon-cyan);
+        padding: 30px;
+        border-radius: 20px;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    }
+    .modal-box p { font-weight: 800; font-size: 1.2rem; margin-bottom: 20px; color: white; }
+    .modal-btn {
+        background: var(--neon-cyan);
+        color: var(--deep-ocean);
+        border: none;
+        padding: 10px 25px;
+        border-radius: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        cursor: pointer;
+        margin: 5px;
+    }
+    .modal-btn.cancel { background: #ff6b6b; color: white; }
+
     table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
     td { 
         background: rgba(255, 255, 255, 0.05); 
@@ -198,29 +232,19 @@
         z-index: 100;
     }
 
-    .footer-content {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .copy-text {
-        font-weight: 800;
-        letter-spacing: 2px;
-        color: var(--bright-text);
-        font-size: 0.9rem;
-        text-transform: uppercase;
-    }
-
-    .designer-text {
-        font-size: 0.7rem;
-        color: var(--neon-cyan);
-        opacity: 0.7;
-        letter-spacing: 1px;
-    }
+    .copy-text { font-weight: 800; letter-spacing: 2px; color: var(--bright-text); font-size: 0.9rem; text-transform: uppercase; }
+    .designer-text { font-size: 0.7rem; color: var(--neon-cyan); opacity: 0.7; letter-spacing: 1px; }
 </style>
 </head>
 <body>
+
+<div id="modalOverlay">
+    <div class="modal-box">
+        <p id="modalMsg"></p>
+        <button class="modal-btn" id="modalOk">OK</button>
+        <button class="modal-btn cancel" id="modalCancel" style="display:none;">CANCEL</button>
+    </div>
+</div>
 
 <div class="header-container">
     <h2>Eternal Praise Family</h2>
@@ -250,38 +274,14 @@
         <input id="nameInput" placeholder="Type name here..." oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')">
 
         <div class="grid">
-            <div class="box">
-                <label>Pitch (20)</label>
-                <input type="number" id="pitch" placeholder="1-20" oninput="v(this, 20)">
-            </div>
-            <div class="box">
-                <label>Diction (15)</label>
-                <input type="number" id="diction" placeholder="1-15" oninput="v(this, 15)">
-            </div>
-            <div class="box">
-                <label>Rhythm (15)</label>
-                <input type="number" id="rhythm" placeholder="1-15" oninput="v(this, 15)">
-            </div>
-            <div class="box">
-                <label>Mic (10)</label>
-                <input type="number" id="mic" placeholder="1-10" oninput="v(this, 10)">
-            </div>
-            <div class="box">
-                <label>Stage (15)</label>
-                <input type="number" id="stage" placeholder="1-15" oninput="v(this, 15)">
-            </div>
-            <div class="box">
-                <label>Delivery (10)</label>
-                <input type="number" id="delivery" placeholder="1-10" oninput="v(this, 10)">
-            </div>
-            <div class="box">
-                <label>Creative (10)</label>
-                <input type="number" id="creativity" placeholder="1-10" oninput="v(this, 10)">
-            </div>
-            <div class="box">
-                <label>Impact (5)</label>
-                <input type="number" id="impact" placeholder="1-5" oninput="v(this, 5)">
-            </div>
+            <div class="box"><label>Pitch (20)</label><input type="number" id="pitch" placeholder="1-20" oninput="v(this, 20)"></div>
+            <div class="box"><label>Diction (15)</label><input type="number" id="diction" placeholder="1-15" oninput="v(this, 15)"></div>
+            <div class="box"><label>Rhythm (15)</label><input type="number" id="rhythm" placeholder="1-15" oninput="v(this, 15)"></div>
+            <div class="box"><label>Mic (10)</label><input type="number" id="mic" placeholder="1-10" oninput="v(this, 10)"></div>
+            <div class="box"><label>Stage (15)</label><input type="number" id="stage" placeholder="1-15" oninput="v(this, 15)"></div>
+            <div class="box"><label>Delivery (10)</label><input type="number" id="delivery" placeholder="1-10" oninput="v(this, 10)"></div>
+            <div class="box"><label>Creative (10)</label><input type="number" id="creativity" placeholder="1-10" oninput="v(this, 10)"></div>
+            <div class="box"><label>Impact (5)</label><input type="number" id="impact" placeholder="1-5" oninput="v(this, 5)"></div>
         </div>
 
         <button class="submit" id="submitBtn">Confirm Score</button>
@@ -302,32 +302,41 @@
 </div>
 
 <footer>
-    <div class="footer-content">
-        <div class="copy-text">© ETERNAL PRAISE FAMILY</div>
-        <div class="designer-text">DESIGNED BY KOOLA</div>
-    </div>
+    <div class="copy-text">© ETERNAL PRAISE FAMILY</div>
+    <div class="designer-text">DESIGNED BY KOOLA</div>
 </footer>
 
 <script>
 const APP_URL = "https://script.google.com/macros/s/AKfycbwjOXag9UeSwCbhIB7JdVDZS4PDr-f9xSsDF1SptIDh6_ret-qBIPcWIhDGrBVsQiNe/exec";
 
-// 1. Block 'e', '+', '-' keys immediately
+// --- CUSTOM MODAL SYSTEM ---
+function showModal(msg, isConfirm = false) {
+    return new Promise((resolve) => {
+        modalMsg.innerText = msg;
+        modalOverlay.style.display = "flex";
+        modalCancel.style.display = isConfirm ? "inline-block" : "none";
+        
+        modalOk.onclick = () => { modalOverlay.style.display = "none"; resolve(true); };
+        modalCancel.onclick = () => { modalOverlay.style.display = "none"; resolve(false); };
+    });
+}
+
+// 1. Block 'e', '+', '-' keys
 document.querySelectorAll('input[type="number"]').forEach(input => {
     input.addEventListener('keydown', (e) => {
         if (['e', 'E', '+', '-'].includes(e.key)) e.preventDefault();
     });
 });
 
-// 2. Real-time validation for 0 or high values
-function v(input, max) {
+// 2. Custom Neon Notification for 0 score
+async function v(input, max) {
     let val = input.value;
     if (val === "0") {
-        alert("Score cannot be zero!");
+        await showModal("Score cannot be zero!");
         input.value = "";
         return;
     }
     if (parseFloat(val) > max) input.value = max;
-    if (parseFloat(val) < 0) input.value = "";
 }
 
 function showPanel(user){
@@ -357,30 +366,28 @@ submitBtn.onclick = async () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     const contestant = nameInput.value.trim();
     
-    // Check Contestant Name
-    if(!contestant) return alert("Please enter the Contestant Name!");
+    if(!contestant) return showModal("Please enter the Contestant Name!");
 
-    // 3. Validation for empty fields or zeros on submit
     const scoreFields = [
-        { id: "pitch", name: "Pitch" },
-        { id: "diction", name: "Diction" },
-        { id: "rhythm", name: "Rhythm" },
-        { id: "mic", name: "Mic" },
-        { id: "stage", name: "Stage" },
-        { id: "delivery", name: "Delivery" },
-        { id: "creativity", name: "Creative" },
-        { id: "impact", name: "Impact" }
+        { id: "pitch", name: "Pitch" }, { id: "diction", name: "Diction" },
+        { id: "rhythm", name: "Rhythm" }, { id: "mic", name: "Mic" },
+        { id: "stage", name: "Stage" }, { id: "delivery", name: "Delivery" },
+        { id: "creativity", name: "Creative" }, { id: "impact", name: "Impact" }
     ];
 
     for (let field of scoreFields) {
         const val = document.getElementById(field.id).value;
         if (val === "" || parseFloat(val) <= 0) {
-            alert(`Please complete the form: "${field.name}" is empty or invalid!`);
+            await showModal(`Please complete the form: "${field.name}" is missing!`);
             document.getElementById(field.id).focus();
             return;
         }
     }
 
+    const go = await showModal(`Confirm submission for ${contestant}?`, true);
+    if(!go) return;
+
+    status.innerText = "TRANSMITTING TO CLOUD...";
     const data = {
         contestant, judge: user.name, role: user.role,
         pitch: +pitch.value, tone: +diction.value,
@@ -389,12 +396,14 @@ submitBtn.onclick = async () => {
         creativity: +creativity.value, impact: +impact.value
     };
 
-    if(!confirm(`Submit for ${contestant}?`)) return;
-    status.innerText = "TRANSMITTING TO CLOUD...";
     const res = await fetch(APP_URL, { method:"POST", body: new URLSearchParams(data) });
     const result = await res.json();
-    if(result.success) { alert("SUCCESS ✔"); location.reload(); }
-    else alert(result.error);
+    if(result.success) { 
+        await showModal("SUCCESS ✔ DATA SAVED"); 
+        location.reload(); 
+    } else {
+        await showModal(result.error);
+    }
 };
 
 async function loadBoard(){
