@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>EPF - Express Yourself System HD</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
     :root {
         --sky-blue: #00d2ff;
@@ -108,6 +109,15 @@
         letter-spacing: 1.5px;
     }
 
+    label span {
+        display: block;
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: none;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+    }
+
     input {
         width: 100%;
         padding: 16px;
@@ -170,39 +180,68 @@
         cursor: pointer;
     }
 
-    /* CUSTOM NOTIFICATION STYLES */
     #modalOverlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.85);
         display: none;
         justify-content: center;
         align-items: center;
         z-index: 1000;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(12px);
     }
     .modal-box {
         background: var(--glass-bg);
         border: 1px solid var(--neon-cyan);
         padding: 30px;
         border-radius: 20px;
-        max-width: 400px;
+        width: 95%;
+        max-width: 800px;
         text-align: center;
         box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        max-height: 90vh;
+        overflow-y: auto;
     }
-    .modal-box p { font-weight: 800; font-size: 1.2rem; margin-bottom: 20px; color: white; }
+    
+    .report-flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .report-stats { flex: 1; min-width: 280px; }
+    .report-chart { flex: 1; min-width: 280px; background: rgba(0,0,0,0.4); border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); }
+
+    .modal-box p { font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; color: white; }
     .modal-btn {
         background: var(--neon-cyan);
         color: var(--deep-ocean);
         border: none;
-        padding: 10px 25px;
+        padding: 12px 30px;
         border-radius: 10px;
         font-weight: 900;
         text-transform: uppercase;
         cursor: pointer;
-        margin: 5px;
+        margin: 20px 5px 0;
     }
     .modal-btn.cancel { background: #ff6b6b; color: white; }
+
+    .report-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        text-align: left;
+    }
+    .report-item {
+        background: rgba(255,255,255,0.05);
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(0,255,255,0.1);
+    }
+    .report-label { color: var(--neon-cyan); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; display: block; }
+    .report-val { color: white; font-size: 1.1rem; font-weight: 900; }
 
     table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
     td { 
@@ -218,6 +257,9 @@
         border-top: 1px solid var(--neon-cyan);
         border-bottom: 1px solid var(--neon-cyan);
     }
+
+    .clickable-row { cursor: pointer; transition: 0.2s; }
+    .clickable-row:hover { filter: brightness(1.4); transform: scale(1.02); }
 
     footer {
         position: fixed;
@@ -240,7 +282,9 @@
 
 <div id="modalOverlay">
     <div class="modal-box">
-        <p id="modalMsg"></p>
+        <div id="modalContent">
+            <p id="modalMsg"></p>
+        </div>
         <button class="modal-btn" id="modalOk">OK</button>
         <button class="modal-btn cancel" id="modalCancel" style="display:none;">CANCEL</button>
     </div>
@@ -252,7 +296,6 @@
 </div>
 
 <div id="app" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-    
     <div id="loginSection" class="container">
         <h3>SYSTEM ACCESS</h3>
         <label>Identify Yourself</label>
@@ -266,30 +309,27 @@
     <div id="scoreForm" class="container" style="display:none;">
         <button class="logout" id="logoutBtn">EXIT</button>
         <h3>JUDGE PANEL</h3>
-        
         <label>Active Judge</label>
         <input id="judge" readonly style="background: transparent; border: none; color: var(--neon-cyan); font-weight: 900; font-size: 1.5rem; padding-left: 0;">
-
         <label>Contestant Name</label>
         <input id="nameInput" placeholder="Type name here..." oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')">
-
         <div class="grid">
-            <div class="box"><label>Pitch (20)</label><input type="number" id="pitch" placeholder="1-20" oninput="v(this, 20)"></div>
-            <div class="box"><label>Diction (15)</label><input type="number" id="diction" placeholder="1-15" oninput="v(this, 15)"></div>
-            <div class="box"><label>Rhythm (15)</label><input type="number" id="rhythm" placeholder="1-15" oninput="v(this, 15)"></div>
-            <div class="box"><label>Mic (10)</label><input type="number" id="mic" placeholder="1-10" oninput="v(this, 10)"></div>
-            <div class="box"><label>Stage (15)</label><input type="number" id="stage" placeholder="1-15" oninput="v(this, 15)"></div>
-            <div class="box"><label>Delivery (10)</label><input type="number" id="delivery" placeholder="1-10" oninput="v(this, 10)"></div>
-            <div class="box"><label>Creative (10)</label><input type="number" id="creativity" placeholder="1-10" oninput="v(this, 10)"></div>
-            <div class="box"><label>Impact (5)</label><input type="number" id="impact" placeholder="1-5" oninput="v(this, 5)"></div>
+            <div class="box"><label>Pitch (20)<span>Voice Control & Range</span></label><input type="number" id="pitch" placeholder="1-20" oninput="v(this, 20)"></div>
+            <div class="box"><label>Diction (15)<span>Lyrics & Clarity</span></label><input type="number" id="diction" placeholder="1-15" oninput="v(this, 15)"></div>
+            <div class="box"><label>Rhythm (15)<span>Timing & Pace</span></label><input type="number" id="rhythm" placeholder="1-15" oninput="v(this, 15)"></div>
+            <div class="box"><label>Mic (10)<span>Technique & Handling</span></label><input type="number" id="mic" placeholder="1-10" oninput="v(this, 10)"></div>
+            <div class="box"><label>Stage (15)<span>Confidence & Movement</span></label><input type="number" id="stage" placeholder="1-15" oninput="v(this, 15)"></div>
+            <div class="box"><label>Delivery (10)<span>Expression & Flow</span></label><input type="number" id="delivery" placeholder="1-10" oninput="v(this, 10)"></div>
+            <div class="box"><label>Creative (10)<span>Style & Uniqueness</span></label><input type="number" id="creativity" placeholder="1-10" oninput="v(this, 10)"></div>
+            <div class="box"><label>Impact (5)<span>Overall Impression</span></label><input type="number" id="impact" placeholder="1-5" oninput="v(this, 5)"></div>
         </div>
-
         <button class="submit" id="submitBtn">Confirm Score</button>
         <div id="status" style="text-align: center; color: var(--neon-cyan); margin-top: 15px; font-weight: 800;"></div>
     </div>
 
     <div class="container">
         <h3 style="color: var(--neon-cyan);">🏆 LIVE STANDINGS</h3>
+        <div style="font-size: 0.6rem; color: white; text-align: center; margin-bottom: 10px; opacity: 0.6;">TAP NAME FOR PERFORMANCE REPORT</div>
         <table>
             <thead>
                 <tr style="color: var(--sky-blue); font-size: 0.7rem; letter-spacing: 2px;">
@@ -307,28 +347,89 @@
 </footer>
 
 <script>
-const APP_URL = "https://script.google.com/macros/s/AKfycbwjOXag9UeSwCbhIB7JdVDZS4PDr-f9xSsDF1SptIDh6_ret-qBIPcWIhDGrBVsQiNe/exec";
+const APP_URL = "https://script.google.com/macros/s/AKfycbyfu2lWoyThNXHUTIVzN4qrCOi8j4gUN40BrX0oAPIFVgCi2aq1joTIUopap2t7lj-l/exec";
+let chartInstance = null;
 
-// --- CUSTOM MODAL SYSTEM ---
-function showModal(msg, isConfirm = false) {
+function showModal(msg, isConfirm = false, customHtml = "", chartData = null) {
     return new Promise((resolve) => {
-        modalMsg.innerText = msg;
+        if(customHtml) {
+            modalContent.innerHTML = customHtml;
+        } else {
+            modalContent.innerHTML = `<p id="modalMsg">${msg}</p>`;
+        }
+        
         modalOverlay.style.display = "flex";
         modalCancel.style.display = isConfirm ? "inline-block" : "none";
         
+        if(chartData) {
+            const ctx = document.getElementById('reportChart').getContext('2d');
+            if(chartInstance) chartInstance.destroy();
+            
+            // 3D Crystal Gradient for HD Look
+            const grad = ctx.createLinearGradient(0, 0, 400, 0);
+            grad.addColorStop(0, 'rgba(0, 210, 255, 0.8)');   // Sky Blue
+            grad.addColorStop(0.5, 'rgba(0, 255, 255, 0.4)'); // Glass Center
+            grad.addColorStop(1, 'rgba(58, 123, 213, 0.9)');  // Crystal Blue
+            
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(chartData),
+                    datasets: [{
+                        data: Object.values(chartData),
+                        backgroundColor: grad,
+                        borderColor: '#ffffff',
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        borderSkipped: false,
+                        hoverBackgroundColor: '#00ffff',
+                        barPercentage: 0.7
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { 
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#ffffff', font: { size: 10, weight: 'bold' } }
+                        },
+                        y: { 
+                            grid: { display: false },
+                            ticks: { color: '#00ffff', font: { weight: '900', size: 11 } }
+                        }
+                    },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 31, 63, 0.9)',
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            borderColor: '#00ffff',
+                            borderWidth: 1
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutElastic'
+                    }
+                }
+            });
+        }
+
         modalOk.onclick = () => { modalOverlay.style.display = "none"; resolve(true); };
         modalCancel.onclick = () => { modalOverlay.style.display = "none"; resolve(false); };
     });
 }
 
-// 1. Block 'e', '+', '-' keys
 document.querySelectorAll('input[type="number"]').forEach(input => {
     input.addEventListener('keydown', (e) => {
         if (['e', 'E', '+', '-'].includes(e.key)) e.preventDefault();
     });
 });
 
-// 2. Custom Neon Notification for 0 score
 async function v(input, max) {
     let val = input.value;
     if (val === "0") {
@@ -365,7 +466,6 @@ loginBtn.onclick = async () => {
 submitBtn.onclick = async () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     const contestant = nameInput.value.trim();
-    
     if(!contestant) return showModal("Please enter the Contestant Name!");
 
     const scoreFields = [
@@ -406,12 +506,50 @@ submitBtn.onclick = async () => {
     }
 };
 
+async function fetchReport(name) {
+    status.innerText = `GENERATING REPORT FOR ${name}...`;
+    try {
+        const res = await fetch(APP_URL, { 
+            method: "POST", 
+            body: new URLSearchParams({ action: "report", contestant: name }) 
+        });
+        const data = await res.json();
+        if(data.success) {
+            const html = `
+                <h3 style="color:var(--neon-cyan); margin-top:0;">PERFORMANCE CARD</h3>
+                <p style="font-size:1.5rem; margin-bottom:5px;">${data.name.toUpperCase()}</p>
+                <div style="font-size:0.7rem; color:var(--sky-blue); margin-bottom:20px; font-weight:800;">TECH-AVERAGES FROM ${data.judgeCount} JUDGES</div>
+                
+                <div class="report-flex-container">
+                    <div class="report-stats">
+                        <div class="report-grid">
+                            ${Object.entries(data.averages).map(([label, val]) => `
+                                <div class="report-item">
+                                    <span class="report-label">${label}</span>
+                                    <span class="report-val">${val}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="report-chart" style="height: 300px;">
+                        <canvas id="reportChart"></canvas>
+                    </div>
+                </div>
+            `;
+            await showModal("", false, html, data.averages);
+        } else {
+            await showModal(data.message);
+        }
+    } catch(e) { await showModal("Network Error while fetching report."); }
+    status.innerText = "";
+}
+
 async function loadBoard(){
     try {
         const res = await fetch(APP_URL+"?p=board");
         const data = await res.json();
         boardBody.innerHTML = data.map((d,i)=> `
-            <tr class="${i==0?'first':''}">
+            <tr class="${i==0?'first':''} clickable-row" onclick="fetchReport('${d.name}')">
                 <td>#${i+1}</td>
                 <td style="text-align: left;">
                     <div style="font-weight:900; font-size:1.1rem; color:white;">${d.name}</div>
